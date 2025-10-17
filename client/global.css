@@ -12,85 +12,85 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    /* Base brand - luminous violet/cyan on warm gray */
-    --background: 0 0% 99%;
-    --foreground: 224 71% 4%;
+    /* Winter icy brand: glacier blues + cool grays */
+    --background: 210 33% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 262 83% 58%; /* violet */
+    --primary: 200 90% 55%; /* icy blue */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 198 93% 60%; /* cyan */
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 190 85% 52%; /* glacier cyan */
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 210 25% 95%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 261 88% 75%;
-    --accent-foreground: 232 65% 8%;
+    --accent: 210 100% 97%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262 83% 58%;
+    --border: 213 27% 90%;
+    --input: 213 27% 90%;
+    --ring: 200 90% 55%;
 
     --radius: 0.75rem;
 
-    /* Sidebar tokens kept for shadcn components */
+    /* Sidebar tokens */
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 232 20% 20%;
-    --sidebar-primary: 262 83% 58%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 200 90% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 232 20% 20%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-accent: 210 25% 95%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 213 27% 90%;
+    --sidebar-ring: 200 90% 55%;
   }
 
   .dark {
-    --background: 232 20% 7%;
+    --background: 220 30% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 232 20% 10%;
+    --card: 220 30% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 232 20% 10%;
+    --popover: 220 30% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 88% 72%;
-    --primary-foreground: 232 20% 7%;
+    --primary: 190 95% 65%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 198 93% 62%;
-    --secondary-foreground: 232 20% 7%;
+    --secondary: 200 90% 60%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 232 14% 14%;
-    --muted-foreground: 220 9% 70%;
+    --muted: 220 25% 16%;
+    --muted-foreground: 210 15% 70%;
 
-    --accent: 262 88% 72%;
-    --accent-foreground: 232 20% 7%;
+    --accent: 216 25% 18%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62% 40%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 232 14% 18%;
-    --input: 232 14% 18%;
-    --ring: 262 88% 72%;
+    --border: 220 22% 20%;
+    --input: 220 22% 20%;
+    --ring: 190 95% 65%;
 
-    --sidebar-background: 232 20% 7%;
+    --sidebar-background: 220 30% 8%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 262 88% 72%;
-    --sidebar-primary-foreground: 232 20% 7%;
-    --sidebar-accent: 232 14% 14%;
+    --sidebar-primary: 190 95% 65%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 220 25% 16%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 232 14% 14%;
-    --sidebar-ring: 262 88% 72%;
+    --sidebar-border: 220 25% 16%;
+    --sidebar-ring: 190 95% 65%;
   }
 }
 

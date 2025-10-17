@@ -18,18 +18,20 @@ export default function Layout({ children }: PropsWithChildren) {
 
       <header className="fixed top-0 inset-x-0 z-30 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container h-16 flex items-center justify-between">
-          <a href="#home" className="inline-flex items-center gap-2 group">
+          <a href="/" className="inline-flex items-center gap-2 group">
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
             </span>
             <span className="font-semibold tracking-tight">Christian Lee</span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#about" className="hover:text-primary transition-colors">About</a>
-            <a href="#work" className="hover:text-primary transition-colors">Work</a>
-            <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
+            <a href="/#about" className="hover:text-primary transition-colors">About</a>
+            <a href="/#work" className="hover:text-primary transition-colors">Work</a>
+            <a href="/thoughts" className="hover:text-primary transition-colors">Thoughts</a>
+            <a href="/music" className="hover:text-primary transition-colors">Music</a>
+            <a href="/moodboard" className="hover:text-primary transition-colors">Moodboard</a>
             <a
-              href="#contact"
+              href="/#contact"
               className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
             >
               Get in touch
