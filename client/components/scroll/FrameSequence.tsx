@@ -43,6 +43,7 @@ export default function FrameSequence({
   }, [externalSources && externalSources.join("|"), base, start, end, padSize]);
 
   useEffect(() => {
+    if (!sources.length) return; // nothing to render until frames available
     const canvas = canvasRef.current!;
     const context = canvas.getContext("2d")!;
 
