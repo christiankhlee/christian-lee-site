@@ -1,5 +1,6 @@
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
+import FrameSequence from "@/components/scroll/FrameSequence";
 
 export default function Index() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -10,6 +11,13 @@ export default function Index() {
 
   return (
     <div ref={containerRef} id="home" className="relative">
+      <FrameSequence
+        base="https://www.adaline.ai/sequence/16x9_281/high/graded_4K_100_gm_85_1440_3-"
+        start={1}
+        end={280}
+        height="100vh"
+      />
+
       {/* Decorative gradients */}
       <motion.div
         aria-hidden
