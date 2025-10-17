@@ -9,6 +9,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/layout/Layout";
+import Thoughts from "./pages/Thoughts";
+import Music from "./pages/Music";
+import Moodboard from "./pages/Moodboard";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +24,9 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/thoughts" element={<Thoughts />} />
+            <Route path="/music" element={<Music />} />
+            <Route path="/moodboard" element={<Moodboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
