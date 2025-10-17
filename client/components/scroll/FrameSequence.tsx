@@ -128,8 +128,10 @@ export default function FrameSequence({
             zoom: 1,
             ease: "none",
             onUpdate: () => {
-              const c = canvasRef.current!;
-              const ctx2 = c.getContext("2d")!;
+              const c = canvasRef.current;
+              if (!c) return;
+              const ctx2 = c.getContext("2d");
+              if (!ctx2) return;
               const img = imagesRef.current[Math.min(Math.round(state.frame), imagesRef.current.length - 1)];
               if (!img) return;
               const { width, height } = c.getBoundingClientRect();
