@@ -36,4 +36,17 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const container = document.getElementById("root");
+if (!container) throw new Error("Root container #root not found");
+let root: ReturnType<typeof createRoot> | undefined = (container as any).__app_root;
+if (!root) {
+  root = createRoot(container);
+  (container as any).__app_root = root;
+}
+root.render(<App />);
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    try { root?.unmount(); } catch {}
+  });
+}
