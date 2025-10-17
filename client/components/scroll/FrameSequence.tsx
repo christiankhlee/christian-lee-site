@@ -11,6 +11,7 @@ function pad(num: number, size = 3) {
 }
 
 export default function FrameSequence({
+  sources: externalSources,
   base,
   start = 1,
   end,
@@ -18,9 +19,10 @@ export default function FrameSequence({
   height = "100vh",
   className = "",
 }: {
-  base: string; // e.g. https://.../3-
+  sources?: string[];
+  base?: string; // e.g. https://.../3-
   start?: number;
-  end: number; // inclusive
+  end?: number; // inclusive when using base
   padSize?: number;
   height?: string | number;
   className?: string;
@@ -33,10 +35,12 @@ export default function FrameSequence({
   const frameRef = useRef(0);
 
   const sources = useMemo(() => {
+    if (externalSources && externalSources.length) return externalSources;
+    if (!base || !end) return [] as string[];
     const srcs: string[] = [];
     for (let i = start; i <= end; i++) srcs.push(`${base}${pad(i, padSize)}.jpg`);
     return srcs;
-  }, [base, start, end, padSize]);
+  }, [externalSources && externalSources.join("|"), base, start, end, padSize]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -106,11 +110,12 @@ export default function FrameSequence({
         render();
         return;
       }
+      const frameCount = sources.length;
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${(end - start + 1) * 6}`,
+          end: `+=${frameCount * 6}`,
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -121,7 +126,7 @@ export default function FrameSequence({
         },
       });
 
-      tl.to(state, { frame: end - start, ease: "none" }, 0)
+      tl.to(state, { frame: Math.max(frameCount - 1, 0), ease: "none" }, 0)
         .to(
           state,
           {
