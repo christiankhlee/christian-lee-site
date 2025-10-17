@@ -27,14 +27,14 @@ export default function FrameSequence({
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+  const loadingRef = useRef<Set<number>>(new Set());
+  const loadedRef = useRef<Set<number>>(new Set());
   const frameRef = useRef(0);
 
   const sources = useMemo(() => {
     const srcs: string[] = [];
-    for (let i = start; i <= end; i++) {
-      srcs.push(`${base}${pad(i, padSize)}.jpg`);
-    }
+    for (let i = start; i <= end; i++) srcs.push(`${base}${pad(i, padSize)}.jpg`);
     return srcs;
   }, [base, start, end, padSize]);
 
@@ -51,24 +51,34 @@ export default function FrameSequence({
       render();
     };
 
-    const imgs: HTMLImageElement[] = sources.map((src) => {
-      const img = new Image();
-      img.src = src;
-      img.crossOrigin = "anonymous";
-      return img;
-    });
-    imagesRef.current = imgs;
+    imagesRef.current = new Array(sources.length).fill(null);
 
-    let loaded = 0;
-    const onload = () => {
-      loaded += 1;
-      if (loaded === 1) setCanvasSize(); // draw first frame asap
-      if (loaded === imgs.length) setCanvasSize();
+    const loadIndex = (idx: number) => {
+      if (idx < 0 || idx >= sources.length) return;
+      if (loadedRef.current.has(idx) || loadingRef.current.has(idx)) return;
+      loadingRef.current.add(idx);
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        imagesRef.current[idx] = img;
+        loadedRef.current.add(idx);
+        loadingRef.current.delete(idx);
+        if (loadedRef.current.size === 1) setCanvasSize();
+        render();
+      };
+      img.src = sources[idx];
     };
-    imgs.forEach((img) => (img.onload = onload));
+
+    const ensureAhead = (idx: number, ahead = 12) => {
+      for (let i = idx; i <= Math.min(idx + ahead, sources.length - 1); i++) loadIndex(i);
+    };
+
+    ensureAhead(0, 16); // prime initial frames
 
     const render = () => {
-      const image = imagesRef.current[Math.min(frameRef.current, imagesRef.current.length - 1)];
+      const clamped = Math.min(Math.max(frameRef.current, 0), sources.length - 1);
+      const image = imagesRef.current[clamped];
+      ensureAhead(clamped);
       if (!image) return;
       const { width, height } = canvas.getBoundingClientRect();
       context.clearRect(0, 0, width, height);
@@ -87,8 +97,15 @@ export default function FrameSequence({
     // @ts-expect-error local function hoist
     function renderWrapper() { render(); }
 
+    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const ctx = gsap.context(() => {
       const state = { frame: 0, zoom: 1.12 };
+      if (prefersReduced) {
+        frameRef.current = 0;
+        render();
+        return;
+      }
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -105,7 +122,6 @@ export default function FrameSequence({
       });
 
       tl.to(state, { frame: end - start, ease: "none" }, 0)
-        // gentle zoom-out overlay (visual polish)
         .to(
           state,
           {
@@ -114,7 +130,6 @@ export default function FrameSequence({
             onUpdate: () => {
               const c = canvasRef.current!;
               const ctx2 = c.getContext("2d")!;
-              // redraw current frame with zoom factor
               const img = imagesRef.current[Math.min(Math.round(state.frame), imagesRef.current.length - 1)];
               if (!img) return;
               const { width, height } = c.getBoundingClientRect();
