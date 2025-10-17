@@ -1,6 +1,7 @@
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import FrameSequence from "@/components/scroll/FrameSequence";
+import { useVideoFrames } from "@/hooks/use-video-frames";
 
 export default function Index() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -9,14 +10,20 @@ export default function Index() {
   const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [0, 150]), { stiffness: 100, damping: 30 });
   const opacityHero = useTransform(scrollYProgress, [0, 0.25], [1, 0.2]);
 
+  const { frames, progress } = useVideoFrames(
+    "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F58d1abade30c45e597f0db7d363956f6?alt=media&token=5c5a48d1-92f3-4069-9547-a9d49b9b0e1c&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
+    { count: 280, targetWidth: 1440, quality: 0.85 }
+  );
+
   return (
     <div ref={containerRef} id="home" className="relative">
-      <FrameSequence
-        base="https://www.adaline.ai/sequence/16x9_281/high/graded_4K_100_gm_85_1440_3-"
-        start={1}
-        end={280}
-        height="100vh"
-      />
+      <FrameSequence sources={frames} height="100vh" />
+
+      {frames.length === 0 && (
+        <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
+          Preparing frames… {Math.round(progress * 100)}%
+        </div>
+      )}
 
       {/* Decorative gradients */}
       <motion.div
