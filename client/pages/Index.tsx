@@ -1,62 +1,150 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
-
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
-    }
-  };
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
+  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -200]), { stiffness: 100, damping: 30 });
+  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [0, 150]), { stiffness: 100, damping: 30 });
+  const opacityHero = useTransform(scrollYProgress, [0, 0.25], [1, 0.2]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+    <div ref={containerRef} id="home" className="relative">
+      {/* Decorative gradients */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none fixed -z-10 inset-0"
+        style={{ opacity: 0.6 }}
+      >
+        <motion.div
+          className="absolute top-[-10%] left-[-10%] h-[50vmax] w-[50vmax] rounded-full blur-3xl"
+          style={{ y: y1, background: "radial-gradient(50% 50% at 50% 50%, hsl(var(--primary) / 0.25) 0%, transparent 60%)" }}
+        />
+        <motion.div
+          className="absolute bottom-[-10%] right-[-10%] h-[55vmax] w-[55vmax] rounded-full blur-3xl"
+          style={{ y: y2, background: "radial-gradient(50% 50% at 50% 50%, hsl(var(--secondary) / 0.25) 0%, transparent 60%)" }}
+        />
+      </motion.div>
+
+      {/* Hero */}
+      <section className="relative min-h-[90vh] grid place-items-center">
+        <div className="container">
+          <motion.div style={{ opacity: opacityHero }} className="max-w-3xl">
+            <p className="text-sm uppercase tracking-widest text-muted-foreground">Christian Lee — Personal Site</p>
+            <h1 className="mt-4 text-5xl md:text-7xl font-extrabold leading-[1.05]">
+              <span className="gradient-text">Creative Developer</span> crafting dynamic, scroll-driven web experiences.
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+              I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#work" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">See my work</a>
+              <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="relative py-24 md:py-32">
+        <div className="container grid md:grid-cols-12 gap-10 items-start">
+          <div className="md:col-span-5">
+            <h2 className="text-3xl md:text-4xl font-bold">About</h2>
+            <p className="mt-4 text-muted-foreground">
+              I’m a software engineer focused on delightful product experiences. My work blends motion, performance, and accessibility.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+              <li>• Frontend: React, TypeScript, Tailwind, Framer Motion</li>
+              <li>• Backend: Node, Express</li>
+              <li>• Tools: Vite, Vitest</li>
+            </ul>
+          </div>
+          <div className="md:col-span-7">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {[
+                { title: "Performance", desc: "Ship fast sites that feel instant." },
+                { title: "Motion", desc: "Use motion to guide and delight." },
+                { title: "Accessibility", desc: "Inclusive by default." },
+                { title: "Craft", desc: "Pixel-perfect, production-ready." },
+              ].map((card) => (
+                <motion.div
+                  key={card.title}
+                  initial={{ y: 24, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.5 }}
+                  className="rounded-xl border bg-card p-6 hover:shadow-lg/40 shadow-sm transition-shadow"
+                >
+                  <h3 className="text-lg font-semibold">{card.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{card.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Work */}
+      <section id="work" className="relative py-24 md:py-32">
+        <div className="container">
+          <div className="flex items-end justify-between flex-wrap gap-4">
+            <h2 className="text-3xl md:text-4xl font-bold">Selected Work</h2>
+            <a href="#contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Available for new projects →</a>
+          </div>
+
+          <div className="mt-10 grid md:grid-cols-2 gap-6">
+            {[1,2,3,4].map((i) => (
+              <motion.article
+                key={i}
+                initial={{ y: 24, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="group relative overflow-hidden rounded-xl border bg-card"
+              >
+                <div className="aspect-[16/10] bg-gradient-to-br from-primary/15 to-secondary/15" />
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold">Project {i}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">A dynamic, scroll-driven experience showcasing interaction and motion.</p>
+                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="px-2 py-0.5 rounded bg-muted">React</span>
+                    <span className="px-2 py-0.5 rounded bg-muted">TypeScript</span>
+                    <span className="px-2 py-0.5 rounded bg-muted">Framer Motion</span>
+                  </div>
+                </div>
+                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "radial-gradient(60% 50% at 50% 50%, hsl(var(--primary)/0.15), transparent 70%)" }} />
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="relative py-24 md:py-32">
+        <div className="container grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold">Let’s build something great</h2>
+            <p className="mt-4 text-muted-foreground">Have a project in mind or want to say hello? I’m always open to collaborating.</p>
+          </div>
+          <div className="rounded-xl border p-6 bg-card">
+            <form className="grid gap-4">
+              <div className="grid gap-2">
+                <label htmlFor="name" className="text-sm">Name</label>
+                <input id="name" name="name" className="h-11 rounded-md border px-3 bg-background" placeholder="Your name" />
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="email" className="text-sm">Email</label>
+                <input id="email" name="email" type="email" className="h-11 rounded-md border px-3 bg-background" placeholder="you@example.com" />
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="message" className="text-sm">Message</label>
+                <textarea id="message" name="message" className="min-h-[120px] rounded-md border p-3 bg-background" placeholder="Tell me about your project" />
+              </div>
+              <button className="mt-2 h-11 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
