@@ -11,7 +11,7 @@ export default function Index() {
   const opacityHero = useTransform(scrollYProgress, [0, 0.25], [1, 0.2]);
 
   const { frames, progress } = useVideoFrames(
-    "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F58d1abade30c45e597f0db7d363956f6?alt=media&token=5c5a48d1-92f3-4069-9547-a9d49b9b0e1c&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
+    "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb86f89911b6541dab8288933641cfa21?alt=media&token=ba408b13-79e9-49bc-82da-60fbedc1b47f&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
     { count: 280, targetWidth: 1440, quality: 0.85 }
   );
 
@@ -70,7 +70,7 @@ export default function Index() {
             </p>
             <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
               <li>• Frontend: React, TypeScript, Tailwind, Framer Motion</li>
-              <li>• Backend: Node, Express</li>
+              <li>�� Backend: Node, Express</li>
               <li>• Tools: Vite, Vitest</li>
             </ul>
           </div>
