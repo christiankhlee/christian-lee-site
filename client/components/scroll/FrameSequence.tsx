@@ -44,8 +44,10 @@ export default function FrameSequence({
 
   useEffect(() => {
     if (!sources.length) return; // nothing to render until frames available
-    const canvas = canvasRef.current!;
-    const context = canvas.getContext("2d")!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
 
     const setCanvasSize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -57,6 +59,8 @@ export default function FrameSequence({
     };
 
     imagesRef.current = new Array(sources.length).fill(null);
+    loadedRef.current = new Set();
+    loadingRef.current = new Set();
 
     const loadIndex = (idx: number) => {
       if (idx < 0 || idx >= sources.length) return;
@@ -98,9 +102,6 @@ export default function FrameSequence({
       context.drawImage(image, dx, dy, dw, dh);
     };
 
-    // expose render to setCanvasSize
-    // @ts-expect-error local function hoist
-    function renderWrapper() { render(); }
 
     const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
