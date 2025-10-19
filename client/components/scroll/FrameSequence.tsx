@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -26,6 +26,7 @@ export default function FrameSequence({
   padSize?: number;
   height?: string | number;
   className?: string;
+  children?: ReactNode;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -124,6 +125,9 @@ export default function FrameSequence({
         },
         onUpdate: () => {
           frameRef.current = Math.round(state.frame);
+          const progress = frameCount > 1 ? frameRef.current / (frameCount - 1) : 0;
+          const el = containerRef.current as HTMLElement | null;
+          if (el) el.style.setProperty("--progress", String(progress));
           render();
         },
       });
@@ -168,7 +172,10 @@ export default function FrameSequence({
 
   return (
     <section ref={containerRef} className={`relative w-full overflow-hidden ${className}`} style={{ height }}>
-      <canvas ref={canvasRef} className="w-full h-full block" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
+      <div className="absolute inset-0 z-10">
+        {typeof className === "string" ? null : null}
+      </div>
     </section>
   );
 }
