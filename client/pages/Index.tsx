@@ -68,7 +68,7 @@ export default function Index() {
               I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="/thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
+              <a href="#thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
               <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
             </div>
           </div>
@@ -91,20 +91,6 @@ export default function Index() {
         />
       </motion.div>
 
-
-      {/* Thoughts preview */}
-      <section id="thoughts" className="relative py-24 md:py-32">
-        <div className="container">
-          <header className="flex items-end justify-between flex-wrap gap-4">
-            <div>
-              <p className="uppercase tracking-widest text-xs text-muted-foreground">Journal</p>
-              <h2 className="mt-1 text-3xl md:text-4xl font-bold">Latest Thoughts</h2>
-            </div>
-            <a href="/thoughts" className="text-sm text-muted-foreground hover:text-primary transition-colors">View all →</a>
-          </header>
-          <HomeThoughts />
-        </div>
-      </section>
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
@@ -145,38 +131,17 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Work */}
-      <section id="work" className="relative py-24 md:py-32">
+      {/* Thoughts preview */}
+      <section id="thoughts" className="relative py-24 md:py-32">
         <div className="container">
-          <div className="flex items-end justify-between flex-wrap gap-4">
-            <h2 className="text-3xl md:text-4xl font-bold">Selected Work</h2>
-            <a href="#contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Available for new projects →</a>
-          </div>
-
-          <div className="mt-10 grid md:grid-cols-2 gap-6">
-            {[1,2,3,4].map((i) => (
-              <motion.article
-                key={i}
-                initial={{ y: 24, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative overflow-hidden rounded-xl border bg-card"
-              >
-                <div className="aspect-[16/10] bg-gradient-to-br from-primary/15 to-secondary/15" />
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold">Project {i}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">A dynamic, scroll-driven experience showcasing interaction and motion.</p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="px-2 py-0.5 rounded bg-muted">React</span>
-                    <span className="px-2 py-0.5 rounded bg-muted">TypeScript</span>
-                    <span className="px-2 py-0.5 rounded bg-muted">Framer Motion</span>
-                  </div>
-                </div>
-                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "radial-gradient(60% 50% at 50% 50%, hsl(var(--primary)/0.15), transparent 70%)" }} />
-              </motion.article>
-            ))}
-          </div>
+          <header className="flex items-end justify-between flex-wrap gap-4">
+            <div>
+              <p className="uppercase tracking-widest text-xs text-muted-foreground">Journal</p>
+              <h2 className="mt-1 text-3xl md:text-4xl font-bold">Latest Thoughts</h2>
+            </div>
+            <a href="/thoughts" className="text-sm text-muted-foreground hover:text-primary transition-colors">View all →</a>
+          </header>
+          <HomeThoughts />
         </div>
       </section>
 
