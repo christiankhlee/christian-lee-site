@@ -175,7 +175,7 @@ export default function FrameSequence({
     <section ref={containerRef} className={`relative w-full overflow-hidden ${className}`} style={{ height }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
       <div className="absolute inset-0 z-10">
-        {typeof className === "string" ? null : null}
+        {children}
       </div>
     </section>
   );
