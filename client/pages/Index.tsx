@@ -17,13 +17,31 @@ export default function Index() {
 
   return (
     <div ref={containerRef} id="home" className="relative">
-      <FrameSequence sources={frames} height="100vh" />
-
-      {frames.length === 0 && (
-        <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
-          Preparing frames… {Math.round(progress * 100)}%
+      <FrameSequence sources={frames} height="100vh">
+        {frames.length === 0 && (
+          <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
+            Preparing frames… {Math.round(progress * 100)}%
+          </div>
+        )}
+        <div className="h-full w-full grid place-items-center px-4">
+          <div
+            className="max-w-3xl w-full rounded-2xl border border-white/20 bg-white/10 supports-[backdrop-filter]:bg-white/10 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 md:p-10"
+            style={{ opacity: "calc(0.95 - var(--progress) * 0.6)", transform: "translate3d(0, calc(var(--progress) * -40px), 0)" }}
+          >
+            <p className="text-sm uppercase tracking-widest text-white/80">Christian Lee — Personal Site</p>
+            <h1 className="mt-4 text-5xl md:text-7xl font-extrabold leading-[1.05]">
+              <span className="gradient-text">Creative Developer</span> crafting dynamic, scroll-driven web experiences.
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-white/80">
+              I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#work" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">See my work</a>
+              <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
+            </div>
+          </div>
         </div>
-      )}
+      </FrameSequence>
 
       {/* Decorative gradients */}
       <motion.div
@@ -41,24 +59,6 @@ export default function Index() {
         />
       </motion.div>
 
-      {/* Hero */}
-      <section className="relative min-h-[90vh] grid place-items-center">
-        <div className="container">
-          <motion.div style={{ opacity: opacityHero }} className="max-w-3xl">
-            <p className="text-sm uppercase tracking-widest text-muted-foreground">Christian Lee — Personal Site</p>
-            <h1 className="mt-4 text-5xl md:text-7xl font-extrabold leading-[1.05]">
-              <span className="gradient-text">Creative Developer</span> crafting dynamic, scroll-driven web experiences.
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
-              I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#work" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">See my work</a>
-              <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
