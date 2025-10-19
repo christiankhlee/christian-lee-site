@@ -26,8 +26,7 @@ export default function Layout({ children }: PropsWithChildren) {
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="/#about" className="hover:text-primary transition-colors">About</a>
-            <a href="/#work" className="hover:text-primary transition-colors">Work</a>
-            <a href="/thoughts" className="hover:text-primary transition-colors">Thoughts</a>
+            <a href="/#thoughts" className="hover:text-primary transition-colors">Thoughts</a>
             <a href="/music" className="hover:text-primary transition-colors">Music</a>
             <a href="/moodboard" className="hover:text-primary transition-colors">Moodboard</a>
             <a
