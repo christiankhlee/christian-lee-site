@@ -18,6 +18,7 @@ export default function FrameSequence({
   padSize = 3,
   height = "100vh",
   className = "",
+  children,
 }: {
   sources?: string[];
   base?: string; // e.g. https://.../3-
