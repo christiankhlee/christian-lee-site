@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import FrameSequence from "@/components/scroll/FrameSequence";
 import { useVideoFrames } from "@/hooks/use-video-frames";
 
@@ -36,7 +36,7 @@ export default function Index() {
               I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#work" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">See my work</a>
+              <a href="/thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
               <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
             </div>
           </div>
@@ -59,6 +59,20 @@ export default function Index() {
         />
       </motion.div>
 
+
+      {/* Thoughts preview */}
+      <section id="thoughts" className="relative py-24 md:py-32">
+        <div className="container">
+          <header className="flex items-end justify-between flex-wrap gap-4">
+            <div>
+              <p className="uppercase tracking-widest text-xs text-muted-foreground">Journal</p>
+              <h2 className="mt-1 text-3xl md:text-4xl font-bold">Latest Thoughts</h2>
+            </div>
+            <a href="/thoughts" className="text-sm text-muted-foreground hover:text-primary transition-colors">View all →</a>
+          </header>
+          <HomeThoughts />
+        </div>
+      </section>
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
