@@ -51,26 +51,14 @@ export default function Moodboard() {
       <header className="max-w-3xl">
         <p className="uppercase tracking-widest text-xs text-muted-foreground">Gallery</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Moodboard</h1>
-        <p className="mt-3 text-muted-foreground">Drop images or upload below. Stored locally in your browser.</p>
+        <p className="mt-3 text-muted-foreground">A curated collection of visual inspiration.</p>
       </header>
 
       <section className="mt-8">
-        <div
-          onDrop={onDrop}
-          onDragOver={(e)=>e.preventDefault()}
-          className="rounded-xl border border-dashed p-8 text-center bg-gradient-to-br from-cyan-50/60 to-blue-50/40 dark:from-cyan-900/20 dark:to-blue-900/10"
-        >
-          <p className="text-sm text-muted-foreground">Drag & drop images here</p>
-          <div className="mt-3 flex items-center justify-center gap-3">
-            <button onClick={()=>inputRef.current?.click()} className="px-4 h-11 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Upload</button>
-            <button onClick={clearAll} className="px-4 h-11 rounded-md border hover:bg-muted transition">Clear all</button>
-          </div>
-          <input ref={inputRef} type="file" accept="image/*" multiple onChange={(e)=>onFiles(e.target.files)} className="hidden" />
-        </div>
+        {/* Upload section hidden for public viewing */}
+        <input ref={inputRef} type="file" accept="image/*" multiple onChange={(e)=>onFiles(e.target.files)} className="hidden" />
 
-        <p className="mt-4 text-sm text-muted-foreground">{summary}</p>
-
-        <div className="mt-6 columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-5">
+        <div className="mt-6 columns-2 md:columns-3 lg:columns-4 gap-2 md:gap-3">
           {(images.length ? images : [
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe",
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1",
