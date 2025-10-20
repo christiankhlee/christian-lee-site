@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleNotionPosts } from "./routes/notion";
+import { handleImportBuilder } from "./routes/import";
 
 export function createServer() {
   const app = express();
