@@ -3,10 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 export type VinylProps = {
   url: string; // Spotify track URL like https://open.spotify.com/track/...
   active: boolean;
+  lifting?: boolean;
   onSelect: () => void;
 };
 
-export default function VinylRecord({ url, active, onSelect }: VinylProps) {
+export default function VinylRecord({ url, active, lifting = false, onSelect }: VinylProps) {
   const [thumb, setThumb] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
@@ -37,7 +38,7 @@ export default function VinylRecord({ url, active, onSelect }: VinylProps) {
       "repeating-radial-gradient(circle, rgba(255,255,255,0.08) 0 1px, transparent 1px 3px)",
   }), []);
 
-  const spinClass = active ? "spin-fast" : "spin-slow";
+  const spinClass = active && !lifting ? "spin-fast" : "spin-slow";
 
   return (
     <div className="relative group" onClick={onSelect} role="button" aria-label={`Play ${title}`}>
@@ -47,7 +48,7 @@ export default function VinylRecord({ url, active, onSelect }: VinylProps) {
       )}
       {/* disc */}
       <div
-        className={`relative mx-auto h-64 w-64 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.25)] ${spinClass} group-hover:spin-medium`}
+        className={`relative mx-auto h-64 w-64 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.25)] ${spinClass} group-hover:spin-medium ${active ? "ring-2 ring-cyan-300/70" : "ring-0"}`}
         style={discStyle as any}
       >
         <div className="absolute inset-0 rounded-full" style={ringStyle as any} />
@@ -65,7 +66,7 @@ export default function VinylRecord({ url, active, onSelect }: VinylProps) {
 
       {/* needle arm */}
       <div
-        className={`pointer-events-none absolute -right-6 top-6 origin-top rotate-12 transition-transform duration-500 ${active ? "-rotate-2" : "rotate-12"}`}
+        className={`pointer-events-none absolute -right-6 top-6 origin-top transition-transform duration-500 ${lifting ? "rotate-12" : active ? "-rotate-2" : "rotate-12"}`}
       >
         <div className="h-3 w-3 rounded-full bg-slate-500 shadow" />
         <div className="h-24 w-2 bg-gradient-to-b from-slate-400 to-slate-600" />
@@ -77,6 +78,15 @@ export default function VinylRecord({ url, active, onSelect }: VinylProps) {
         <p className="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</p>
         {author && <p className="text-sm text-muted-foreground">{author}</p>}
       </div>
+
+      {/* subtle waveform under active record */}
+      {active && !lifting && (
+        <div className="mt-4 flex items-end justify-center gap-1 h-10" aria-hidden>
+          {Array.from({ length: 24 }).map((_, i) => (
+            <span key={i} className={`w-1 rounded-full bg-cyan-400/70 dark:bg-cyan-300/70 animate-wave`} style={{ animationDelay: `${i * 60}ms` }} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
