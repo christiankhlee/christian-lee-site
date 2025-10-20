@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import VinylRecord from "@/components/music/VinylRecord";
 
 type Item = {
   id: string;
@@ -38,101 +39,45 @@ function parseSpotifyUrl(input: string): Item | null {
 }
 
 export default function Music() {
-  const [items, setItems] = useState<Item[]>([]);
-  const [url, setUrl] = useState("");
-  const [note, setNote] = useState("");
-
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) setItems(JSON.parse(saved) as Item[]);
-  }, []);
-
-  const save = (list: Item[]) => {
-    setItems(list);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  };
-
-  const add = (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsed = parseSpotifyUrl(url);
-    if (!parsed) return;
-    const list = [{ ...parsed, note: note.trim() }, ...items];
-    save(list);
-    setUrl("");
-    setNote("");
-  };
-
-  const remove = (id: string) => {
-    save(items.filter((i) => i.id !== id));
-  };
-
-  const updateNote = (id: string, value: string) => {
-    const list = items.map((i) => (i.id === id ? { ...i, note: value } : i));
-    save(list);
-  };
-
-  const demo: Item[] = [
-    { id: "curated1", type: "track", ref: "track:7qjZnBKE73H4Oxkopwulqe", embedUrl: "https://open.spotify.com/embed/track/7qjZnBKE73H4Oxkopwulqe", addedAt: new Date().toISOString(), note: "" },
-    { id: "curated2", type: "track", ref: "track:5eO04wLeM487N9qhPHPPoB", embedUrl: "https://open.spotify.com/embed/track/5eO04wLeM487N9qhPHPPoB", addedAt: new Date().toISOString(), note: "" },
-    { id: "curated3", type: "track", ref: "track:3aQ9MHkMeL7Yu7jpyF62xn", embedUrl: "https://open.spotify.com/embed/track/3aQ9MHkMeL7Yu7jpyF62xn", addedAt: new Date().toISOString(), note: "" },
+  const tracks = [
+    { id: "curated1", url: "https://open.spotify.com/track/7qjZnBKE73H4Oxkopwulqe" },
+    { id: "curated2", url: "https://open.spotify.com/track/5eO04wLeM487N9qhPHPPoB" },
+    { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
   ];
-  const display = demo;
+  const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
+
+  const activeTrack = tracks.find((t) => t.id === active);
+  const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
 
   return (
     <div className="container py-16">
       <header className="max-w-3xl">
-        <p className="uppercase tracking-widest text-xs text-muted-foreground">
-          Playlist
-        </p>
+        <p className="uppercase tracking-widest text-xs text-muted-foreground">Playlist</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Music</h1>
-        <p className="mt-3 text-muted-foreground">A few tracks Im listening to.</p>
+        <p className="mt-3 text-muted-foreground">A living shelf of songs. Click a record to play.</p>
       </header>
 
+      <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {tracks.map((t) => (
+            <VinylRecord key={t.id} url={t.url} active={active === t.id} onSelect={() => setActive(t.id)} />
+          ))}
+        </div>
 
-      <section className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {display.map((item, idx) => (
-          <motion.article
-            key={item.id}
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.03 }}
-            className="group relative overflow-hidden rounded-xl border bg-card"
-            style={{ rotate: idx % 3 === 0 ? -1.2 : idx % 3 === 1 ? 0.8 : -0.4 }}
-          >
-            <div className="p-3 flex items-center justify-between text-xs text-muted-foreground">
-              <span className="px-2 py-0.5 rounded bg-white/60 dark:bg-white/10 backdrop-blur">
-                {item.type}
-              </span>
-            </div>
-            <div className="px-3 pb-3">
-              <div className="rounded-[10px] bg-white p-2 shadow-sm ring-1 ring-slate-200/60 dark:ring-white/10">
-                <div className="bg-zinc-100 rounded-[6px] overflow-hidden">
-                  <iframe
-                    title={item.ref}
-                    src={item.embedUrl}
-                    width="100%"
-                    height="152"
-                    frameBorder="0"
-                    allowFullScreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    onLoad={() => console.log('Iframe loaded:', item.embedUrl)}
-                    onError={() => console.error('Iframe error:', item.embedUrl)}
-                    style={{ borderRadius: '6px' }}
-                  />
-                </div>
-              </div>
-            </div>
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -top-3 left-6 h-8 w-16 bg-[rgba(243,244,246,0.8)] shadow-sm rounded-[2px] rotate-[-8deg] mix-blend-multiply"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 60%), repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 2px, transparent 2px, transparent 4px)",
-              }}
+        {/* Player */}
+        {embedUrl && (
+          <div className="mt-10 rounded-xl bg-white/70 dark:bg-white/5 p-3 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
+            <iframe
+              title={`player-${active}`}
+              src={embedUrl}
+              width="100%"
+              height="152"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             />
-          </motion.article>
-        ))}
+          </div>
+        )}
       </section>
     </div>
   );
