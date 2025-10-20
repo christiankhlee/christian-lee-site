@@ -66,6 +66,7 @@ const Collage = () => {
         </Paper>
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="" rotate={1.2} />
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F74f5d1d8f23d4fc6919998c7bb8c4da4" caption="" rotate={-0.6} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1" caption="" rotate={1.1} />
       </div>
 
       {/* Middle column */}
@@ -87,6 +88,8 @@ const Collage = () => {
           <Tape className="-top-3 left-8 rotate-[-4deg]" />
         </Paper>
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3" caption="" rotate={-2.2} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb2a67e8dc8bf48fdbe06ba8c3dc79871" caption="" rotate={0.8} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fd45f63c7f65442c190ae26d0d981ad53" caption="" rotate={-1.1} />
         <Paper rotate={-1.2} className="p-2">
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F596e1630048f418bbd5184ff2a292d7b"
@@ -111,12 +114,21 @@ const Collage = () => {
         </Paper>
         <Paper rotate={1.8} className="p-2">
           <img
+            src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fac2b5b20199b468a9690674e09743293"
+            alt="Feet"
+            className="block w-full rounded-md object-cover"
+          />
+          <Tape className="-top-3 left-4 rotate-[-6deg]" />
+        </Paper>
+        <Paper rotate={-0.4} className="p-2">
+          <img
             src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb4981084e6f548f79edd34c62c69a83e"
             alt="Keep going"
             className="block w-full rounded-md object-cover"
           />
           <Tape className="-top-3 right-4 rotate-[10deg]" />
         </Paper>
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F396c1ad1e9514c87b95b579404c747cb" caption="" rotate={-1.6} />
       </div>
     </div>
   );
