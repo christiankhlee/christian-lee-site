@@ -72,12 +72,11 @@ export default function Music() {
   };
 
   const demo: Item[] = [
-    { id: "demo1", type: "track", ref: "track:4uLU6hMCjMI75M1A2tKUQC", embedUrl: "https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC", addedAt: new Date().toISOString(), note: "Classic vibes." },
-    { id: "demo2", type: "track", ref: "track:7qiZfU4dY1lWllzX7mPBI3", embedUrl: "https://open.spotify.com/embed/track/7qiZfU4dY1lWllzX7mPBI3", addedAt: new Date().toISOString(), note: "Shape of You - Ed Sheeran" },
-    { id: "demo3", type: "track", ref: "track:6habFhsOp2NvshLv26DqMb", embedUrl: "https://open.spotify.com/embed/track/6habFhsOp2NvshLv26DqMb", addedAt: new Date().toISOString(), note: "Someone Like You - Adele" },
+    { id: "curated1", type: "track", ref: "track:7qjZnBKE73H4Oxkopwulqe", embedUrl: "https://open.spotify.com/embed/track/7qjZnBKE73H4Oxkopwulqe", addedAt: new Date().toISOString(), note: "" },
+    { id: "curated2", type: "track", ref: "track:5eO04wLeM487N9qhPHPPoB", embedUrl: "https://open.spotify.com/embed/track/5eO04wLeM487N9qhPHPPoB", addedAt: new Date().toISOString(), note: "" },
+    { id: "curated3", type: "track", ref: "track:3aQ9MHkMeL7Yu7jpyF62xn", embedUrl: "https://open.spotify.com/embed/track/3aQ9MHkMeL7Yu7jpyF62xn", addedAt: new Date().toISOString(), note: "" },
   ];
-  const isDemo = items.length === 0;
-  const display = isDemo ? demo : items;
+  const display = demo;
 
   return (
     <div className="container py-16">
@@ -86,36 +85,9 @@ export default function Music() {
           Playlist
         </p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Music</h1>
-        <p className="mt-3 text-muted-foreground">
-          Add any Spotify track, album, or playlist URL. Links are stored
-          locally.
-        </p>
+        <p className="mt-3 text-muted-foreground">A few tracks Im listening to.</p>
       </header>
 
-      <form
-        onSubmit={add}
-        className="mt-8 rounded-xl border p-5 bg-card/60 backdrop-blur"
-      >
-        <div className="grid gap-3">
-          <input
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Paste Spotify link (e.g. https://open.spotify.com/track/...)"
-            className="h-11 rounded-md border px-3 bg-background"
-          />
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Write a short note about this song..."
-            className="min-h-[80px] rounded-md border p-3 bg-background"
-          />
-          <div>
-            <button className="h-11 px-5 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">
-              Add
-            </button>
-          </div>
-        </div>
-      </form>
 
       <section className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {display.map((item, idx) => (
@@ -132,15 +104,6 @@ export default function Music() {
               <span className="px-2 py-0.5 rounded bg-white/60 dark:bg-white/10 backdrop-blur">
                 {item.type}
               </span>
-              {!isDemo && (
-                <button
-                  type="button"
-                  onClick={() => remove(item.id)}
-                  className="opacity-60 hover:opacity-100"
-                >
-                  Remove
-                </button>
-              )}
             </div>
             <div className="px-3 pb-3">
               <div className="rounded-[10px] bg-white p-2 shadow-sm ring-1 ring-slate-200/60 dark:ring-white/10">
@@ -158,18 +121,6 @@ export default function Music() {
                     style={{ borderRadius: '6px' }}
                   />
                 </div>
-                {isDemo ? (
-                  <p className="mt-2 text-[12px] text-muted-foreground">{item.note}</p>
-                ) : (
-                  <textarea
-                    value={item.note}
-                    onChange={(e) => updateNote(item.id, e.target.value)}
-                    onBlur={(e) => updateNote(item.id, e.target.value.trim())}
-                    placeholder="Write a note…"
-                    className="mt-2 w-full resize-none border-none outline-none bg-transparent text-[12px] text-muted-foreground"
-                    rows={3}
-                  />
-                )}
               </div>
             </div>
             <span
