@@ -64,7 +64,8 @@ const Collage = () => {
           </ul>
           <Tape className="-top-3 right-6 rotate-[6deg]" />
         </Paper>
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="Headphones — focus mode" rotate={1.2} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="" rotate={1.2} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F74f5d1d8f23d4fc6919998c7bb8c4da4" caption="" rotate={-0.6} />
       </div>
 
       {/* Middle column */}
@@ -72,9 +73,9 @@ const Collage = () => {
         <Paper rotate={0.6} className="bg-[#f7f6f2]">
           <h3 className="text-sm uppercase tracking-widest text-muted-foreground">Things I’m into right now</h3>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li>Currently: dance, running, and videography.</li>
-            <li>Inspired by: quiet design, rhythm, solitude.</li>
-            <li>Just get started.</li>
+            <li>Running, lifting, sauna, sleep.</li>
+            <li>Enjoying the small stuff — good food, music, friends.</li>
+            <li>Just getting started.</li>
           </ul>
           <div className="mt-4 flex items-center gap-2">
             <span className="h-6 w-6 rounded bg-[hsl(var(--primary)/0.55)] border" />
@@ -85,7 +86,15 @@ const Collage = () => {
           </div>
           <Tape className="-top-3 left-8 rotate-[-4deg]" />
         </Paper>
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3" caption="Sneakers — foggy run" rotate={-2.2} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3" caption="" rotate={-2.2} />
+        <Paper rotate={-1.2} className="p-2">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F596e1630048f418bbd5184ff2a292d7b"
+            alt="Drawing inspired by Nevertheless"
+            className="block w-full rounded-md object-cover"
+          />
+          <Tape className="-top-3 left-4 rotate-[-6deg]" />
+        </Paper>
       </div>
 
       {/* Right column */}
@@ -95,7 +104,7 @@ const Collage = () => {
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li>Happiness is peace in motion.</li>
             <li>Read what you love until you love to read.</li>
-            <li>Calm mind, clear work.</li>
+            <li>The process is the point.</li>
             <li>All great things start as play.</li>
             <li>Be present, not productive.</li>
           </ul>
