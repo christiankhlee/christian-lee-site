@@ -37,8 +37,8 @@ export default function Index() {
               Projects, notes, and ideas in progress.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
               <a href="#about" className="px-5 py-3 rounded-md border hover:bg-muted transition">About me</a>
+              <a href="#thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ export default function Index() {
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
         <div className="container grid md:grid-cols-12 gap-10 items-start">
-          <div className="md:col-span-5">
+          <div className="md:col-span-12">
             <h2 className="text-3xl md:text-4xl font-bold">About</h2>
             <p className="mt-4 text-muted-foreground">
               I like expressing ideas through things I make. Always learning, curating, and creating along the way.
@@ -74,28 +74,6 @@ export default function Index() {
               <li>• Backend: Node, Express</li>
               <li>• Tools: Vite, Vitest</li>
             </ul>
-          </div>
-          <div className="md:col-span-7">
-            <div className="grid sm:grid-cols-2 gap-6">
-              {[
-                { title: "Performance", desc: "Ship fast sites that feel instant." },
-                { title: "Motion", desc: "Use motion to guide and delight." },
-                { title: "Accessibility", desc: "Inclusive by default." },
-                { title: "Craft", desc: "Pixel-perfect, production-ready." },
-              ].map((card) => (
-                <motion.div
-                  key={card.title}
-                  initial={{ y: 24, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.5 }}
-                  className="rounded-xl border bg-card p-6 hover:shadow-lg/40 shadow-sm transition-shadow"
-                >
-                  <h3 className="text-lg font-semibold">{card.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{card.desc}</p>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
