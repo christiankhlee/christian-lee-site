@@ -72,9 +72,9 @@ export default function Music() {
   };
 
   const demo: Item[] = [
-    { id: "demo1", type: "track", ref: "track:2PpruBYCo4H7WOBJ7Q2EwM", embedUrl: "https://open.spotify.com/embed/track/2PpruBYCo4H7WOBJ7Q2EwM", addedAt: new Date().toISOString(), note: "Rhythm that keeps me moving." },
-    { id: "demo2", type: "track", ref: "track:7ouMYWpwJ422jRcDASZB7P", embedUrl: "https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P", addedAt: new Date().toISOString(), note: "Calm focus track." },
-    { id: "demo3", type: "track", ref: "track:0VjIjW4GlUZAMYd2vXMi3b", embedUrl: "https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b", addedAt: new Date().toISOString(), note: "Classic energy." },
+    { id: "demo1", type: "track", ref: "track:4uLU6hMCjMI75M1A2tKUQC", embedUrl: "https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC", addedAt: new Date().toISOString(), note: "Classic vibes." },
+    { id: "demo2", type: "track", ref: "track:7qiZfU4dY1lWllzX7mPBI3", embedUrl: "https://open.spotify.com/embed/track/7qiZfU4dY1lWllzX7mPBI3", addedAt: new Date().toISOString(), note: "Shape of You - Ed Sheeran" },
+    { id: "demo3", type: "track", ref: "track:6habFhsOp2NvshLv26DqMb", embedUrl: "https://open.spotify.com/embed/track/6habFhsOp2NvshLv26DqMb", addedAt: new Date().toISOString(), note: "Someone Like You - Adele" },
   ];
   const isDemo = items.length === 0;
   const display = isDemo ? demo : items;
