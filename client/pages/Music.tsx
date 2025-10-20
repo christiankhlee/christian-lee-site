@@ -147,13 +147,14 @@ export default function Music() {
                 <div className="bg-zinc-100 rounded-[6px] overflow-hidden">
                   <iframe
                     title={item.ref}
-                    src={`${item.embedUrl}?utm_source=generator&theme=0`}
+                    src={item.embedUrl}
                     width="100%"
                     height="152"
                     frameBorder="0"
                     allowfullscreen=""
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
+                    onLoad={() => console.log('Iframe loaded:', item.embedUrl)}
+                    onError={() => console.error('Iframe error:', item.embedUrl)}
                     style={{ borderRadius: '6px' }}
                   />
                 </div>
