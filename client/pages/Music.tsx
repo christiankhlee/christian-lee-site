@@ -151,7 +151,9 @@ export default function Music() {
                     width="100%"
                     height="152"
                     frameBorder="0"
+                    allowTransparency={true}
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
                     loading="lazy"
                   />
                 </div>
