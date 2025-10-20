@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import VinylRecord from "@/components/music/VinylRecord";
+import TrackRow from "@/components/music/TrackRow";
 
 type Item = {
   id: string;
