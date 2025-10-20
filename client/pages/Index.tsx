@@ -3,6 +3,7 @@ import { useRef } from "react";
 import FrameSequence from "@/components/scroll/FrameSequence";
 import { useVideoFrames } from "@/hooks/use-video-frames";
 import HomeThoughts from "@/components/thoughts/HomeThoughts";
+import Collage from "@/components/about/Collage";
 
 export default function Index() {
   const containerRef = useRef<HTMLDivElement | null>(null);
