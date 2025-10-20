@@ -70,7 +70,7 @@ export default function Moodboard() {
 
         <p className="mt-4 text-sm text-muted-foreground">{summary}</p>
 
-        <div className="mt-6 columns-2 md:columns-3 lg:columns-4 gap-0">
+        <div className="mt-6 columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-5">
           {(images.length ? images : [
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe",
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1",
