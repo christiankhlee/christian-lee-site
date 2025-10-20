@@ -107,9 +107,9 @@ export default function Moodboard() {
                   zIndex: 50,
                   transition: { duration: 0.2 }
                 }}
-                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 ${transform} ${zIndex} relative cursor-pointer hover:shadow-xl transition-shadow duration-200`}
+                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 ${transform} ${zIndex} relative cursor-pointer hover:shadow-xl transition-shadow duration-200 aspect-square`}
               >
-                <img src={it} alt="sample" className="w-full h-auto" />
+                <img src={it} alt="sample" className="w-full h-full object-cover" />
               </motion.figure>
             ) : (
               <motion.figure
