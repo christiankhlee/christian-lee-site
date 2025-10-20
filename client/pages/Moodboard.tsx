@@ -9,7 +9,14 @@ export default function Moodboard() {
   const load = async () => {
     const all = await getAllImages();
     const withUrl = all.map((img) => ({ ...img, url: URL.createObjectURL(img.blob) }));
-    setImages(withUrl.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)));
+    const sorted = withUrl.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    setImages(sorted);
+
+    // Preload first 8 images for instant display
+    sorted.slice(0, 8).forEach((img) => {
+      const image = new Image();
+      image.src = img.url;
+    });
   };
 
   useEffect(() => {
