@@ -93,7 +93,7 @@ export default function Moodboard() {
                 transition={{ delay: idx * 0.02 }}
                 className="mb-4 break-inside-avoid overflow-hidden group relative"
               >
-                <img src={it.url} alt={it.name} className="w-full h-auto" />
+                <img src={it.url} alt={it.name} className="w-full h-auto" loading={idx < 6 ? "eager" : "lazy"} />
                 <figcaption className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
                   <button onClick={()=>onDelete(it.id)} className="px-2 py-1 text-xs bg-black/60 text-white">Remove</button>
                 </figcaption>
