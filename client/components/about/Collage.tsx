@@ -67,7 +67,7 @@ const Collage = () => {
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="" rotate={1.2} height={160} />
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ff3c762cf77f3455ebf1be3022f4ce28d" caption="" rotate={-0.6} height={338} />
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1" caption="" rotate={1.1} height={202} />
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F22cc2b4e2bcc4e459643f7e1098255cc" caption="" rotate={-0.4} height={240} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F22cc2b4e2bcc4e459643f7e1098255cc" caption="" rotate={-0.4} height={201} />
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1" caption="" rotate={1.1} />
       </div>
 
