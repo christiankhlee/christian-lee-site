@@ -19,3 +19,26 @@ export async function fetchBuilderPosts(limit = 10): Promise<Post[]> {
     return [];
   }
 }
+
+export async function fetchPosts(limit = 10): Promise<Post[]> {
+  // 1) Try Notion proxy
+  try {
+    const res = await fetch(`/api/notion-posts`);
+    if (res.ok) {
+      const json = await res.json();
+      const list = (json.results || []) as any[];
+      if (list.length) {
+        return list.slice(0, limit).map((p) => ({
+          id: p.id,
+          title: p.title,
+          content: p.content,
+          date: p.date,
+        }));
+      }
+    }
+  } catch {}
+
+  // 2) Fallback to Builder
+  const fromBuilder = await fetchBuilderPosts(limit);
+  return fromBuilder;
+}
