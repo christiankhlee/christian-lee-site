@@ -16,14 +16,21 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`);
+        const res = await fetch(`/api/spotify-oembed?url=${encodeURIComponent(url)}`);
+        if (!res.ok) throw new Error("oembed failed");
         const data = await res.json();
         if (!cancelled) {
           setThumb(data.thumbnail_url || "");
           setTitle(data.title || "Track");
           setAuthor(data.author_name || "");
         }
-      } catch {}
+      } catch {
+        if (!cancelled) {
+          setThumb("");
+          setTitle("Track");
+          setAuthor("");
+        }
+      }
     })();
     return () => { cancelled = true; };
   }, [url]);
