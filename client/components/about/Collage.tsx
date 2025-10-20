@@ -49,7 +49,7 @@ function Polaroid({ src, caption, rotate = -1.5 }: { src: string; caption?: stri
   );
 }
 
-export default function Collage() {
+const Collage = () => {
   return (
     <div className="mt-10 grid grid-cols-12 gap-4 md:gap-6">
       {/* Left column */}
@@ -111,4 +111,7 @@ export default function Collage() {
       </div>
     </div>
   );
-}
+};
+
+export default Collage;
+export { Collage };
