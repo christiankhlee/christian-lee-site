@@ -35,12 +35,12 @@ function Paper({ children, className = "", as: As = motion.div, rotate = 0, tint
   );
 }
 
-function Polaroid({ src, caption, rotate = -1.5 }: { src: string; caption?: string; rotate?: number }) {
+function Polaroid({ src, caption, rotate = -1.5, height = 160 }: { src: string; caption?: string; rotate?: number; height?: number }) {
   return (
     <Paper className="p-0" rotate={rotate} tint="#fafaf8">
       <div className="rounded-[10px] bg-white p-2">
         <div className="bg-zinc-100 rounded-[6px] overflow-hidden">
-          <img src={src} alt={caption || "polaroid"} className="block w-full h-40 object-cover" />
+          <img src={src} alt={caption || "polaroid"} className="block w-full object-cover" style={{ height }} />
         </div>
         <p className="mt-2 px-1 pb-1 text-[11px] text-muted-foreground font-medium">{caption}</p>
       </div>
@@ -64,8 +64,10 @@ const Collage = () => {
           </ul>
           <Tape className="-top-3 right-6 rotate-[6deg]" />
         </Paper>
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="" rotate={1.2} />
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F74f5d1d8f23d4fc6919998c7bb8c4da4" caption="" rotate={-0.6} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F9e30fe9c38e24e489c7e51e7909a61fe" caption="" rotate={1.2} height={160} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ff3c762cf77f3455ebf1be3022f4ce28d" caption="" rotate={-0.6} height={338} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1" caption="" rotate={1.1} height={202} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F22cc2b4e2bcc4e459643f7e1098255cc" caption="" rotate={-0.4} height={240} />
         <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe270b54c3daa4c3fa2d0e2a5b94eede1" caption="" rotate={1.1} />
       </div>
 
@@ -87,14 +89,15 @@ const Collage = () => {
           </div>
           <Tape className="-top-3 left-8 rotate-[-4deg]" />
         </Paper>
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3" caption="" rotate={-2.2} />
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb2a67e8dc8bf48fdbe06ba8c3dc79871" caption="" rotate={0.8} />
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fd45f63c7f65442c190ae26d0d981ad53" caption="" rotate={-1.1} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3" caption="" rotate={-2.2} height={160} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb2a67e8dc8bf48fdbe06ba8c3dc79871" caption="" rotate={0.8} height={326} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fd45f63c7f65442c190ae26d0d981ad53" caption="" rotate={-1.1} height={270} />
         <Paper rotate={-1.2} className="p-2">
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F596e1630048f418bbd5184ff2a292d7b"
             alt="Drawing inspired by Nevertheless"
             className="block w-full rounded-md object-cover"
+            style={{ height: 352 }}
           />
           <Tape className="-top-3 left-4 rotate-[-6deg]" />
         </Paper>
@@ -117,6 +120,7 @@ const Collage = () => {
             src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fac2b5b20199b468a9690674e09743293"
             alt="Feet"
             className="block w-full rounded-md object-cover"
+            style={{ height: 240 }}
           />
           <Tape className="-top-3 left-4 rotate-[-6deg]" />
         </Paper>
@@ -128,7 +132,8 @@ const Collage = () => {
           />
           <Tape className="-top-3 right-4 rotate-[10deg]" />
         </Paper>
-        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F396c1ad1e9514c87b95b579404c747cb" caption="" rotate={-1.6} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F396c1ad1e9514c87b95b579404c747cb" caption="" rotate={-1.6} height={368} />
+        <Polaroid src="https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe5e827f1b0c1471c94dbdb8168c95f3f" caption="" rotate={0.6} height={220} />
       </div>
     </div>
   );
