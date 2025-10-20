@@ -45,23 +45,37 @@ export default function Music() {
     { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
   ];
   const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
+  const [lifting, setLifting] = useState(false);
 
   const activeTrack = tracks.find((t) => t.id === active);
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
+
+  const selectTrack = (id: string) => {
+    if (id === active) return;
+    setLifting(true);
+    setTimeout(() => {
+      setActive(id);
+      setLifting(false);
+    }, 500);
+  };
 
   return (
     <div className="container py-16">
       <header className="max-w-3xl">
         <p className="uppercase tracking-widest text-xs text-muted-foreground">Playlist</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Music</h1>
-        <p className="mt-3 text-muted-foreground">A living shelf of songs. Click a record to play.</p>
+        <p className="mt-3 text-muted-foreground">A living shelf of songs. Pick a track below.</p>
       </header>
 
-      <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {tracks.map((t) => (
-            <VinylRecord key={t.id} url={t.url} active={active === t.id} onSelect={() => setActive(t.id)} />
-          ))}
+      <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-10">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting} lifting={lifting} onSelect={() => {}} />
+
+          <div className="space-y-2">
+            {tracks.map((t) => (
+              <TrackRow key={t.id} url={t.url} active={t.id === active && !lifting} onClick={() => selectTrack(t.id)} />
+            ))}
+          </div>
         </div>
 
         {/* Player */}
