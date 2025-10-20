@@ -82,7 +82,7 @@ export default function Moodboard() {
                 transition={{ delay: idx * 0.02 }}
                 className="mb-4 break-inside-avoid overflow-hidden"
               >
-                <img src={it} alt="sample" className="w-full h-auto" />
+                <img src={it} alt="sample" className="w-full h-auto" loading={idx < 6 ? "eager" : "lazy"} />
               </motion.figure>
             ) : (
               <motion.figure
