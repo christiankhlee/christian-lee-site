@@ -22,7 +22,6 @@ export default function Layout({ children }: PropsWithChildren) {
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
             </span>
-            <span className="font-semibold tracking-tight">Christian Lee</span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="/#about" className="hover:text-primary transition-colors">About</a>
