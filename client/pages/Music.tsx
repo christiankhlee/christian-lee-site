@@ -71,6 +71,14 @@ export default function Music() {
     save(list);
   };
 
+  const demo: Item[] = [
+    { id: "demo1", type: "track", ref: "track:2PpruBYCo4H7WOBJ7Q2EwM", embedUrl: "https://open.spotify.com/embed/track/2PpruBYCo4H7WOBJ7Q2EwM", addedAt: new Date().toISOString(), note: "Rhythm that keeps me moving." },
+    { id: "demo2", type: "track", ref: "track:7ouMYWpwJ422jRcDASZB7P", embedUrl: "https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P", addedAt: new Date().toISOString(), note: "Calm focus track." },
+    { id: "demo3", type: "track", ref: "track:0VjIjW4GlUZAMYd2vXMi3b", embedUrl: "https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b", addedAt: new Date().toISOString(), note: "Classic energy." },
+  ];
+  const isDemo = items.length === 0;
+  const display = isDemo ? demo : items;
+
   return (
     <div className="container py-16">
       <header className="max-w-3xl">
