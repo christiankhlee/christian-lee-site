@@ -4,6 +4,7 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleNotionPosts } from "./routes/notion";
 import { handleImportBuilder } from "./routes/import";
+import { handleSpotifyOEmbed } from "./routes/spotify";
 
 export function createServer() {
   const app = express();
