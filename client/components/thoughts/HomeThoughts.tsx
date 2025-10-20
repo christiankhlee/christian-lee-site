@@ -1,29 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 
-export type Post = { id: string; title: string; content: string; date: string };
-const STORAGE_KEY = "thoughtsPosts";
+import { curatedPosts, type Post } from "@/components/thoughts/data";
 
 export default function HomeThoughts() {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setPosts(JSON.parse(saved) as Post[]);
-    } catch {
-      // ignore parse errors
-    }
-  }, []);
-
-  const recent = useMemo(() => posts.slice().sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 3), [posts]);
-
-  if (recent.length === 0) {
-    return (
-      <p className="mt-6 text-muted-foreground">
-        No posts yet. <a className="underline hover:text-primary" href="/thoughts">Write your first thought →</a>
-      </p>
-    );
-  }
+  const recent = curatedPosts
+    .slice()
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 3);
 
   return (
     <ul className="mt-8 grid md:grid-cols-3 gap-6">
