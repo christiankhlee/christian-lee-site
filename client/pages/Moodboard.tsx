@@ -124,9 +124,9 @@ export default function Moodboard() {
                   zIndex: 50,
                   transition: { duration: 0.2 }
                 }}
-                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 group relative ${transform} ${zIndex} cursor-pointer hover:shadow-xl transition-shadow duration-200`}
+                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 group relative ${transform} ${zIndex} cursor-pointer hover:shadow-xl transition-shadow duration-200 aspect-square`}
               >
-                <img src={it.url} alt={it.name} className="w-full h-auto" />
+                <img src={it.url} alt={it.name} className="w-full h-full object-cover" />
                 <figcaption className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
                   <button onClick={()=>onDelete(it.id)} className="px-2 py-1 text-xs rounded-md bg-black/60 text-white">Remove</button>
                 </figcaption>
