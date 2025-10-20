@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { curatedPosts } from "@/components/thoughts/data";
-import { fetchBuilderPosts } from "@/components/thoughts/api";
+import { fetchPosts } from "@/components/thoughts/api";
 
 export type Post = { id: string; title: string; content: string; date: string };
 
 export default function Thoughts() {
   const [posts, setPosts] = useState<Post[]>(curatedPosts);
   useEffect(() => {
-    fetchBuilderPosts(20).then((fromCms) => {
+    fetchPosts(20).then((fromCms) => {
       if (fromCms.length) setPosts(fromCms);
     });
   }, []);
