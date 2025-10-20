@@ -32,9 +32,9 @@ export default function Index() {
           >
             <h1 className="hero-serif mt-4 text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-[-0.03em] text-shadow-soft">
               <span className="italic font-sans text-[#F5F7FA] inline-block mr-7">Christian Lee</span>
-              <span className="block font-sans italic opacity-95">A place for what I’m working on and thinking about.</span>
+              <span className="block font-sans italic font-extrabold opacity-95 text-[50px] leading-[1.05]">A place for what I’m working on and thinking about.</span>
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-white/80">
+            <p className="mt-6 text-lg md:text-xl text-white/80 italic">
               Projects, notes, and ideas in progress.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
