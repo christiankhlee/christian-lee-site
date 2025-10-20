@@ -20,6 +20,7 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.get("/api/notion-posts", handleNotionPosts);
+  app.get("/api/import-builder", (req, res) => handleImportBuilder(req, res));
 
   return app;
 }
