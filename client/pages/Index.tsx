@@ -30,9 +30,9 @@ export default function Index() {
             className="max-w-3xl w-full rounded-2xl border border-white/20 bg-white/10 supports-[backdrop-filter]:bg-white/10 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 md:p-10"
             style={{ opacity: "calc(0.95 - var(--progress) * 0.6)", transform: "translate3d(0, calc(var(--progress) * -40px), 0)" }}
           >
-            <h1 className="hero-serif mt-4 text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-tight text-shadow-soft">
-              <span className="gradient-text">Christian Lee</span>
-              <span className="block italic opacity-95">A place for what I’m working on and thinking about.</span>
+            <h1 className="hero-serif mt-4 text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-[-0.03em] text-shadow-soft">
+              <span className="gradient-text italic">Christian Lee</span>
+              <span className="block font-sans italic opacity-95">A place for what I’m working on and thinking about.</span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-white/80">
               Projects, notes, and ideas in progress.
