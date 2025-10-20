@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { curatedPosts, type Post } from "@/components/thoughts/data";
-import { fetchBuilderPosts } from "@/components/thoughts/api";
+import { fetchPosts } from "@/components/thoughts/api";
 
 export default function HomeThoughts() {
   const [posts, setPosts] = useState<Post[]>(curatedPosts);
   useEffect(() => {
-    fetchBuilderPosts(3).then((fromCms) => {
+    fetchPosts(3).then((fromCms) => {
       if (fromCms.length) setPosts(fromCms);
     });
   }, []);
