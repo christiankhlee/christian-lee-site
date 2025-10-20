@@ -1,9 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { curatedPosts, type Post } from "@/components/thoughts/data";
+import { fetchBuilderPosts } from "@/components/thoughts/api";
 
 export default function HomeThoughts() {
-  const recent = curatedPosts
+  const [posts, setPosts] = useState<Post[]>(curatedPosts);
+  useEffect(() => {
+    fetchBuilderPosts(3).then((fromCms) => {
+      if (fromCms.length) setPosts(fromCms);
+    });
+  }, []);
+  const recent = posts
     .slice()
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .slice(0, 3);
