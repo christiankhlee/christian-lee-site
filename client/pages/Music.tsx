@@ -118,24 +118,21 @@ export default function Music() {
       </form>
 
       <section className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.length === 0 ? (
-          <p className="text-muted-foreground">
-            No tracks yet. Paste a Spotify link above.
-          </p>
-        ) : (
-          items.map((item, idx) => (
-            <motion.article
-              key={item.id}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.03 }}
-              className="group relative overflow-hidden rounded-xl border bg-card"
-            >
-              <div className="p-3 flex items-center justify-between text-xs text-muted-foreground">
-                <span className="px-2 py-0.5 rounded bg-white/60 dark:bg-white/10 backdrop-blur">
-                  {item.type}
-                </span>
+        {display.map((item, idx) => (
+          <motion.article
+            key={item.id}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.03 }}
+            className="group relative overflow-hidden rounded-xl border bg-card"
+            style={{ rotate: idx % 3 === 0 ? -1.2 : idx % 3 === 1 ? 0.8 : -0.4 }}
+          >
+            <div className="p-3 flex items-center justify-between text-xs text-muted-foreground">
+              <span className="px-2 py-0.5 rounded bg-white/60 dark:bg-white/10 backdrop-blur">
+                {item.type}
+              </span>
+              {!isDemo && (
                 <button
                   type="button"
                   onClick={() => remove(item.id)}
@@ -143,20 +140,24 @@ export default function Music() {
                 >
                   Remove
                 </button>
-              </div>
-              <div className="px-3 pb-3">
-                <div className="rounded-[10px] bg-white p-2 shadow-sm ring-1 ring-slate-200/60 dark:ring-white/10">
-                  <div className="bg-zinc-100 rounded-[6px] overflow-hidden">
-                    <iframe
-                      title={item.ref}
-                      src={item.embedUrl}
-                      width="100%"
-                      height="152"
-                      frameBorder="0"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"
-                    />
-                  </div>
+              )}
+            </div>
+            <div className="px-3 pb-3">
+              <div className="rounded-[10px] bg-white p-2 shadow-sm ring-1 ring-slate-200/60 dark:ring-white/10">
+                <div className="bg-zinc-100 rounded-[6px] overflow-hidden">
+                  <iframe
+                    title={item.ref}
+                    src={item.embedUrl}
+                    width="100%"
+                    height="152"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                  />
+                </div>
+                {isDemo ? (
+                  <p className="mt-2 text-[12px] text-muted-foreground">{item.note}</p>
+                ) : (
                   <textarea
                     value={item.note}
                     onChange={(e) => updateNote(item.id, e.target.value)}
@@ -165,19 +166,19 @@ export default function Music() {
                     className="mt-2 w-full resize-none border-none outline-none bg-transparent text-[12px] text-muted-foreground"
                     rows={3}
                   />
-                </div>
+                )}
               </div>
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -top-3 left-6 h-8 w-16 bg-[rgba(243,244,246,0.8)] shadow-sm rounded-[2px] rotate-[-8deg] mix-blend-multiply"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(135deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 60%), repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 2px, transparent 2px, transparent 4px)",
-                }}
-              />
-            </motion.article>
-          ))
-        )}
+            </div>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -top-3 left-6 h-8 w-16 bg-[rgba(243,244,246,0.8)] shadow-sm rounded-[2px] rotate-[-8deg] mix-blend-multiply"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 60%), repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 2px, transparent 2px, transparent 4px)",
+              }}
+            />
+          </motion.article>
+        ))}
       </section>
     </div>
   );
