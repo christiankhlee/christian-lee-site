@@ -29,12 +29,12 @@ export default function Index() {
             className="max-w-3xl w-full rounded-2xl border border-white/20 bg-white/10 supports-[backdrop-filter]:bg-white/10 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 md:p-10"
             style={{ opacity: "calc(0.95 - var(--progress) * 0.6)", transform: "translate3d(0, calc(var(--progress) * -40px), 0)" }}
           >
-            <p className="text-sm uppercase tracking-widest text-white/80">Christian Lee — Personal Site</p>
             <h1 className="mt-4 text-5xl md:text-7xl font-extrabold leading-[1.05]">
-              <span className="gradient-text">Creative Developer</span> crafting dynamic, scroll-driven web experiences.
+              <span className="gradient-text">Christian Lee</span>
+              <p>A place for what I’m working on and thinking about.</p>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-white/80">
-              I build fast, beautiful interfaces that tell stories as you scroll. Explore my work and get in touch.
+              Projects, notes, and ideas in progress.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#thoughts" className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition">Thoughts</a>
@@ -67,11 +67,11 @@ export default function Index() {
           <div className="md:col-span-5">
             <h2 className="text-3xl md:text-4xl font-bold">About</h2>
             <p className="mt-4 text-muted-foreground">
-              I’m a software engineer focused on delightful product experiences. My work blends motion, performance, and accessibility.
+              I like expressing ideas through things I make. Always learning, curating, and creating along the way.
             </p>
             <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
               <li>• Frontend: React, TypeScript, Tailwind, Framer Motion</li>
-              <li>�� Backend: Node, Express</li>
+              <li>• Backend: Node, Express</li>
               <li>• Tools: Vite, Vitest</li>
             </ul>
           </div>
