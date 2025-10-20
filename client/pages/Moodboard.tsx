@@ -77,62 +77,34 @@ export default function Moodboard() {
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ffd307f7fb87e46dea122c2c8e63ad1e3",
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F596e1630048f418bbd5184ff2a292d7b",
             "https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F22cc2b4e2bcc4e459643f7e1098255cc",
-          ]).map((it, idx) => {
-            // Create overlapping effect with random transforms and z-index
-            const transforms = [
-              'rotate-1 -translate-x-2',
-              '-rotate-1 translate-x-1',
-              'rotate-2 -translate-y-1',
-              '-rotate-2 translate-y-1',
-              'rotate-1 translate-x-2',
-              '-rotate-1 -translate-x-1'
-            ];
-            const zIndexes = ['z-10', 'z-20', 'z-30', 'z-40'];
-            const margins = ['-mb-8', '-mb-6', '-mb-4', '-mb-10', '-mb-2'];
-
-            const transform = transforms[idx % transforms.length];
-            const zIndex = zIndexes[idx % zIndexes.length];
-            const margin = margins[idx % margins.length];
-
-            return typeof it === 'string' ? (
+          ]).map((it, idx) => (
+            typeof it === 'string' ? (
               <motion.figure
                 key={`demo-${idx}`}
-                initial={{ opacity: 0, y: 14, rotate: 0 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.02 }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: 0,
-                  zIndex: 50,
-                  transition: { duration: 0.2 }
-                }}
-                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 ${transform} ${zIndex} relative cursor-pointer hover:shadow-xl transition-shadow duration-200 aspect-square`}
+                className="mb-4 break-inside-avoid overflow-hidden"
               >
-                <img src={it} alt="sample" className="w-full h-full object-cover" />
+                <img src={it} alt="sample" className="w-full h-auto" />
               </motion.figure>
             ) : (
               <motion.figure
                 key={it.id ?? idx}
-                initial={{ opacity: 0, y: 14, rotate: 0 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.02 }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: 0,
-                  zIndex: 50,
-                  transition: { duration: 0.2 }
-                }}
-                className={`${margin} break-inside-avoid rounded-lg overflow-hidden ring-1 ring-slate-200/60 dark:ring-white/10 group relative ${transform} ${zIndex} cursor-pointer hover:shadow-xl transition-shadow duration-200 aspect-square`}
+                className="mb-4 break-inside-avoid overflow-hidden group relative"
               >
-                <img src={it.url} alt={it.name} className="w-full h-full object-cover" />
+                <img src={it.url} alt={it.name} className="w-full h-auto" />
                 <figcaption className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
-                  <button onClick={()=>onDelete(it.id)} className="px-2 py-1 text-xs rounded-md bg-black/60 text-white">Remove</button>
+                  <button onClick={()=>onDelete(it.id)} className="px-2 py-1 text-xs bg-black/60 text-white">Remove</button>
                 </figcaption>
               </motion.figure>
-            );
-          })}
+            )
+          ))}
         </div>
       </section>
     </div>
