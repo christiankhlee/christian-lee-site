@@ -1,11 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { curatedPosts } from "@/components/thoughts/data";
+import { fetchBuilderPosts } from "@/components/thoughts/api";
 
 export type Post = { id: string; title: string; content: string; date: string };
 
 export default function Thoughts() {
-  const sorted = curatedPosts.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  const [posts, setPosts] = useState<Post[]>(curatedPosts);
+  useEffect(() => {
+    fetchBuilderPosts(20).then((fromCms) => {
+      if (fromCms.length) setPosts(fromCms);
+    });
+  }, []);
+  const sorted = posts.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
     <div className="container py-16">
