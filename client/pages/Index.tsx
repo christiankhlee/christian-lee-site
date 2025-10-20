@@ -71,11 +71,6 @@ export default function Index() {
               I like expressing ideas through things I make. Always learning, curating, and creating along the way.
             </p>
             <Collage />
-            <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
-              <li>• Frontend: React, TypeScript, Tailwind, Framer Motion</li>
-              <li>• Backend: Node, Express</li>
-              <li>• Tools: Vite, Vitest</li>
-            </ul>
           </div>
         </div>
       </section>
