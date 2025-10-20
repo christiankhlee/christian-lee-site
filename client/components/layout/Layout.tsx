@@ -13,7 +13,11 @@ export default function Layout({ children }: PropsWithChildren) {
     <div className="min-h-screen flex flex-col">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 z-40 origin-left"
-        style={{ scaleX, background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))" }}
+        style={{
+          scaleX,
+          background:
+            "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))",
+        }}
       />
 
       <header className="fixed top-0 inset-x-0 z-30 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -24,10 +28,24 @@ export default function Layout({ children }: PropsWithChildren) {
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="/#about" className="hover:text-primary transition-colors">About</a>
-            <a href="/#thoughts" className="hover:text-primary transition-colors">Thoughts</a>
-            <a href="/music" className="hover:text-primary transition-colors">Music</a>
-            <a href="/moodboard" className="hover:text-primary transition-colors">Moodboard</a>
+            <a href="/#about" className="hover:text-primary transition-colors">
+              About
+            </a>
+            <a
+              href="/#thoughts"
+              className="hover:text-primary transition-colors"
+            >
+              Thoughts
+            </a>
+            <a href="/music" className="hover:text-primary transition-colors">
+              Music
+            </a>
+            <a
+              href="/moodboard"
+              className="hover:text-primary transition-colors"
+            >
+              Moodboard
+            </a>
             <a
               href="/#contact"
               className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
@@ -42,11 +60,29 @@ export default function Layout({ children }: PropsWithChildren) {
 
       <footer className="border-t">
         <div className="container py-8 text-sm flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground">© {new Date().getFullYear()} Christian Lee. All rights reserved.</p>
+          <p className="text-muted-foreground">
+            © {new Date().getFullYear()} Christian Lee. All rights reserved.
+          </p>
           <div className="flex items-center gap-4">
-            <a href="#contact" className="hover:text-primary transition-colors">Email</a>
-            <a href="https://github.com/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">GitHub</a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a>
+            <a href="#contact" className="hover:text-primary transition-colors">
+              Email
+            </a>
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              LinkedIn
+            </a>
           </div>
         </div>
       </footer>

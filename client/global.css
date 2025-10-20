@@ -96,22 +96,32 @@
 }
 
 @layer base {
-  * { @apply border-border; }
+  * {
+    @apply border-border;
+  }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "ss01" on, "ss02" on;
+    font-feature-settings:
+      "ss01" on,
+      "ss02" on;
   }
 
-  .hero-serif { font-family: 'Fraunces', serif; }
+  .hero-serif {
+    font-family: "Fraunces", serif;
+  }
 
   ::selection {
     background-color: hsl(var(--primary) / 0.2);
   }
 
-  :where(section){ scroll-margin-top: 80px; }
+  :where(section) {
+    scroll-margin-top: 80px;
+  }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
     overflow-wrap: anywhere;
@@ -119,12 +129,20 @@
   }
 
   pre,
-  code { overflow-x: auto; white-space: pre; }
+  code {
+    overflow-x: auto;
+    white-space: pre;
+  }
 }
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)) 50%, hsl(var(--primary)) 100%);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)),
+      hsl(var(--secondary)) 50%,
+      hsl(var(--primary)) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -133,13 +151,21 @@
   }
 
   .glow {
-    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.0);
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0);
   }
-  .text-shadow-soft { text-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+  .text-shadow-soft {
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
