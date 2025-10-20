@@ -32,7 +32,7 @@ export default function Layout({ children }: PropsWithChildren) {
               About
             </a>
             <a
-              href="/#thoughts"
+              href="/thoughts"
               className="hover:text-primary transition-colors"
             >
               Thoughts
