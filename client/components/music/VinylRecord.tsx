@@ -37,12 +37,19 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
 
   const discStyle = useMemo(() => ({
     background:
-      "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.85) 60%, #0b0e12 100%)",
+      [
+        "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.16) 0, rgba(0,0,0,0.22) 22%, rgba(8,13,20,0.92) 64%, #0a0d12 100%)",
+        "conic-gradient(from 200deg at 60% 40%, rgba(255,255,255,0.12) 0 6%, transparent 6% 100%)",
+        "radial-gradient(closest-side, rgba(120,170,220,0.15), rgba(0,0,0,0) 60%)"
+      ].join(","),
   }), []);
 
   const ringStyle = useMemo(() => ({
     background:
-      "repeating-radial-gradient(circle, rgba(255,255,255,0.08) 0 1px, transparent 1px 3px)",
+      [
+        "repeating-radial-gradient(circle, rgba(255,255,255,0.08) 0 1px, transparent 1px 3px)",
+        "radial-gradient(circle, rgba(120,180,255,0.06), rgba(255,180,120,0.04) 40%, transparent 70%)"
+      ].join(","),
   }), []);
 
   const spinClass = active && !lifting ? "spin-fast" : "spin-slow";
@@ -73,7 +80,7 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
 
       {/* needle arm */}
       <div
-        className={`pointer-events-none absolute -right-6 top-6 origin-top transition-transform duration-500 ${lifting ? "rotate-12" : active ? "-rotate-2" : "rotate-12"}`}
+        className={`pointer-events-none absolute -right-2 top-2 origin-top-right transition-transform duration-500 ${lifting ? "rotate-16" : active ? "-rotate-6" : "rotate-16"}`}
       >
         <div className="h-3 w-3 rounded-full bg-slate-500 shadow" />
         <div className="h-24 w-2 bg-gradient-to-b from-slate-400 to-slate-600" />
@@ -90,7 +97,11 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
       {active && !lifting && (
         <div className="mt-4 flex items-end justify-center gap-1 h-10" aria-hidden>
           {Array.from({ length: 24 }).map((_, i) => (
-            <span key={i} className={`w-1 rounded-full bg-cyan-400/70 dark:bg-cyan-300/70 animate-wave`} style={{ animationDelay: `${i * 60}ms` }} />
+            <span
+              key={i}
+              className={`w-1 rounded-full animate-wave ${i%5===0?"bg-sky-400/80":i%5===1?"bg-cyan-400/80":i%5===2?"bg-blue-500/80":i%5===3?"bg-indigo-400/80":"bg-emerald-400/80"}`}
+              style={{ animationDelay: `${i * 50}ms` }}
+            />
           ))}
         </div>
       )}
