@@ -7,24 +7,6 @@ export type VinylProps = {
   onSelect: () => void;
 };
 
-function Arm({ active, lifting }: { active: boolean; lifting?: boolean }) {
-  const angle = lifting ? 36 : active ? -20 : 36;
-  return (
-    <div
-      className="pointer-events-none absolute z-10"
-      style={{ right: "-32px", top: "-12px", transformOrigin: "20px 20px", transform: `rotate(${angle}deg)` }}
-      aria-hidden
-    >
-      {/* base */}
-      <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
-      {/* arm */}
-      <div className="h-28 w-1.5 bg-gradient-to-b from-slate-300 to-slate-600 mx-auto" />
-      {/* head */}
-      <div className="h-5 w-3 rounded-md bg-white shadow" />
-    </div>
-  );
-}
-
 export default function VinylRecord({ url, active, lifting = false, onSelect }: VinylProps) {
   const [thumb, setThumb] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -99,7 +81,20 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
         </div>
 
         {/* needle arm: pivoted from a fixed point near the disc's upper-right */}
-        <Arm active={active} lifting={lifting} />
+        {(() => {
+          const angle = lifting ? 36 : active ? -20 : 36;
+          return (
+            <div
+              className="pointer-events-none absolute z-10"
+              style={{ right: "-32px", top: "-12px", transformOrigin: "20px 20px", transform: `rotate(${angle}deg)` }}
+              aria-hidden
+            >
+              <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
+              <div className="h-28 w-1.5 bg-gradient-to-b from-slate-300 to-slate-600 mx-auto" />
+              <div className="h-5 w-3 rounded-md bg-white shadow" />
+            </div>
+          );
+        })()}
       </div>
 
       {/* meta */}
