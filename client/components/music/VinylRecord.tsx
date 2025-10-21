@@ -8,16 +8,19 @@ export type VinylProps = {
 };
 
 function Arm({ active, lifting }: { active: boolean; lifting?: boolean }) {
-  const angle = lifting ? 32 : active ? -22 : 32; // active brings stylus onto the outer groove
+  const angle = lifting ? 36 : active ? -20 : 36;
   return (
     <div
       className="pointer-events-none absolute z-10"
-      style={{ left: "82%", top: "10%", transformOrigin: "0 0", transform: `rotate(${angle}deg)` }}
+      style={{ right: "-32px", top: "-12px", transformOrigin: "20px 20px", transform: `rotate(${angle}deg)` }}
       aria-hidden
     >
-      <div className="h-3 w-3 rounded-full bg-slate-600 shadow" />
-      <div className="h-28 w-1.5 bg-gradient-to-b from-slate-400 to-slate-600" />
-      <div className="h-3 w-3 rounded-full bg-slate-600" />
+      {/* base */}
+      <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
+      {/* arm */}
+      <div className="h-28 w-1.5 bg-gradient-to-b from-slate-300 to-slate-600 mx-auto" />
+      {/* head */}
+      <div className="h-5 w-3 rounded-md bg-white shadow" />
     </div>
   );
 }
@@ -112,7 +115,7 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
             <span
               key={i}
               className={`w-1 rounded-full animate-wave ${i%5===0?"bg-sky-400/80":i%5===1?"bg-cyan-400/80":i%5===2?"bg-blue-500/80":i%5===3?"bg-indigo-400/80":"bg-emerald-400/80"}`}
-              style={{ animationDelay: `${i * 50}ms` }}
+              style={{ animationDelay: `${i * 50}ms`, animationPlayState: active && !lifting ? "running" : "paused" }}
             />
           ))}
         </div>
