@@ -7,6 +7,21 @@ export type VinylProps = {
   onSelect: () => void;
 };
 
+function Arm({ active, lifting }: { active: boolean; lifting?: boolean }) {
+  const angle = lifting ? 32 : active ? -22 : 32; // active brings stylus onto the outer groove
+  return (
+    <div
+      className="pointer-events-none absolute z-10"
+      style={{ left: "82%", top: "10%", transformOrigin: "0 0", transform: `rotate(${angle}deg)` }}
+      aria-hidden
+    >
+      <div className="h-3 w-3 rounded-full bg-slate-600 shadow" />
+      <div className="h-28 w-1.5 bg-gradient-to-b from-slate-400 to-slate-600" />
+      <div className="h-3 w-3 rounded-full bg-slate-600" />
+    </div>
+  );
+}
+
 export default function VinylRecord({ url, active, lifting = false, onSelect }: VinylProps) {
   const [thumb, setThumb] = useState<string>("");
   const [title, setTitle] = useState<string>("");
