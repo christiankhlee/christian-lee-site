@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import VinylRecord from "@/components/music/VinylRecord";
 import TrackRow from "@/components/music/TrackRow";
+import { Button } from "@/components/ui/button";
 
 type Item = {
   id: string;
@@ -46,7 +47,8 @@ export default function Music() {
     { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
   ];
   const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
-  const [lifting, setLifting] = useState(false);
+  const [lifting, setLifting] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
   const activeTrack = tracks.find((t) => t.id === active);
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
@@ -57,7 +59,31 @@ export default function Music() {
     setTimeout(() => {
       setActive(id);
       setLifting(false);
+      setPlaying(true);
     }, 500);
+  };
+
+  const togglePlay = () => {
+    if (playing) {
+      // park the arm
+      setLifting(true);
+      setPlaying(false);
+    } else {
+      // drop the arm
+      setLifting(false);
+      setPlaying(true);
+    }
+  };
+
+  const goNext = () => {
+    const idx = tracks.findIndex((t) => t.id === active);
+    const next = tracks[(idx + 1) % tracks.length];
+    selectTrack(next.id);
+  };
+  const goPrev = () => {
+    const idx = tracks.findIndex((t) => t.id === active);
+    const prev = tracks[(idx - 1 + tracks.length) % tracks.length];
+    selectTrack(prev.id);
   };
 
   return (
@@ -70,11 +96,28 @@ export default function Music() {
 
       <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-10">
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting} lifting={lifting} onSelect={() => {}} />
+          <div>
+            <VinylRecord url={activeTrack?.url || tracks[0].url} active={playing && !lifting} lifting={lifting} onSelect={togglePlay} />
+            <div className="mt-4 flex items-center justify-center gap-3">
+              <Button size="icon" variant="outline" onClick={goPrev} aria-label="Previous">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 6v12H5V6h2zm2 6l10 6V6L9 12z"/></svg>
+              </Button>
+              <Button size="icon" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
+                {playing ? (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                )}
+              </Button>
+              <Button size="icon" variant="outline" onClick={goNext} aria-label="Next">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 6v12h2V6h-2zM5 18l10-6L5 6v12z"/></svg>
+              </Button>
+            </div>
+          </div>
 
           <div className="space-y-2">
             {tracks.map((t) => (
-              <TrackRow key={t.id} url={t.url} active={t.id === active && !lifting} onClick={() => selectTrack(t.id)} />
+              <TrackRow key={t.id} url={t.url} active={t.id === active && playing && !lifting} onClick={() => selectTrack(t.id)} />
             ))}
           </div>
         </div>
@@ -91,6 +134,7 @@ export default function Music() {
               allowFullScreen
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             />
+            <p className="mt-2 text-xs text-muted-foreground">Note: Spotify embed controls the actual audio. The above buttons control visuals. To sync controls and waveform with audio, we must switch to the Spotify Web Playback SDK or use audio files we can access.</p>
           </div>
         )}
       </section>
