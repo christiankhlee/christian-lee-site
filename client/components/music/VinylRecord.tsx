@@ -83,7 +83,7 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
         {/* needle arm: pivoted from a fixed point near the disc's upper-right */}
         {(() => {
           // parked off -> onto record when active
-          const angle = lifting ? 42 : active ? -30 : 42;
+          const angle = lifting ? 44 : active ? -18 : 44;
           return (
             <div
               className="pointer-events-none absolute z-10"
