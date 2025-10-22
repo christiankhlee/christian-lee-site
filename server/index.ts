@@ -16,6 +16,15 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Allow Spotify embed permissions
+  app.use((req, res, next) => {
+    res.setHeader(
+      "Permissions-Policy",
+      "autoplay=(self https://open.spotify.com), encrypted-media=(self https://open.spotify.com), fullscreen=(self https://open.spotify.com), clipboard-write=(self https://open.spotify.com)"
+    );
+    next();
+  });
+
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
