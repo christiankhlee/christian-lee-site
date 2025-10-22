@@ -45,7 +45,7 @@ export default function Music() {
     { id: "curated2", url: "https://open.spotify.com/track/5eO04wLeM487N9qhPHPPoB" },
     { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
   ];
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
   const [lifting, setLifting] = useState(true); // parked off record initially
   const playerRef = useRef<HTMLDivElement>(null);
 
