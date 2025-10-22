@@ -53,6 +53,9 @@ export default function Music() {
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
 
   const selectTrack = (id: string) => {
+    // If the same track is clicked while the arm is down, keep it down
+    if (!lifting && id === active) return;
+
     if (lifting) {
       // already parked: just select and drop onto the outer groove
       setActive(id);
