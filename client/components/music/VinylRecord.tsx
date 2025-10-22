@@ -83,16 +83,18 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
         {/* needle arm: pivoted from a fixed point near the disc's upper-right */}
         {(() => {
           // parked off -> onto record when active
-          const angle = lifting ? 46 : active ? -14 : 46;
+          const angle = lifting ? 50 : active ? -28 : 50;
           return (
             <div
               className="pointer-events-none absolute z-10"
-              style={{ right: "-2px", top: "-4px", transformOrigin: "22px 22px", transform: `rotate(${angle}deg)`, transition: "transform 800ms ease-in-out" }}
+              style={{ right: "-24px", top: "-10px", transformOrigin: "26px 26px", transform: `rotate(${angle}deg)`, transition: "transform 1000ms cubic-bezier(.22,.61,.36,1)" }}
               aria-hidden
             >
-              <div className="h-9 w-9 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
-              <div className="h-28 w-1.5 bg-gradient-to-b from-slate-300 to-slate-600 mx-auto" />
-              {/* stylus aligned to sit on black disc when active */}
+              {/* pivot base */}
+              <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
+              {/* arm shaft */}
+              <div className="h-32 w-1.5 bg-gradient-to-b from-slate-300 to-slate-700 mx-auto" />
+              {/* stylus head (lands near outer groove) */}
               <div className="-mt-1.5 h-5 w-3 rounded-md bg-white shadow mx-auto" />
             </div>
           );
