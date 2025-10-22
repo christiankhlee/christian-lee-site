@@ -17,32 +17,6 @@ export default function Music() {
   const embedContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load and setup Spotify embed script
-    const loadSpotifyEmbed = () => {
-      if (!window.twttr && !document.querySelector('script[src*="open.spotify.com/embed"]')) {
-        const script = document.createElement("script");
-        script.src = "https://open.spotify.com/embed/oembed";
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    };
-
-    loadSpotifyEmbed();
-  }, []);
-
-  useEffect(() => {
-    // Trigger Spotify embed processing when track changes
-    if (track && embedContainerRef.current) {
-      setTimeout(() => {
-        // Try to reload the Spotify embed script
-        if (window.spotify) {
-          (window.spotify as any).embed?.processElement?.(embedContainerRef.current);
-        }
-      }, 100);
-    }
-  }, [track]);
-
-  useEffect(() => {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
       try {
