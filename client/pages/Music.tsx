@@ -74,15 +74,30 @@ export default function Music() {
 
         {/* Track Info and Embed */}
         {!loading && track && trackId && (
-          <div className="mt-12 w-full max-w-2xl">
-            <div className="text-center mb-6">
-              <p className="text-white/80 text-sm uppercase tracking-wider font-medium">Now Playing</p>
-              <h2 className="text-2xl font-bold text-white">{track.name}</h2>
-              <p className="text-white/70 text-lg">{track.artist}</p>
+          <div className="mt-12 w-full max-w-3xl px-4">
+            <div className="flex flex-col md:flex-row items-start gap-8 mb-8">
+              {/* Album Cover */}
+              {track.imageUrl && (
+                <div className="flex-shrink-0 mx-auto md:mx-0">
+                  <img
+                    src={track.imageUrl}
+                    alt={track.album}
+                    className="w-48 h-48 rounded-lg shadow-2xl object-cover border-4 border-white/20"
+                  />
+                </div>
+              )}
+
+              {/* Track Info */}
+              <div className="flex-1 text-center md:text-left flex flex-col justify-center">
+                <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-2">Now Playing</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{track.name}</h2>
+                <p className="text-white/70 text-xl mb-1">{track.artist}</p>
+                <p className="text-white/50 text-base">{track.album}</p>
+              </div>
             </div>
-            
+
             {/* Spotify Embed */}
-            <div className="flex justify-center px-4">
+            <div className="flex justify-center">
               <iframe
                 style={{ borderRadius: "12px" }}
                 src={`https://open.spotify.com/embed/track/${trackId}`}
