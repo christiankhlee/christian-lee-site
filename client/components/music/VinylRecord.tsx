@@ -87,7 +87,7 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
           return (
             <div
               className="pointer-events-none absolute z-10"
-              style={{ right: "8px", top: "-6px", transformOrigin: "18px 18px", transform: `rotate(${angle}deg)`, transition: "transform 700ms ease-in-out" }}
+              style={{ right: "-2px", top: "-4px", transformOrigin: "22px 22px", transform: `rotate(${angle}deg)`, transition: "transform 800ms ease-in-out" }}
               aria-hidden
             >
               <div className="h-9 w-9 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
