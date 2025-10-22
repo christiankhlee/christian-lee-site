@@ -95,12 +95,12 @@ export default function Music() {
       <div className="absolute inset-0 bg-black/30"></div>
       <div className="container py-16 max-w-6xl relative z-10">
         <header className="max-w-3xl">
-          <p className="uppercase tracking-widest text-xs text-amber-200/70">Playlist</p>
-          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-white">Music</h1>
-          <p className="mt-3 text-amber-100/80">A living shelf of songs. Pick a track below.</p>
+          <p className="uppercase tracking-widest text-xs text-white/70">Playlist</p>
+          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">Music</h1>
+          <p className="mt-3 text-white/80 drop-shadow">A living shelf of songs. Pick a track below.</p>
         </header>
 
-        <section className="mt-10 rounded-2xl border border-amber-700/40 bg-gradient-to-br from-amber-800/20 to-orange-800/20 backdrop-blur-sm p-6 md:p-10 shadow-2xl">
+        <section className="mt-10 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl p-6 md:p-10 shadow-2xl">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting && !!active} lifting={lifting} onSelect={() => {}} />
