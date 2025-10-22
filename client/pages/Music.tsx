@@ -144,12 +144,8 @@ export default function Music() {
             {/* Hidden audio player for direct playback */}
             {track.previewUrl && (
               <audio
-                ref={(el) => {
-                  if (el && playing && !el.src) {
-                    el.src = track.previewUrl;
-                    el.play().catch(err => console.error("Play error:", err));
-                  }
-                }}
+                ref={audioRef}
+                src={track.previewUrl}
                 style={{ display: "none" }}
               />
             )}
