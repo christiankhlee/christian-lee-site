@@ -45,20 +45,30 @@ export default function Music() {
     { id: "curated2", url: "https://open.spotify.com/track/5eO04wLeM487N9qhPHPPoB" },
     { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
   ];
-  const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
-  const [lifting, setLifting] = useState(true);
+  const [active, setActive] = useState<string | null>(null);
+  const [lifting, setLifting] = useState(true); // parked off record initially
   const playerRef = useRef<HTMLDivElement>(null);
 
   const activeTrack = tracks.find((t) => t.id === active);
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
 
   const selectTrack = (id: string) => {
-    setLifting(true); // lift then drop onto new track
-    setTimeout(() => setActive(id), 150);
-    setTimeout(() => {
-      setLifting(false);
-      playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 600);
+    if (lifting) {
+      // already parked: just select and drop onto the outer groove
+      setActive(id);
+      setTimeout(() => {
+        setLifting(false);
+        playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 500);
+    } else {
+      // currently on record: lift, switch, then drop
+      setLifting(true);
+      setTimeout(() => setActive(id), 150);
+      setTimeout(() => {
+        setLifting(false);
+        playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 650);
+    }
   };
 
   return (
@@ -85,6 +95,7 @@ export default function Music() {
         {/* Player */}
         {embedUrl && (
           <div ref={playerRef} className="mt-10 rounded-xl bg-white/70 dark:bg-white/5 p-3 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
+            <p className="px-2 text-xs text-muted-foreground">Press Play in the Spotify card to hear the track (autoplay is blocked by Spotify).</p>
             <iframe
               title={`player-${active}`}
               src={embedUrl}
