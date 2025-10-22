@@ -18,6 +18,21 @@ export default function Music() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Load Spotify embed script
+    const script = document.createElement("script");
+    script.src = "https://open.spotify.com/embed/oembed";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
       try {
@@ -25,7 +40,7 @@ export default function Music() {
           `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`
         );
         const data = await response.json();
-        
+
         if (data.tracks && data.tracks.length > 0) {
           setTrack(data.tracks[0]);
         }
