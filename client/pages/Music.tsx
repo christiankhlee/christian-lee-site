@@ -9,6 +9,7 @@ interface Track {
   album: string;
   imageUrl: string | null;
   externalUrl: string;
+  previewUrl: string | null;
 }
 
 export default function Music() {
