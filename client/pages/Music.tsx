@@ -82,7 +82,7 @@ export default function Music() {
         {/* Spotify Embed Card */}
         {!loading && track && trackId && (
           <div className="mt-12 w-full max-w-md">
-            <div className="bg-gradient-to-r from-red-700 to-red-600 rounded-3xl p-6 shadow-2xl">
+            <div className="rounded-3xl p-6 shadow-2xl" style={{ backgroundColor: "rgb(220, 38, 38)" }}>
               <div className="flex gap-4">
                 {/* Album Art */}
                 <div className="flex-shrink-0">
