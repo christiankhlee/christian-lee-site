@@ -123,13 +123,14 @@ export default function Music() {
             {/* Actual Spotify Embed below the card */}
             <div className="mt-6 flex justify-center">
               <iframe
+                style={{ borderRadius: "12px" }}
                 src={`https://open.spotify.com/embed/track/${trackId}`}
                 width="100%"
                 height={352}
-                frameBorder={0}
+                frameBorder="0"
+                allowFullScreen
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
-                style={{ borderRadius: "12px" }}
               />
             </div>
           </div>
