@@ -87,7 +87,7 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
           return (
             <div
               className="pointer-events-none absolute z-10"
-              style={{ right: "-24px", top: "-10px", transformOrigin: "26px 26px", transform: `rotate(${angle}deg)`, transition: "transform 1000ms cubic-bezier(.22,.61,.36,1)" }}
+              style={{ right: "-18px", top: "-8px", transformOrigin: "28px 28px", transform: `rotate(${angle}deg)`, transition: "transform 900ms cubic-bezier(.22,.61,.36,1)" }}
               aria-hidden
             >
               {/* pivot base */}
