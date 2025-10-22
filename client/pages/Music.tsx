@@ -82,8 +82,18 @@ export default function Music() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-900 via-orange-900 to-yellow-900 dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950">
-      <div className="container py-16 max-w-6xl">
+    <div
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: "url('https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F7b49f57f8a1f40329ddc44ba62656ee3?format=webp&width=1600')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed"
+      }}
+    >
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="container py-16 max-w-6xl relative z-10">
         <header className="max-w-3xl">
           <p className="uppercase tracking-widest text-xs text-amber-200/70">Playlist</p>
           <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-white">Music</h1>
