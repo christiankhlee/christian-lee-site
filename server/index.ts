@@ -20,7 +20,7 @@ export function createServer() {
   app.use((req, res, next) => {
     res.setHeader(
       "Permissions-Policy",
-      "autoplay=(self https://open.spotify.com), encrypted-media=(self https://open.spotify.com), fullscreen=(self https://open.spotify.com), clipboard-write=(self https://open.spotify.com)"
+      'autoplay=(self "https://open.spotify.com"), encrypted-media=(self "https://open.spotify.com"), fullscreen=(self "https://open.spotify.com"), clipboard-write=(self "https://open.spotify.com")'
     );
     next();
   });
