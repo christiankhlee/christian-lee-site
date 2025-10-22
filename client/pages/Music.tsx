@@ -40,11 +40,22 @@ export default function Music() {
 
   useEffect(() => {
     // Load Spotify embed script
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://open.spotify.com/embed/oembed";
-    document.body.appendChild(script);
+    if (!document.querySelector('script[src*="spotify"]')) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://open.spotify.com/embed/oembed";
+      document.body.appendChild(script);
+    }
   }, []);
+
+  useEffect(() => {
+    // When track loads, ensure iframe is in DOM and visible
+    if (track && trackId && embedContainerRef.current) {
+      // Force DOM update by triggering reflow
+      embedContainerRef.current.offsetHeight;
+      console.log("Track loaded:", track.name, trackId);
+    }
+  }, [track, trackId]);
 
   const handlePlayToggle = () => {
     setPlaying(!playing);
