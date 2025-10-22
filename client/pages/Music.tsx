@@ -1,8 +1,19 @@
 import { useState, useEffect } from "react";
 import Turntable from "@/components/music/Turntable";
 
+interface Track {
+  id: string;
+  uri: string;
+  name: string;
+  artist: string;
+  album: string;
+  imageUrl: string | null;
+}
+
 export default function Music() {
   const [playing, setPlaying] = useState(false);
+  const [track, setTrack] = useState<Track | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -11,12 +22,33 @@ export default function Music() {
     document.body.appendChild(script);
   }, []);
 
+  useEffect(() => {
+    // Search for "Undressed" by Sombr
+    const searchTrack = async () => {
+      try {
+        const response = await fetch(
+          `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`
+        );
+        const data = await response.json();
+
+        if (data.tracks && data.tracks.length > 0) {
+          setTrack(data.tracks[0]);
+        }
+      } catch (error) {
+        console.error("Failed to search track:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchTrack();
+  }, []);
+
   const handlePlayToggle = () => {
     setPlaying(!playing);
   };
 
-  // Track ID from the provided URL
-  const trackId = "0TFTAtCYhp2tQ9KcJIZb55";
+  const trackId = track?.uri.split(":").pop();
 
   return (
     <div
