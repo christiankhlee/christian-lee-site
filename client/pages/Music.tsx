@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Turntable from "@/components/music/Turntable";
 
 interface Track {
@@ -16,6 +16,7 @@ export default function Music() {
   const [playing, setPlaying] = useState(false);
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   // Load Spotify embed script once on mount
   useEffect(() => {
