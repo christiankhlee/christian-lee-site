@@ -1,13 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import VinylRecord from "@/components/music/VinylRecord";
-
 export default function Music() {
-  const [playing, setPlaying] = useState(false);
-
-  const handleVinylClick = () => {
-    setPlaying(!playing);
-  };
-
   return (
     <div
       className="min-h-screen relative overflow-hidden"
@@ -23,20 +14,10 @@ export default function Music() {
 
       {/* Content */}
       <div className="container max-w-6xl mx-auto py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
-        <header className="text-center mb-16">
+        <header className="text-center">
           <p className="uppercase tracking-widest text-xs text-white/70 mb-2">Playlist</p>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg mb-4">Music</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Music</h1>
         </header>
-
-        {/* Vinyl */}
-        <div className="mb-12">
-          <VinylRecord
-            url="https://open.spotify.com/track/7qjZnBKE73H4Oxkopwulqe"
-            active={playing}
-            lifting={!playing}
-            onSelect={handleVinylClick}
-          />
-        </div>
       </div>
     </div>
   );
