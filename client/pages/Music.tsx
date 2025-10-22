@@ -129,6 +129,19 @@ export default function Music() {
               </div>
             </div>
 
+            {/* Hidden audio player for direct playback */}
+            {track.previewUrl && (
+              <audio
+                ref={(el) => {
+                  if (el && playing && !el.src) {
+                    el.src = track.previewUrl;
+                    el.play().catch(err => console.error("Play error:", err));
+                  }
+                }}
+                style={{ display: "none" }}
+              />
+            )}
+
             {/* Actual Spotify Embed below the card */}
             <div className="mt-6 flex justify-center">
               <iframe
