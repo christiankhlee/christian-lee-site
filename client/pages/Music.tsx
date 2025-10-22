@@ -3,6 +3,12 @@ import { motion } from "framer-motion";
 import VinylRecord from "@/components/music/VinylRecord";
 import TrackRow from "@/components/music/TrackRow";
 
+export type Track = {
+  id: string;
+  url: string;
+  title: string;
+};
+
 type Item = {
   id: string;
   type: string;
@@ -12,6 +18,7 @@ type Item = {
   note: string;
 };
 const STORAGE_KEY = "spotifyEmbeds";
+
 
 function parseSpotifyUrl(input: string): Item | null {
   const trimmed = input.trim();
@@ -41,9 +48,9 @@ function parseSpotifyUrl(input: string): Item | null {
 
 export default function Music() {
   const tracks = [
-    { id: "curated1", url: "https://open.spotify.com/track/7qjZnBKE73H4Oxkopwulqe" },
-    { id: "curated2", url: "https://open.spotify.com/track/5eO04wLeM487N9qhPHPPoB" },
-    { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn" },
+    { id: "curated1", url: "https://open.spotify.com/track/7qjZnBKE73H4Oxkopwulqe", title: "back to friends" },
+    { id: "curated2", url: "https://open.spotify.com/track/5eO04wLeM487N9qhPHPPoB", title: "Gift" },
+    { id: "curated3", url: "https://open.spotify.com/track/3aQ9MHkMeL7Yu7jpyF62xn", title: "Neverender" },
   ];
   const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
   const [lifting, setLifting] = useState(true); // parked off record initially
@@ -75,14 +82,15 @@ export default function Music() {
   };
 
   return (
-    <div className="container py-16 max-w-6xl">
-      <header className="max-w-3xl">
-        <p className="uppercase tracking-widest text-xs text-muted-foreground">Playlist</p>
-        <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Music</h1>
-        <p className="mt-3 text-muted-foreground">A living shelf of songs. Pick a track below.</p>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-amber-900 via-orange-900 to-yellow-900 dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950">
+      <div className="container py-16 max-w-6xl">
+        <header className="max-w-3xl">
+          <p className="uppercase tracking-widest text-xs text-amber-200/70">Playlist</p>
+          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-white">Music</h1>
+          <p className="mt-3 text-amber-100/80">A living shelf of songs. Pick a track below.</p>
+        </header>
 
-      <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-10">
+        <section className="mt-10 rounded-2xl border border-amber-700/40 bg-gradient-to-br from-amber-800/20 to-orange-800/20 backdrop-blur-sm p-6 md:p-10 shadow-2xl">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting && !!active} lifting={lifting} onSelect={() => {}} />
@@ -94,26 +102,30 @@ export default function Music() {
             ))}
           </div>
         </div>
-      </section>
+        </section>
 
-      {/* Spotify Player - Always visible */}
-      {embedUrl && (
-        <div ref={playerRef} className="mt-8 rounded-xl bg-white/70 dark:bg-white/5 p-4 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
-          <p className="mb-3 text-sm font-medium">Now Playing</p>
-          <iframe
-            key={`player-${active}`}
-            title={`player-${active}`}
-            src={embedUrl}
-            width="100%"
-            height="352"
-            frameBorder="0"
-            loading="eager"
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            style={{ borderRadius: 12, minHeight: "352px" }}
-          />
-        </div>
-      )}
+        {/* Spotify Player - Always visible */}
+        {embedUrl && (
+          <div ref={playerRef} className="mt-8 rounded-xl bg-white/10 backdrop-blur-md p-6 ring-1 ring-amber-400/30 shadow-2xl border border-amber-600/30">
+            <div className="mb-4">
+              <p className="text-xs uppercase tracking-widest text-amber-200/70">Now Playing</p>
+              <h2 className="mt-1 text-2xl font-bold text-white">{activeTrack?.title || "Select a track"}</h2>
+            </div>
+            <iframe
+              key={`player-${active}`}
+              title={`player-${active}`}
+              src={embedUrl}
+              width="100%"
+              height="352"
+              frameBorder="0"
+              loading="eager"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              style={{ borderRadius: 12, minHeight: "352px" }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
