@@ -16,11 +16,11 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Allow Spotify embed permissions
+  // Allow Spotify embed permissions - use permissive policy
   app.use((req, res, next) => {
     res.setHeader(
       "Permissions-Policy",
-      'autoplay=(self "https://open.spotify.com"), encrypted-media=(self "https://open.spotify.com"), fullscreen=(self "https://open.spotify.com"), clipboard-write=(self "https://open.spotify.com")'
+      "autoplay=*, encrypted-media=*, fullscreen=*, clipboard-write=*"
     );
     next();
   });
