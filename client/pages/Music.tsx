@@ -94,21 +94,24 @@ export default function Music() {
             {/* Now Playing Header */}
             <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-4">Now Playing</p>
 
-            {/* Album Cover - Centered */}
-            {track.imageUrl && (
-              <div className="flex justify-center mb-4">
+            {/* Track Info with Cover Art */}
+            <div className="flex items-start gap-6 mb-6">
+              {/* Album Cover - Left */}
+              {track.imageUrl && (
                 <img
                   src={track.imageUrl}
                   alt={track.album}
-                  className="w-24 h-24 rounded-lg shadow-lg object-cover border-2 border-white/20"
+                  className="w-24 h-24 rounded-lg shadow-lg object-cover border-2 border-white/20 flex-shrink-0"
                 />
-              </div>
-            )}
+              )}
 
-            {/* Track Info */}
-            <h2 className="text-3xl font-bold text-white mb-2">{track.name}</h2>
-            <p className="text-white/70 text-lg mb-1">{track.artist}</p>
-            <p className="text-white/50 text-base mb-6">{track.album}</p>
+              {/* Track Info - Right */}
+              <div className="flex-1">
+                <h2 className="text-3xl font-bold text-white mb-2">{track.name}</h2>
+                <p className="text-white/70 text-lg mb-1">{track.artist}</p>
+                <p className="text-white/50 text-base">{track.album}</p>
+              </div>
+            </div>
 
             {/* Play Button */}
             <button
