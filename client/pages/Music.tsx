@@ -47,6 +47,7 @@ export default function Music() {
   ];
   const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
   const [lifting, setLifting] = useState(true);
+  const playerRef = useState<HTMLDivElement | null>(null)[0] as React.MutableRefObject<HTMLDivElement | null> | null;
 
   const activeTrack = tracks.find((t) => t.id === active);
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
