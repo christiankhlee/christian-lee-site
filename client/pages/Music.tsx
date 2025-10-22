@@ -1,10 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Turntable from "@/components/music/Turntable";
+
+interface Track {
+  id: string;
+  uri: string;
+  name: string;
+  artist: string;
+  album: string;
+  imageUrl: string | null;
+  previewUrl: string | null;
+  externalUrl: string;
+}
 
 export default function Music() {
   const [playing, setPlaying] = useState(false);
+  const [track, setTrack] = useState<Track | null>(null);
+  const [loading, setLoading] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    // Search for "Undressed" by Sombr
+    const searchTrack = async () => {
+      try {
+        const response = await fetch(
+          `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`
+        );
+        const data = await response.json();
+        
+        if (data.tracks && data.tracks.length > 0) {
+          setTrack(data.tracks[0]);
+        }
+      } catch (error) {
+        console.error("Failed to search track:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchTrack();
+  }, []);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    if (playing && track?.previewUrl) {
+      audioRef.current.src = track.previewUrl;
+      audioRef.current.play().catch((err) => {
+        console.error("Playback error:", err);
+        setPlaying(false);
+      });
+    } else {
+      audioRef.current.pause();
+    }
+  }, [playing, track]);
 
   const handlePlayToggle = () => {
+    if (!track?.previewUrl) {
+      console.warn("No preview available for this track");
+      return;
+    }
     setPlaying(!playing);
   };
 
@@ -28,16 +82,57 @@ export default function Music() {
           <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Music</h1>
         </header>
 
+        {/* Track Info */}
+        {track && (
+          <div className="text-center mb-8 max-w-md">
+            {track.imageUrl && (
+              <img
+                src={track.imageUrl}
+                alt={track.album}
+                className="w-32 h-32 mx-auto rounded-lg shadow-lg mb-4 object-cover"
+              />
+            )}
+            <p className="text-white/90 text-sm font-medium uppercase tracking-wider mb-2">
+              Now Playing
+            </p>
+            <h2 className="text-2xl font-bold text-white mb-1">{track.name}</h2>
+            <p className="text-white/70 text-lg">{track.artist}</p>
+            <p className="text-white/50 text-sm mt-2">{track.album}</p>
+            {!track.previewUrl && (
+              <p className="text-yellow-300 text-sm mt-4">
+                Preview not available - requires Spotify Premium
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Turntable */}
-        <Turntable spinning={playing} armDown={playing} onPlay={handlePlayToggle} />
+        <Turntable 
+          spinning={playing} 
+          armDown={playing} 
+          onPlay={handlePlayToggle}
+        />
 
         {/* Status text */}
         <div className="mt-12 text-center">
           <p className="text-white/80 drop-shadow text-lg font-medium">
-            {playing ? "Now Playing..." : "Click to Play"}
+            {loading
+              ? "Loading track..."
+              : playing
+              ? "Now Playing..."
+              : track?.previewUrl
+              ? "Click to Play"
+              : "Preview Unavailable"}
           </p>
         </div>
       </div>
+
+      {/* Hidden audio element */}
+      <audio 
+        ref={audioRef}
+        onEnded={() => setPlaying(false)}
+        crossOrigin="anonymous"
+      />
     </div>
   );
 }
