@@ -22,10 +22,15 @@ export default function Music() {
     const script = document.createElement("script");
     script.src = "https://open.spotify.com/embed/oembed";
     script.async = true;
+    script.onload = () => {
+      // Trigger Spotify embed processing after script loads
+      if (window.Spotify?.Player) {
+        console.log("Spotify embed script loaded");
+      }
+    };
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
