@@ -99,27 +99,28 @@ export default function Music() {
 
         {/* Spotify Embed */}
         {!loading && track && trackId && (
-          <div className="mt-12 w-full max-w-2xl px-4 flex flex-col items-center">
+          <div
+            ref={embedContainerRef}
+            className="mt-12 w-full max-w-2xl px-4 flex flex-col items-center"
+          >
             <div className="text-center mb-8 w-full">
               <h2 className="text-2xl font-bold text-white mb-1">{track.name}</h2>
               <p className="text-white/70">{track.artist}</p>
             </div>
 
-            <div className="w-full" style={{ minHeight: "352px" }}>
-              <iframe
-                key={trackId}
-                style={{
-                  borderRadius: "12px",
-                  display: "block",
-                  width: "100%",
-                  height: "352px"
-                }}
-                src={`https://open.spotify.com/embed/track/${trackId}`}
-                frameBorder="0"
-                allowFullScreen
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              />
-            </div>
+            <iframe
+              style={{
+                borderRadius: "12px",
+                display: "block",
+                width: "100%",
+                height: "380px",
+                border: "none"
+              }}
+              src={`https://open.spotify.com/embed/track/${trackId}`}
+              frameBorder="0"
+              allowFullScreen={true}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            />
           </div>
         )}
 
