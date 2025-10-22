@@ -75,7 +75,7 @@ export default function Music() {
   };
 
   return (
-    <div className="container py-16">
+    <div className="container py-16 max-w-6xl">
       <header className="max-w-3xl">
         <p className="uppercase tracking-widest text-xs text-muted-foreground">Playlist</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Music</h1>
@@ -83,7 +83,7 @@ export default function Music() {
       </header>
 
       <section className="mt-10 rounded-2xl border bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/20 p-6 md:p-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid md:grid-cols-2 gap-8">
           <div>
             <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting && !!active} lifting={lifting} onSelect={() => {}} />
           </div>
@@ -94,25 +94,26 @@ export default function Music() {
             ))}
           </div>
         </div>
-
-        {/* Player */}
-        {embedUrl && (
-          <div ref={playerRef} className="mt-10 rounded-xl bg-white/70 dark:bg-white/5 p-3 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
-            <p className="px-2 text-xs text-muted-foreground">Press Play in the Spotify card to hear the track (autoplay is blocked by Spotify).</p>
-            <iframe
-              title={`player-${active}`}
-              src={embedUrl}
-              width="100%"
-              height="152"
-              frameBorder="0"
-              loading="eager"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              style={{ borderRadius: 12 }}
-            />
-          </div>
-        )}
       </section>
+
+      {/* Spotify Player - Always visible */}
+      {embedUrl && (
+        <div ref={playerRef} className="mt-8 rounded-xl bg-white/70 dark:bg-white/5 p-4 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
+          <p className="mb-3 text-sm font-medium">Now Playing</p>
+          <iframe
+            key={`player-${active}`}
+            title={`player-${active}`}
+            src={embedUrl}
+            width="100%"
+            height="352"
+            frameBorder="0"
+            loading="eager"
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            style={{ borderRadius: 12, minHeight: "352px" }}
+          />
+        </div>
+      )}
     </div>
   );
 }
