@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Play } from "lucide-react";
 import Turntable from "@/components/music/Turntable";
 
 interface Track {
