@@ -26,6 +26,17 @@ export default function Music() {
     document.body.appendChild(script);
   }, []);
 
+  // Handle audio playback
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    if (playing) {
+      audioRef.current.play().catch(err => console.error("Audio play error:", err));
+    } else {
+      audioRef.current.pause();
+    }
+  }, [playing]);
+
   useEffect(() => {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
