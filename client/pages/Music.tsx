@@ -90,16 +90,18 @@ export default function Music() {
               <p className="text-white/70">{track.artist}</p>
             </div>
 
-            <div className="w-full">
-              <blockquote
-                className="spotify-embed w-full"
-                data-embed-url={`https://open.spotify.com/track/${trackId}?utm_source=generator`}
-              >
-                <a href={`https://open.spotify.com/track/${trackId}`} target="_blank" rel="noreferrer">
-                  {track.name} by {track.artist}
-                </a>
-              </blockquote>
-            </div>
+            <iframe
+              src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator`}
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowFullScreen={true}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              style={{
+                maxWidth: "100%",
+                display: "block"
+              }}
+            />
           </div>
         )}
 
