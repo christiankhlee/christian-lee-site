@@ -19,7 +19,11 @@ export default function Music() {
     const script = document.createElement("script");
     script.src = "https://open.spotify.com/embed/oembed";
     script.async = true;
-    document.body.appendChild(script);
+    script.onload = () => {
+      // Trigger re-processing of embeds
+      window.location.hash = "";
+    };
+    document.head.appendChild(script);
   }, []);
 
   useEffect(() => {
