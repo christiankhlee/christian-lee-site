@@ -82,20 +82,26 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
 
         {/* needle arm: pivoted from a fixed point near the disc's upper-right */}
         {(() => {
-          // parked off -> onto record when active
-          const angle = lifting ? 58 : active ? -36 : 58;
+          // Smooth tonearm animation: parked off (60°) -> onto groove (-25°)
+          const angle = lifting ? 60 : active ? -25 : 60;
           return (
             <div
               className="pointer-events-none absolute z-10"
-              style={{ right: "-18px", top: "-8px", transformOrigin: "28px 28px", transform: `rotate(${angle}deg)`, transition: "transform 900ms cubic-bezier(.22,.61,.36,1)" }}
+              style={{
+                right: "-16px",
+                top: "-6px",
+                transformOrigin: "26px 26px",
+                transform: `rotate(${angle}deg)`,
+                transition: "transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1)"
+              }}
               aria-hidden
             >
               {/* pivot base */}
-              <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
+              <div className="h-10 w-10 rounded-full bg-white/90 shadow-[0_8px_24px_rgba(0,0,0,0.4)]" />
               {/* arm shaft */}
-              <div className="h-32 w-1.5 bg-gradient-to-b from-slate-300 to-slate-700 mx-auto" />
-              {/* stylus head (lands near outer groove) */}
-              <div className="-mt-1.5 h-5 w-3 rounded-md bg-white shadow mx-auto" />
+              <div className="h-32 w-2 bg-gradient-to-b from-white via-slate-200 to-slate-500 mx-auto rounded" />
+              {/* stylus head */}
+              <div className="-mt-1 h-4 w-3 rounded-sm bg-white shadow-md mx-auto" />
             </div>
           );
         })()}
