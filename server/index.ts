@@ -5,6 +5,7 @@ import { handleDemo } from "./routes/demo";
 import { handleNotionPosts } from "./routes/notion";
 import { handleImportBuilder } from "./routes/import";
 import { handleSpotifyOEmbed } from "./routes/spotify";
+import { handleSpotifyToken } from "./routes/spotify-auth";
 
 export function createServer() {
   const app = express();
