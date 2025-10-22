@@ -76,24 +76,42 @@ export default function Music() {
         {/* Track Info and Embed */}
         {!loading && track && trackId && (
           <div className="mt-12 w-full max-w-3xl px-4">
-            <div className="flex flex-col md:flex-row items-start gap-8 mb-8">
-              {/* Album Cover */}
+            {/* Now Playing Header */}
+            <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-4 text-center">Now Playing</p>
+
+            {/* Track Info with Cover and Play Button */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              {/* Album Cover - Small */}
               {track.imageUrl && (
-                <div className="flex-shrink-0 mx-auto md:mx-0">
-                  <img
-                    src={track.imageUrl}
-                    alt={track.album}
-                    className="w-48 h-48 rounded-lg shadow-2xl object-cover border-4 border-white/20"
-                  />
-                </div>
+                <img
+                  src={track.imageUrl}
+                  alt={track.album}
+                  className="w-20 h-20 rounded-lg shadow-lg object-cover border-2 border-white/20 flex-shrink-0"
+                />
               )}
 
-              {/* Track Info */}
-              <div className="flex-1 text-center md:text-left flex flex-col justify-center">
-                <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-2">Now Playing</p>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{track.name}</h2>
-                <p className="text-white/70 text-xl mb-1">{track.artist}</p>
-                <p className="text-white/50 text-base">{track.album}</p>
+              {/* Track Info and Play Button */}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-white">{track.name}</h2>
+                    <p className="text-white/70 text-base">{track.artist}</p>
+                  </div>
+
+                  {/* Play Button */}
+                  <button
+                    onClick={() => setPlaying(true)}
+                    className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${
+                      playing
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-white/20 hover:bg-white/30"
+                    } text-white shadow-lg`}
+                    title={playing ? "Playing..." : "Play"}
+                  >
+                    <Play size={24} fill="currentColor" />
+                  </button>
+                </div>
+                <p className="text-white/50 text-sm">{track.album}</p>
               </div>
             </div>
 
