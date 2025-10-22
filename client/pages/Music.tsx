@@ -113,14 +113,13 @@ export default function Music() {
             <div className="flex justify-center">
               <div style={{ width: "100%", maxWidth: "600px" }}>
                 <iframe
+                  title="Spotify Player"
                   style={{ borderRadius: "12px" }}
-                  src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator`}
+                  src={`https://open.spotify.com/embed/track/${trackId}`}
                   width="100%"
-                  height="352"
-                  frameBorder="0"
-                  allowFullScreen={true}
+                  height={352}
+                  frameBorder={0}
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
                 />
               </div>
             </div>
