@@ -25,6 +25,7 @@ export function createServer() {
   app.get("/api/notion-posts", handleNotionPosts);
   app.get("/api/import-builder", (req, res) => handleImportBuilder(req, res));
   app.get("/api/spotify-oembed", (req, res) => handleSpotifyOEmbed(req, res));
+  app.post("/api/spotify-token", (req, res) => handleSpotifyToken(req, res));
 
   return app;
 }
