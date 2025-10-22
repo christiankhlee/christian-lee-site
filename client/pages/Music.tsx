@@ -16,6 +16,14 @@ export default function Music() {
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Load Spotify embed script once on mount
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://open.spotify.com/embed/oembed";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   useEffect(() => {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
