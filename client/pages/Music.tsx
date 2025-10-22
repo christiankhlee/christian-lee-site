@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import VinylRecord from "@/components/music/VinylRecord";
 import TrackRow from "@/components/music/TrackRow";
@@ -47,7 +47,7 @@ export default function Music() {
   ];
   const [active, setActive] = useState<string | null>(tracks[0]?.id ?? null);
   const [lifting, setLifting] = useState(true);
-  const playerRef = useState<HTMLDivElement | null>(null)[0] as React.MutableRefObject<HTMLDivElement | null> | null;
+  const playerRef = useRef<HTMLDivElement>(null);
 
   const activeTrack = tracks.find((t) => t.id === active);
   const embedUrl = activeTrack ? `https://open.spotify.com/embed/track/${activeTrack.url.split('/track/')[1]}` : "";
@@ -55,7 +55,10 @@ export default function Music() {
   const selectTrack = (id: string) => {
     setLifting(true); // lift then drop onto new track
     setTimeout(() => setActive(id), 150);
-    setTimeout(() => setLifting(false), 450);
+    setTimeout(() => {
+      setLifting(false);
+      playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 600);
   };
 
   return (
@@ -81,7 +84,7 @@ export default function Music() {
 
         {/* Player */}
         {embedUrl && (
-          <div className="mt-10 rounded-xl bg-white/70 dark:bg-white/5 p-3 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
+          <div ref={playerRef} className="mt-10 rounded-xl bg-white/70 dark:bg-white/5 p-3 ring-1 ring-slate-200/70 dark:ring-white/10 shadow-sm">
             <iframe
               title={`player-${active}`}
               src={embedUrl}
