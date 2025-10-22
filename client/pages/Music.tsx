@@ -59,12 +59,6 @@ export default function Music() {
     searchTrack();
   }, []);
 
-  useEffect(() => {
-    // Trigger Spotify embed processing when track changes
-    if (track && window.twttr) {
-      window.twttr.widgets.load();
-    }
-  }, [track]);
 
   const handlePlayToggle = () => {
     setPlaying(!playing);
