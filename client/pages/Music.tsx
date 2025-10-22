@@ -75,58 +75,54 @@ export default function Music() {
 
         {/* Track Info and Embed */}
         {!loading && track && trackId && (
-          <div className="mt-12 w-full max-w-3xl px-4">
+          <div className="mt-12 w-full max-w-2xl px-4 text-center">
             {/* Now Playing Header */}
-            <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-4 text-center">Now Playing</p>
+            <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-4">Now Playing</p>
 
-            {/* Track Info with Cover and Play Button */}
-            <div className="flex items-center justify-center gap-4 mb-8">
-              {/* Album Cover - Small */}
-              {track.imageUrl && (
+            {/* Album Cover - Centered */}
+            {track.imageUrl && (
+              <div className="flex justify-center mb-4">
                 <img
                   src={track.imageUrl}
                   alt={track.album}
-                  className="w-20 h-20 rounded-lg shadow-lg object-cover border-2 border-white/20 flex-shrink-0"
+                  className="w-24 h-24 rounded-lg shadow-lg object-cover border-2 border-white/20"
                 />
-              )}
-
-              {/* Track Info and Play Button */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-white">{track.name}</h2>
-                    <p className="text-white/70 text-base">{track.artist}</p>
-                  </div>
-
-                  {/* Play Button */}
-                  <button
-                    onClick={() => setPlaying(true)}
-                    className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${
-                      playing
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-white/20 hover:bg-white/30"
-                    } text-white shadow-lg`}
-                    title={playing ? "Playing..." : "Play"}
-                  >
-                    <Play size={24} fill="currentColor" />
-                  </button>
-                </div>
-                <p className="text-white/50 text-sm">{track.album}</p>
               </div>
-            </div>
+            )}
+
+            {/* Track Info */}
+            <h2 className="text-3xl font-bold text-white mb-2">{track.name}</h2>
+            <p className="text-white/70 text-lg mb-1">{track.artist}</p>
+            <p className="text-white/50 text-base mb-6">{track.album}</p>
+
+            {/* Play Button */}
+            <button
+              onClick={() => setPlaying(true)}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 mb-8 ${
+                playing
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-white/20 hover:bg-white/30"
+              } text-white shadow-lg font-medium`}
+              title={playing ? "Playing..." : "Play"}
+            >
+              <Play size={20} fill="currentColor" />
+              {playing ? "Playing..." : "Play"}
+            </button>
 
             {/* Spotify Embed */}
             <div className="flex justify-center">
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src={`https://open.spotify.com/embed/track/${trackId}`}
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              />
+              <div style={{ width: "100%", maxWidth: "600px" }}>
+                <iframe
+                  style={{ borderRadius: "12px" }}
+                  src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator`}
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
         )}
