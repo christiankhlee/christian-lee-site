@@ -78,18 +78,31 @@ export default function Music() {
         />
 
         {/* Spotify Embed */}
-        <div className="mt-12 w-full max-w-2xl px-4">
-          <iframe
-            style={{ borderRadius: "12px" }}
-            src={`https://open.spotify.com/embed/track/${trackId}`}
-            width="100%"
-            height={352}
-            frameBorder="0"
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        </div>
+        {!loading && track && trackId && (
+          <div className="mt-12 w-full max-w-2xl px-4">
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-bold text-white mb-1">{track.name}</h2>
+              <p className="text-white/70">{track.artist}</p>
+            </div>
+
+            <iframe
+              style={{ borderRadius: "12px" }}
+              src={`https://open.spotify.com/embed/track/${trackId}`}
+              width="100%"
+              height={352}
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {loading && (
+          <div className="mt-12 text-center">
+            <p className="text-white/80">Loading track...</p>
+          </div>
+        )}
       </div>
     </div>
   );
