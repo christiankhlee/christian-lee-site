@@ -136,12 +136,16 @@ export default function Music() {
             </div>
 
             {/* Spotify Embed */}
-            <div className="flex justify-center mt-4">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${trackId}" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
-                }}
-                style={{ width: "100%", maxWidth: "600px" }}
+            <div className="flex justify-center mt-6" style={{ maxWidth: "600px", margin: "0 auto" }}>
+              <iframe
+                title="Spotify Player"
+                src={`https://open.spotify.com/embed/track/${trackId}`}
+                width="100%"
+                height={352}
+                frameBorder={0}
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                style={{ borderRadius: "12px" }}
               />
             </div>
           </div>
