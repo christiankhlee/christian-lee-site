@@ -6,6 +6,7 @@ import { handleNotionPosts } from "./routes/notion";
 import { handleImportBuilder } from "./routes/import";
 import { handleSpotifyOEmbed } from "./routes/spotify";
 import { handleSpotifyToken } from "./routes/spotify-auth";
+import { handleSpotifySearch } from "./routes/spotify-search";
 
 export function createServer() {
   const app = express();
@@ -26,6 +27,7 @@ export function createServer() {
   app.get("/api/import-builder", (req, res) => handleImportBuilder(req, res));
   app.get("/api/spotify-oembed", (req, res) => handleSpotifyOEmbed(req, res));
   app.post("/api/spotify-token", (req, res) => handleSpotifyToken(req, res));
+  app.get("/api/spotify-search", (req, res) => handleSpotifySearch(req, res));
 
   return app;
 }
