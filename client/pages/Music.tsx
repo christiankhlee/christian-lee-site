@@ -38,6 +38,14 @@ export default function Music() {
     searchTrack();
   }, []);
 
+  useEffect(() => {
+    // Load Spotify embed script
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://open.spotify.com/embed/oembed";
+    document.body.appendChild(script);
+  }, []);
+
   const handlePlayToggle = () => {
     setPlaying(!playing);
   };
