@@ -107,11 +107,6 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
         })()}
       </div>
 
-      {/* meta */}
-      <div className="mt-4 text-center">
-        <p className="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</p>
-        {author && <p className="text-sm text-muted-foreground">{author}</p>}
-      </div>
 
     </div>
   );
