@@ -48,10 +48,10 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
 
       {/* Tonearm - positioned to the right */}
       <div
-        className="absolute right-0 top-12 z-10 origin-left transition-transform duration-1000"
+        className="absolute right-0 top-8 z-10 transition-transform duration-1000 ease-out"
         style={{
-          transform: armDown ? "rotate(-25deg)" : "rotate(45deg)",
-          transformOrigin: "2px 8px"
+          transform: armDown ? "rotate(-30deg)" : "rotate(55deg)",
+          transformOrigin: "0 12px"
         }}
       >
         {/* Arm base */}
