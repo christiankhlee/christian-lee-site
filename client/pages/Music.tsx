@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import VinylRecord from "@/components/music/VinylRecord";
 
 export default function Music() {
-  const [lifting, setLifting] = useState(true);
-  const [spinning, setSpinning] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   const handleVinylClick = () => {
-    setLifting(false);
-    setSpinning(true);
+    setPlaying(!playing);
   };
 
   return (
@@ -20,7 +18,7 @@ export default function Music() {
         backgroundAttachment: "fixed"
       }}
     >
-      {/* Dark overlay for text readability */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/25"></div>
 
       {/* Content */}
@@ -28,24 +26,16 @@ export default function Music() {
         <header className="text-center mb-16">
           <p className="uppercase tracking-widest text-xs text-white/70 mb-2">Playlist</p>
           <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg mb-4">Music</h1>
-          <p className="text-white/80 drop-shadow max-w-lg">Click the vinyl to play</p>
         </header>
 
         {/* Vinyl */}
         <div className="mb-12">
-          <VinylRecord 
+          <VinylRecord
             url="https://open.spotify.com/track/7qjZnBKE73H4Oxkopwulqe"
-            active={spinning}
-            lifting={lifting}
+            active={playing}
+            lifting={!playing}
             onSelect={handleVinylClick}
           />
-        </div>
-
-        {/* Instructions */}
-        <div className="text-center">
-          <p className="text-white/70 text-sm">
-            {lifting ? "Click the vinyl to drop the needle" : "Now playing"}
-          </p>
         </div>
       </div>
     </div>
