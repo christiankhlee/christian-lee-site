@@ -82,16 +82,18 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
 
         {/* needle arm: pivoted from a fixed point near the disc's upper-right */}
         {(() => {
-          const angle = lifting ? 38 : active ? -28 : 38;
+          // parked off -> onto record when active
+          const angle = lifting ? 42 : active ? -30 : 42;
           return (
             <div
               className="pointer-events-none absolute z-10"
-              style={{ right: "-10px", top: "4px", transformOrigin: "16px 16px", transform: `rotate(${angle}deg)` }}
+              style={{ right: "8px", top: "-6px", transformOrigin: "18px 18px", transform: `rotate(${angle}deg)`, transition: "transform 700ms ease-in-out" }}
               aria-hidden
             >
-              <div className="h-10 w-10 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
+              <div className="h-9 w-9 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.25)]" />
               <div className="h-28 w-1.5 bg-gradient-to-b from-slate-300 to-slate-600 mx-auto" />
-              <div className="-mt-1 h-5 w-3 rounded-md bg-white shadow mx-auto" />
+              {/* stylus aligned to sit on black disc when active */}
+              <div className="-mt-1.5 h-5 w-3 rounded-md bg-white shadow mx-auto" />
             </div>
           );
         })()}
@@ -103,18 +105,6 @@ export default function VinylRecord({ url, active, lifting = false, onSelect }: 
         {author && <p className="text-sm text-muted-foreground">{author}</p>}
       </div>
 
-      {/* subtle waveform under active record */}
-      {active && !lifting && (
-        <div className="mt-4 flex items-end justify-center gap-1 h-10" aria-hidden>
-          {Array.from({ length: 24 }).map((_, i) => (
-            <span
-              key={i}
-              className={`w-1 rounded-full animate-wave ${i%5===0?"bg-sky-400/80":i%5===1?"bg-cyan-400/80":i%5===2?"bg-blue-500/80":i%5===3?"bg-indigo-400/80":"bg-emerald-400/80"}`}
-              style={{ animationDelay: `${i * 50}ms`, animationPlayState: active && !lifting ? "running" : "paused" }}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
