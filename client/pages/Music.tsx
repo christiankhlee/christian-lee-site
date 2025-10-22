@@ -100,7 +100,7 @@ export default function Music() {
           <p className="mt-3 text-white/80 drop-shadow">A living shelf of songs. Pick a track below.</p>
         </header>
 
-        <section className="mt-10 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl p-6 md:p-10 shadow-2xl">
+        <section className="mt-10 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 md:p-10 shadow-lg">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <VinylRecord url={activeTrack?.url || tracks[0].url} active={!lifting && !!active} lifting={lifting} onSelect={() => {}} />
@@ -116,10 +116,10 @@ export default function Music() {
 
         {/* Spotify Player - Always visible */}
         {embedUrl && (
-          <div ref={playerRef} className="mt-8 rounded-xl bg-white/10 backdrop-blur-xl p-6 ring-1 ring-white/20 shadow-2xl border border-white/20">
+          <div ref={playerRef} className="mt-8 rounded-xl bg-white/5 backdrop-blur-sm p-6 border border-white/10 shadow-lg">
             <div className="mb-4">
-              <p className="text-xs uppercase tracking-widest text-white/70">Now Playing</p>
-              <h2 className="mt-1 text-2xl font-bold text-white drop-shadow">{activeTrack?.title || "Select a track"}</h2>
+              <p className="text-xs uppercase tracking-widest text-white/80">Now Playing</p>
+              <h2 className="mt-1 text-2xl font-bold text-white drop-shadow-lg">{activeTrack?.title || "Select a track"}</h2>
             </div>
             <iframe
               key={`player-${active}`}
@@ -133,6 +133,7 @@ export default function Music() {
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               style={{ borderRadius: 12, minHeight: "352px" }}
             />
+            <p className="mt-3 text-xs text-white/60">Click the Play button above to start the track.</p>
           </div>
         )}
       </div>
