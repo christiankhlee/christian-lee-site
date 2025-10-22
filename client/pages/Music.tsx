@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Turntable from "@/components/music/Turntable";
 
 interface Track {
@@ -8,7 +8,6 @@ interface Track {
   artist: string;
   album: string;
   imageUrl: string | null;
-  previewUrl: string | null;
   externalUrl: string;
 }
 
@@ -16,7 +15,6 @@ export default function Music() {
   const [playing, setPlaying] = useState(false);
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     // Search for "Undressed" by Sombr
@@ -40,27 +38,12 @@ export default function Music() {
     searchTrack();
   }, []);
 
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    if (playing && track?.previewUrl) {
-      audioRef.current.src = track.previewUrl;
-      audioRef.current.play().catch((err) => {
-        console.error("Playback error:", err);
-        setPlaying(false);
-      });
-    } else {
-      audioRef.current.pause();
-    }
-  }, [playing, track]);
-
   const handlePlayToggle = () => {
-    if (!track?.previewUrl) {
-      console.warn("No preview available for this track");
-      return;
-    }
     setPlaying(!playing);
   };
+
+  // Extract track ID from URI (format: spotify:track:ID)
+  const trackId = track?.uri.split(":").pop();
 
   return (
     <div
@@ -82,30 +65,6 @@ export default function Music() {
           <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Music</h1>
         </header>
 
-        {/* Track Info */}
-        {track && (
-          <div className="text-center mb-8 max-w-md">
-            {track.imageUrl && (
-              <img
-                src={track.imageUrl}
-                alt={track.album}
-                className="w-32 h-32 mx-auto rounded-lg shadow-lg mb-4 object-cover"
-              />
-            )}
-            <p className="text-white/90 text-sm font-medium uppercase tracking-wider mb-2">
-              Now Playing
-            </p>
-            <h2 className="text-2xl font-bold text-white mb-1">{track.name}</h2>
-            <p className="text-white/70 text-lg">{track.artist}</p>
-            <p className="text-white/50 text-sm mt-2">{track.album}</p>
-            {!track.previewUrl && (
-              <p className="text-yellow-300 text-sm mt-4">
-                Preview not available - requires Spotify Premium
-              </p>
-            )}
-          </div>
-        )}
-
         {/* Turntable */}
         <Turntable 
           spinning={playing} 
@@ -113,26 +72,37 @@ export default function Music() {
           onPlay={handlePlayToggle}
         />
 
-        {/* Status text */}
-        <div className="mt-12 text-center">
-          <p className="text-white/80 drop-shadow text-lg font-medium">
-            {loading
-              ? "Loading track..."
-              : playing
-              ? "Now Playing..."
-              : track?.previewUrl
-              ? "Click to Play"
-              : "Preview Unavailable"}
-          </p>
-        </div>
-      </div>
+        {/* Track Info and Embed */}
+        {!loading && track && trackId && (
+          <div className="mt-12 w-full max-w-2xl">
+            <div className="text-center mb-6">
+              <p className="text-white/80 text-sm uppercase tracking-wider font-medium">Now Playing</p>
+              <h2 className="text-2xl font-bold text-white">{track.name}</h2>
+              <p className="text-white/70 text-lg">{track.artist}</p>
+            </div>
+            
+            {/* Spotify Embed */}
+            <div className="flex justify-center px-4">
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src={`https://open.spotify.com/embed/track/${trackId}`}
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        )}
 
-      {/* Hidden audio element */}
-      <audio 
-        ref={audioRef}
-        onEnded={() => setPlaying(false)}
-        crossOrigin="anonymous"
-      />
+        {loading && (
+          <div className="mt-12 text-center">
+            <p className="text-white/80 drop-shadow text-lg font-medium">Loading track...</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
