@@ -114,18 +114,20 @@ export default function Music() {
             </div>
 
             {/* Play Button */}
-            <button
-              onClick={() => setPlaying(true)}
-              className={`inline-flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 mb-8 ${
-                playing
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-white/20 hover:bg-white/30"
-              } text-white shadow-lg font-medium`}
-              title={playing ? "Playing..." : "Play"}
-            >
-              <Play size={20} fill="currentColor" />
-              {playing ? "Playing..." : "Play"}
-            </button>
+            <div className="mb-8">
+              <button
+                onClick={() => setPlaying(true)}
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
+                  playing
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-white/20 hover:bg-white/30"
+                } text-white shadow-lg font-medium`}
+                title={playing ? "Playing..." : "Play"}
+              >
+                <Play size={20} fill="currentColor" />
+                {playing ? "Playing..." : "Play"}
+              </button>
+            </div>
 
             {/* Spotify Embed */}
             <div className="flex justify-center mt-4">
