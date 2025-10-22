@@ -108,19 +108,9 @@ export default function Music() {
               <p className="text-white/70">{track.artist}</p>
             </div>
 
-            <iframe
-              style={{
-                borderRadius: "12px",
-                display: "block",
-                width: "100%",
-                height: "380px",
-                border: "none"
-              }}
-              src={`https://open.spotify.com/embed/track/${trackId}`}
-              frameBorder="0"
-              allowFullScreen={true}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            />
+            <div className="w-full" dangerouslySetInnerHTML={{
+              __html: `<iframe style="border-radius: 12px; display: block; width: 100%; height: 380px; border: none;" src="https://open.spotify.com/embed/track/${trackId}" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+            }} />
           </div>
         )}
 
