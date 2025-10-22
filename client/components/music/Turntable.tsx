@@ -50,7 +50,7 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
       <div
         className="absolute right-0 top-8 z-10 transition-transform duration-1000 ease-out"
         style={{
-          transform: armDown ? "rotate(-30deg)" : "rotate(55deg)",
+          transform: armDown ? "rotate(55deg)" : "rotate(-30deg)",
           transformOrigin: "0 12px"
         }}
       >
