@@ -1,4 +1,13 @@
+import { useState } from "react";
+import Turntable from "@/components/music/Turntable";
+
 export default function Music() {
+  const [playing, setPlaying] = useState(false);
+
+  const handlePlayToggle = () => {
+    setPlaying(!playing);
+  };
+
   return (
     <div
       className="min-h-screen relative overflow-hidden"
@@ -14,10 +23,20 @@ export default function Music() {
 
       {/* Content */}
       <div className="container max-w-6xl mx-auto py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
-        <header className="text-center">
+        <header className="text-center mb-12">
           <p className="uppercase tracking-widest text-xs text-white/70 mb-2">Playlist</p>
           <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Music</h1>
         </header>
+
+        {/* Turntable */}
+        <Turntable spinning={playing} armDown={playing} onPlay={handlePlayToggle} />
+
+        {/* Status text */}
+        <div className="mt-12 text-center">
+          <p className="text-white/80 drop-shadow text-lg font-medium">
+            {playing ? "Now Playing..." : "Click to Play"}
+          </p>
+        </div>
       </div>
     </div>
   );
