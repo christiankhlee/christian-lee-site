@@ -116,10 +116,10 @@ export default function Music() {
 
         {/* Spotify Player - Always visible */}
         {embedUrl && (
-          <div ref={playerRef} className="mt-8 rounded-xl bg-white/10 backdrop-blur-md p-6 ring-1 ring-amber-400/30 shadow-2xl border border-amber-600/30">
+          <div ref={playerRef} className="mt-8 rounded-xl bg-white/10 backdrop-blur-xl p-6 ring-1 ring-white/20 shadow-2xl border border-white/20">
             <div className="mb-4">
-              <p className="text-xs uppercase tracking-widest text-amber-200/70">Now Playing</p>
-              <h2 className="mt-1 text-2xl font-bold text-white">{activeTrack?.title || "Select a track"}</h2>
+              <p className="text-xs uppercase tracking-widest text-white/70">Now Playing</p>
+              <h2 className="mt-1 text-2xl font-bold text-white drop-shadow">{activeTrack?.title || "Select a track"}</h2>
             </div>
             <iframe
               key={`player-${active}`}
