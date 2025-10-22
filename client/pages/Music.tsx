@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { Play } from "lucide-react";
-import Turntable from "@/components/music/Turntable";
 
 interface Track {
   id: string;
@@ -9,33 +7,11 @@ interface Track {
   artist: string;
   album: string;
   imageUrl: string | null;
-  externalUrl: string;
 }
 
 export default function Music() {
-  const [playing, setPlaying] = useState(false);
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Load Spotify embed script
-    const script = document.createElement("script");
-    script.src = "https://open.spotify.com/embed/oembed";
-    script.async = true;
-    script.onload = () => {
-      // Trigger Spotify embed processing after script loads
-      if (window.Spotify?.Player) {
-        console.log("Spotify embed script loaded");
-      }
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     // Search for "Undressed" by Sombr
@@ -45,7 +21,7 @@ export default function Music() {
           `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`
         );
         const data = await response.json();
-
+        
         if (data.tracks && data.tracks.length > 0) {
           setTrack(data.tracks[0]);
         }
@@ -59,86 +35,24 @@ export default function Music() {
     searchTrack();
   }, []);
 
-
-  const handlePlayToggle = () => {
-    setPlaying(!playing);
-  };
-
-  // Extract track ID from URI (format: spotify:track:ID)
   const trackId = track?.uri.split(":").pop();
 
   return (
-    <div
-      className="min-h-screen relative overflow-hidden"
-      style={{
-        backgroundImage: "url('https://cdn.builder.io/api/v1/image/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F7b49f57f8a1f40329ddc44ba62656ee3?format=webp&width=1600')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed"
-      }}
-    >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/25"></div>
-
-      {/* Content */}
-      <div className="container max-w-6xl mx-auto py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
-        <header className="text-center mb-12">
-          <p className="uppercase tracking-widest text-xs text-white/70 mb-2">Playlist</p>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Music</h1>
-        </header>
-
-        {/* Turntable */}
-        <Turntable 
-          spinning={playing} 
-          armDown={playing} 
-          onPlay={handlePlayToggle}
-        />
-
-        {/* Track Info and Embed */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-6">
+      <div className="w-full max-w-2xl">
+        <h1 className="text-4xl font-bold text-white mb-8 text-center">Spotify Embed Test</h1>
+        
         {!loading && track && trackId && (
-          <div className="mt-12 w-full max-w-2xl px-4 text-center">
-            {/* Now Playing Header */}
-            <p className="text-white/80 text-sm uppercase tracking-wider font-medium mb-6">Now Playing</p>
-
-            {/* Track Info with Cover Art - Centered */}
-            <div className="flex items-center justify-center gap-6 mb-8">
-              {/* Album Cover - Left */}
-              {track.imageUrl && (
-                <img
-                  src={track.imageUrl}
-                  alt={track.album}
-                  className="w-28 h-28 rounded-lg shadow-lg object-cover border-2 border-white/20 flex-shrink-0"
-                />
-              )}
-
-              {/* Track Info - Right, Centered Vertically */}
-              <div className="flex flex-col justify-center">
-                <h2 className="text-3xl font-bold text-white mb-2">{track.name}</h2>
-                <p className="text-white/70 text-lg mb-1">{track.artist}</p>
-                <p className="text-white/50 text-base">{track.album}</p>
-              </div>
+          <div className="space-y-6">
+            <div className="text-center">
+              <p className="text-white/70 text-sm uppercase tracking-wider mb-2">Now Playing</p>
+              <h2 className="text-2xl font-bold text-white">{track.name}</h2>
+              <p className="text-white/50">{track.artist}</p>
             </div>
 
-            {/* Play Button */}
-            <div className="mb-8">
-              <button
-                onClick={() => setPlaying(true)}
-                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
-                  playing
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-white/20 hover:bg-white/30"
-                } text-white shadow-lg font-medium`}
-                title={playing ? "Playing..." : "Play"}
-              >
-                <Play size={20} fill="currentColor" />
-                {playing ? "Playing..." : "Play"}
-              </button>
-            </div>
-
-            {/* Spotify Embed */}
-            <div className="flex justify-center mt-6" style={{ maxWidth: "600px", margin: "0 auto" }}>
+            {/* Simple Spotify Embed */}
+            <div className="flex justify-center">
               <iframe
-                title="Spotify Player"
                 src={`https://open.spotify.com/embed/track/${trackId}`}
                 width="100%"
                 height={352}
@@ -148,13 +62,15 @@ export default function Music() {
                 style={{ borderRadius: "12px" }}
               />
             </div>
+
+            <div className="text-center text-white/50 text-sm">
+              <p>Click the play button in the Spotify player above to hear the audio.</p>
+            </div>
           </div>
         )}
 
         {loading && (
-          <div className="mt-12 text-center">
-            <p className="text-white/80 drop-shadow text-lg font-medium">Loading track...</p>
-          </div>
+          <div className="text-center text-white/70">Loading...</div>
         )}
       </div>
     </div>
