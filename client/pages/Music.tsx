@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Turntable from "@/components/music/Turntable";
 
 interface Track {
