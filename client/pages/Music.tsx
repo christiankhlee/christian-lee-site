@@ -37,7 +37,29 @@ export default function Music() {
       </video>
 
       {/* Content wrapper */}
-      <div className="relative z-10" />
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
+        {/* Music info card */}
+        <div className="max-w-2xl text-center">
+          {/* Title */}
+          <h1 className="text-6xl md:text-7xl font-bold text-white mb-4 drop-shadow-lg">
+            Undressed
+          </h1>
+
+          {/* Artist */}
+          <p className="text-2xl md:text-3xl text-white/90 mb-8 drop-shadow-lg">
+            by Sombr
+          </p>
+
+          {/* Caption/Blurb */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20">
+            <p className="text-lg text-white/80 leading-relaxed">
+              A captivating track that blends emotive vocals with ambient production.
+              This song captures the essence of vulnerability and raw emotion, inviting
+              listeners into an intimate musical experience.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Hidden audio player */}
       <audio
