@@ -1,14 +1,16 @@
-import { PropsWithChildren } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { PropsWithChildren, useState, useEffect } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function Layout({ children }: PropsWithChildren) {
   const { scrollYProgress, scrollY } = useScroll();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Transform scroll progress to header states (smooth transition over 200px)
-  const headerWidth = useTransform(scrollY, [0, 200], ["100%", "auto"]);
-  const headerX = useTransform(scrollY, [0, 200], [0, -50]);
-  const headerBorderRadius = useTransform(scrollY, [0, 200], [0, 9999]);
-  const headerTop = useTransform(scrollY, [0, 200], [0, 16]);
+  useEffect(() => {
+    const unsubscribe = scrollY.onChange((latest) => {
+      setIsScrolled(latest > 100);
+    });
+    return () => unsubscribe();
+  }, [scrollY]);
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
