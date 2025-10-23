@@ -4,11 +4,11 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 export default function Layout({ children }: PropsWithChildren) {
   const { scrollYProgress, scrollY } = useScroll();
 
-  // Transform scroll progress to header states
-  const headerScale = useTransform(scrollY, [0, 100], [1, 0]);
-  const headerX = useTransform(scrollY, [0, 100], [0, -50]);
-  const headerBorderRadius = useTransform(scrollY, [0, 100], [0, 9999]);
-  const headerPadding = useTransform(scrollY, [0, 100], [0, 6]);
+  // Transform scroll progress to header states (smooth transition over 200px)
+  const headerWidth = useTransform(scrollY, [0, 200], ["100%", "auto"]);
+  const headerX = useTransform(scrollY, [0, 200], [0, -50]);
+  const headerBorderRadius = useTransform(scrollY, [0, 200], [0, 9999]);
+  const headerTop = useTransform(scrollY, [0, 200], [0, 16]);
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
