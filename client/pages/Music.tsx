@@ -137,47 +137,45 @@ export default function Music() {
               <p className="text-white/70">{track.artist}</p>
             </div>
 
-            <div className="flex flex-col items-center gap-6">
-              {track.imageUrl && (
-                <div className="relative group">
-                  <img
-                    src={track.imageUrl}
-                    alt={track.name}
-                    className="w-32 h-32 rounded-lg shadow-lg object-cover"
-                  />
-                  <button
-                    onClick={handlePlayToggle}
-                    className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
-                      {playing ? (
-                        <svg className="w-5 h-5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                          <rect x="6" y="4" width="4" height="16" />
-                          <rect x="14" y="4" width="4" height="16" />
-                        </svg>
-                      ) : (
-                        <svg className="w-5 h-5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      )}
-                    </div>
-                  </button>
-                </div>
-              )}
+            {track.imageUrl && (
+              <div className="relative group">
+                <img
+                  src={track.imageUrl}
+                  alt={track.name}
+                  className="w-40 h-40 rounded-xl shadow-2xl object-cover"
+                />
+                <button
+                  onClick={handlePlayToggle}
+                  className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/0 group-hover:bg-black/40 transition-colors duration-200"
+                >
+                  <div className="w-16 h-16 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg">
+                    {playing ? (
+                      <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                        <rect x="6" y="4" width="4" height="16" />
+                        <rect x="14" y="4" width="4" height="16" />
+                      </svg>
+                    ) : (
+                      <svg className="w-6 h-6 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+              </div>
+            )}
 
-              {/* SoundCloud widget for audio */}
-              <iframe
-                ref={iframeRef}
-                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
-                width="320"
-                height="86"
-                frameBorder="no"
-                allow="autoplay"
-                style={{
-                  borderRadius: "12px"
-                }}
-              />
-            </div>
+            {/* Hidden SoundCloud widget for audio control */}
+            <iframe
+              ref={iframeRef}
+              src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
+              width="0"
+              height="0"
+              frameBorder="no"
+              allow="autoplay"
+              style={{
+                display: "none"
+              }}
+            />
           </div>
         )}
 
