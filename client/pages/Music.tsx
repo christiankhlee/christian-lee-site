@@ -72,21 +72,25 @@ export default function Music() {
 
         widget.bind(window.SC.Widget.Events.READY, () => {
           console.log("SoundCloud Widget ready");
-          
-          widget.bind(window.SC.Widget.Events.PLAY, () => {
+
+          const handlePlay = () => {
             console.log("Track playing");
             setPlaying(true);
-          });
+          };
 
-          widget.bind(window.SC.Widget.Events.PAUSE, () => {
+          const handlePause = () => {
             console.log("Track paused");
             setPlaying(false);
-          });
+          };
 
-          widget.bind(window.SC.Widget.Events.FINISH, () => {
+          const handleFinish = () => {
             console.log("Track finished");
             setPlaying(false);
-          });
+          };
+
+          widget.bind(window.SC.Widget.Events.PLAY, handlePlay);
+          widget.bind(window.SC.Widget.Events.PAUSE, handlePause);
+          widget.bind(window.SC.Widget.Events.FINISH, handleFinish);
 
           widget.bind(window.SC.Widget.Events.ERROR, (error: any) => {
             console.error("SoundCloud Widget error:", error);
@@ -96,6 +100,18 @@ export default function Music() {
         console.error("Failed to initialize SoundCloud widget:", error);
       }
     }
+
+    return () => {
+      if (widgetRef.current) {
+        try {
+          widgetRef.current.unbind(window.SC.Widget.Events.PLAY);
+          widgetRef.current.unbind(window.SC.Widget.Events.PAUSE);
+          widgetRef.current.unbind(window.SC.Widget.Events.FINISH);
+        } catch (e) {
+          console.error("Error unbinding widget events:", e);
+        }
+      }
+    };
   }, []);
 
   const handlePlayToggle = () => {
