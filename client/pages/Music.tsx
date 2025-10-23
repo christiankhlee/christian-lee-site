@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Turntable from "@/components/music/Turntable";
+import VinylPlayer from "@/components/music/VinylPlayer";
 
 interface Track {
   id: string;
@@ -21,12 +21,16 @@ export default function Music() {
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const widgetRef = useRef<any>(null);
   const soundcloudUrl = "https://soundcloud.com/sombrsongs/undressed";
 
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://w.soundcloud.com/player/api.js";
     script.async = true;
+    script.onload = () => {
+      console.log("SoundCloud Widget API loaded");
+    };
     document.body.appendChild(script);
 
     return () => {
@@ -62,53 +66,107 @@ export default function Music() {
 
   useEffect(() => {
     if (iframeRef.current && window.SC) {
-      const widget = window.SC.Widget(iframeRef.current);
+      try {
+        const widget = window.SC.Widget(iframeRef.current);
+        widgetRef.current = widget;
 
-      widget.bind(window.SC.Widget.Events.READY, () => {
-        widget.bind(window.SC.Widget.Events.PLAY, () => {
-          setPlaying(true);
-        });
+        widget.bind(window.SC.Widget.Events.READY, () => {
+          console.log("SoundCloud Widget ready");
+          
+          widget.bind(window.SC.Widget.Events.PLAY, () => {
+            console.log("Track playing");
+            setPlaying(true);
+          });
 
-        widget.bind(window.SC.Widget.Events.PAUSE, () => {
-          setPlaying(false);
-        });
+          widget.bind(window.SC.Widget.Events.PAUSE, () => {
+            console.log("Track paused");
+            setPlaying(false);
+          });
 
-        widget.bind(window.SC.Widget.Events.FINISH, () => {
-          setPlaying(false);
+          widget.bind(window.SC.Widget.Events.FINISH, () => {
+            console.log("Track finished");
+            setPlaying(false);
+          });
+
+          widget.bind(window.SC.Widget.Events.ERROR, (error: any) => {
+            console.error("SoundCloud Widget error:", error);
+          });
         });
-      });
+      } catch (error) {
+        console.error("Failed to initialize SoundCloud widget:", error);
+      }
     }
   }, []);
 
-  useEffect(() => {
-    if (iframeRef.current && window.SC) {
-      const widget = window.SC.Widget(iframeRef.current);
-
-      if (playing) {
-        widget.play();
-      } else {
-        widget.pause();
-      }
-    }
-  }, [playing]);
-
   const handlePlayToggle = () => {
-    setPlaying(!playing);
+    if (widgetRef.current) {
+      try {
+        if (playing) {
+          widgetRef.current.pause();
+        } else {
+          widgetRef.current.play();
+        }
+      } catch (error) {
+        console.error("Error toggling playback:", error);
+        setPlaying(!playing);
+      }
+    } else {
+      setPlaying(!playing);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 relative overflow-hidden">
-      {/* Ambient background elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-slate-700/10 rounded-full blur-3xl" />
+      {/* Animated gradient background */}
+      <div className="absolute inset-0">
+        {/* Primary ambient blob */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl animate-pulse"
+          style={{
+            animation: "float 8s ease-in-out infinite"
+          }}
+        />
+        
+        {/* Secondary ambient blob */}
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl animate-pulse"
+          style={{
+            animation: "float 10s ease-in-out infinite 2s"
+          }}
+        />
+        
+        {/* Tertiary ambient blob */}
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-slate-700/10 rounded-full blur-3xl"
+          style={{
+            animation: "float 12s ease-in-out infinite 4s"
+          }}
+        />
+
+        {/* Additional floating particles */}
+        <div className="absolute w-2 h-2 bg-amber-400/40 rounded-full top-1/4 left-1/3 blur-sm"
+          style={{
+            animation: "float-slow 15s ease-in-out infinite"
+          }}
+        />
+        <div className="absolute w-1.5 h-1.5 bg-amber-300/30 rounded-full top-1/3 right-1/4 blur-sm"
+          style={{
+            animation: "float-slow 20s ease-in-out infinite 3s"
+          }}
+        />
+        <div className="absolute w-2 h-2 bg-amber-500/20 rounded-full bottom-1/3 left-1/2 blur-sm"
+          style={{
+            animation: "float-slow 18s ease-in-out infinite 6s"
+          }}
+        />
+
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/5 to-amber-950/10" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
         {/* Header section */}
-        <div className="text-center mb-16 max-w-2xl">
+        <div className="text-center mb-12 max-w-2xl">
           <div className="inline-block">
-            <p className="uppercase tracking-widest text-xs text-amber-400/60 font-semibold mb-4">
+            <p className="uppercase tracking-widest text-xs text-amber-400/70 font-semibold mb-4 animate-pulse">
               Now Playing
             </p>
           </div>
@@ -123,11 +181,15 @@ export default function Music() {
         {/* Main player card */}
         <div className="w-full max-w-2xl">
           {!loading && track ? (
-            <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl hover:shadow-amber-500/20 transition-shadow duration-300">
-              {/* Turntable section */}
-              <div className="flex justify-center mb-10">
-                <div className="drop-shadow-2xl transition-transform duration-300 hover:scale-105">
-                  <Turntable 
+            <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl hover:shadow-amber-500/20 transition-all duration-500"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(251,191,36,0.02) 100%)"
+              }}
+            >
+              {/* Vinyl player section */}
+              <div className="flex justify-center mb-8">
+                <div className="drop-shadow-2xl transition-all duration-300 hover:drop-shadow-amber-500/50">
+                  <VinylPlayer 
                     spinning={playing} 
                     armDown={playing} 
                     onPlay={handlePlayToggle}
@@ -202,8 +264,7 @@ export default function Music() {
                       frameBorder="no"
                       allow="autoplay"
                       style={{
-                        borderRadius: "12px",
-                        filter: "brightness(0.95)"
+                        borderRadius: "12px"
                       }}
                     />
                   </div>
@@ -223,6 +284,19 @@ export default function Music() {
           <p>🎵 Crafted with care • Powered by SoundCloud</p>
         </div>
       </div>
+
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          33% { transform: translateY(-30px) translateX(10px); }
+          66% { transform: translateY(20px) translateX(-10px); }
+        }
+
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+          50% { transform: translateY(-50px) translateX(20px); opacity: 0.6; }
+        }
+      `}</style>
     </div>
   );
 }
