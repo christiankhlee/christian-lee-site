@@ -29,13 +29,14 @@ export default function Layout({ children }: PropsWithChildren) {
         }}
       />
 
-      <header className={`fixed z-30 transition-all duration-300 ${
-        isScrolled
-          ? "top-4 left-1/2 -translate-x-1/2 rounded-full"
-          : "top-0 inset-x-0 rounded-none"
-      }`}
+      <header className="fixed z-30 transition-all duration-300 top-0 left-0 right-0"
       style={{
+        top: isScrolled ? "1rem" : "0",
+        left: isScrolled ? "50%" : "0",
+        right: isScrolled ? "auto" : "0",
+        transform: isScrolled ? "translateX(-50%)" : "translateX(0)",
         width: isScrolled ? "auto" : "100%",
+        borderRadius: isScrolled ? "9999px" : "0",
         background: isScrolled
           ? "rgba(255, 255, 255, 0.1)"
           : "rgba(255, 255, 255, 0.05)",
