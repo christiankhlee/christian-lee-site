@@ -28,7 +28,9 @@ export default function Music() {
         playsInline
         style={{
           zIndex: 0,
-          bottom: "10px"
+          bottom: "10px",
+          WebkitFontSmoothing: "antialiased",
+          backfaceVisibility: "hidden"
         }}
       >
         <source
