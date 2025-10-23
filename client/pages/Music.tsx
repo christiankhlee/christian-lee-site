@@ -116,185 +116,255 @@ export default function Music() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 relative overflow-hidden">
-      {/* Animated gradient background */}
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      {/* Fireplace background */}
       <div className="absolute inset-0">
-        {/* Primary ambient blob */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl animate-pulse"
-          style={{
-            animation: "float 8s ease-in-out infinite"
-          }}
-        />
+        {/* Base warm gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-amber-950 via-orange-900 to-red-950" />
         
-        {/* Secondary ambient blob */}
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl animate-pulse"
+        {/* Fireplace glow base */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-2/3 bg-gradient-to-t from-orange-700 via-red-800 to-transparent opacity-60" />
+
+        {/* Animated flame #1 */}
+        <div className="absolute bottom-0 left-1/4 w-64 h-96 opacity-40"
           style={{
-            animation: "float 10s ease-in-out infinite 2s"
-          }}
-        />
-        
-        {/* Tertiary ambient blob */}
-        <div className="absolute top-1/2 right-0 w-80 h-80 bg-slate-700/10 rounded-full blur-3xl"
-          style={{
-            animation: "float 12s ease-in-out infinite 4s"
+            background: "radial-gradient(ellipse at 50% 0%, rgba(255,100,0,0.8) 0%, rgba(255,150,0,0.4) 25%, transparent 70%)",
+            animation: "flame1 4s ease-in-out infinite"
           }}
         />
 
-        {/* Additional floating particles */}
-        <div className="absolute w-2 h-2 bg-amber-400/40 rounded-full top-1/4 left-1/3 blur-sm"
+        {/* Animated flame #2 */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-80 opacity-35"
           style={{
-            animation: "float-slow 15s ease-in-out infinite"
-          }}
-        />
-        <div className="absolute w-1.5 h-1.5 bg-amber-300/30 rounded-full top-1/3 right-1/4 blur-sm"
-          style={{
-            animation: "float-slow 20s ease-in-out infinite 3s"
-          }}
-        />
-        <div className="absolute w-2 h-2 bg-amber-500/20 rounded-full bottom-1/3 left-1/2 blur-sm"
-          style={{
-            animation: "float-slow 18s ease-in-out infinite 6s"
+            background: "radial-gradient(ellipse at 50% 0%, rgba(255,60,0,0.7) 0%, rgba(255,120,0,0.3) 30%, transparent 75%)",
+            animation: "flame2 5s ease-in-out infinite 0.5s"
           }}
         />
 
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/5 to-amber-950/10" />
+        {/* Animated flame #3 */}
+        <div className="absolute bottom-0 right-1/4 w-72 h-80 opacity-35"
+          style={{
+            background: "radial-gradient(ellipse at 50% 0%, rgba(255,150,0,0.6) 0%, rgba(255,100,0,0.25) 35%, transparent 70%)",
+            animation: "flame3 4.5s ease-in-out infinite 1s"
+          }}
+        />
+
+        {/* Floating embers - small particles */}
+        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full bottom-1/3 left-1/3 opacity-60"
+          style={{
+            animation: "ember 3s ease-out infinite"
+          }}
+        />
+        <div className="absolute w-1.5 h-1.5 bg-orange-300 rounded-full bottom-1/4 left-2/3 opacity-50"
+          style={{
+            animation: "ember 3.5s ease-out infinite 0.7s"
+          }}
+        />
+        <div className="absolute w-1 h-1 bg-yellow-400 rounded-full bottom-2/5 right-1/4 opacity-70"
+          style={{
+            animation: "ember 2.8s ease-out infinite 1.4s"
+          }}
+        />
+        <div className="absolute w-1.5 h-1.5 bg-orange-400 rounded-full bottom-1/3 left-1/2 opacity-55"
+          style={{
+            animation: "ember 3.2s ease-out infinite 2.1s"
+          }}
+        />
+
+        {/* Warm light rays */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-1/4 w-80 h-80 bg-orange-500/8 rounded-full blur-3xl" />
+        </div>
+
+        {/* Soft vignette overlay */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/40" style={{
+          background: "radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)"
+        }} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        {/* Header section */}
-        <div className="text-center mb-12 max-w-2xl">
-          <div className="inline-block">
-            <p className="uppercase tracking-widest text-xs text-amber-400/70 font-semibold mb-4 animate-pulse">
-              Now Playing
-            </p>
-          </div>
-          <h1 className="text-6xl md:text-7xl font-black text-white mb-4 drop-shadow-lg">
-            Music
-          </h1>
-          <p className="text-slate-400 text-lg font-light">
-            Discover the stories behind the tracks
-          </p>
-        </div>
-
-        {/* Main player card */}
-        <div className="w-full max-w-2xl">
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+        {/* Main player container - horizontal layout */}
+        <div className="w-full max-w-5xl">
           {!loading && track ? (
-            <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl hover:shadow-amber-500/20 transition-all duration-500"
+            <div className="backdrop-blur-xl bg-white/5 border border-white/15 rounded-3xl p-8 md:p-12 shadow-2xl hover:shadow-amber-600/30 transition-all duration-500"
               style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(251,191,36,0.02) 100%)"
+                background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(251,146,60,0.04) 100%)"
               }}
             >
-              {/* Vinyl player section */}
-              <div className="flex justify-center mb-8">
-                <div className="drop-shadow-2xl transition-all duration-300 hover:drop-shadow-amber-500/50">
-                  <VinylPlayer 
-                    spinning={playing} 
-                    armDown={playing} 
-                    onPlay={handlePlayToggle}
-                  />
-                </div>
-              </div>
-
-              {/* Track info section */}
-              <div className="text-center mb-8 space-y-2">
-                <p className="text-amber-400/80 text-sm font-semibold uppercase tracking-widest">
-                  {track.album}
-                </p>
-                <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                  {track.name}
-                </h2>
-                <p className="text-slate-300 text-lg">
-                  {track.artist}
-                </p>
-              </div>
-
-              {/* Album art display */}
-              {track.imageUrl && (
-                <div className="flex justify-center mb-10">
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
-                    <img
-                      src={track.imageUrl}
-                      alt={track.name}
-                      className="relative w-48 h-48 rounded-2xl shadow-2xl object-cover"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Play button */}
-              <div className="flex justify-center mb-8">
-                <button
-                  onClick={handlePlayToggle}
-                  className="group relative"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse" />
-                  <div className="relative px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full flex items-center justify-center gap-3 font-semibold text-slate-950 hover:gap-4 transition-all duration-200 shadow-lg">
-                    {playing ? (
-                      <>
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                          <rect x="6" y="4" width="4" height="16" />
-                          <rect x="14" y="4" width="4" height="16" />
-                        </svg>
-                        <span>Pause</span>
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                        <span>Play</span>
-                      </>
-                    )}
-                  </div>
-                </button>
-              </div>
-
-              {/* SoundCloud player */}
-              <div className="border-t border-white/10 pt-8">
+              {/* Horizontal layout: Vinyl left, Info right */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                {/* Left side - Vinyl Player */}
                 <div className="flex justify-center">
-                  <div className="w-full max-w-sm">
-                    <iframe
-                      ref={iframeRef}
-                      src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23fbbf24&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
-                      width="100%"
-                      height="120"
-                      frameBorder="no"
-                      allow="autoplay"
-                      style={{
-                        borderRadius: "12px"
-                      }}
+                  <div className="drop-shadow-2xl transition-all duration-300 hover:drop-shadow-orange-600/40">
+                    <VinylPlayer 
+                      spinning={playing} 
+                      armDown={playing} 
+                      onPlay={handlePlayToggle}
                     />
+                  </div>
+                </div>
+
+                {/* Right side - Track Info */}
+                <div className="flex flex-col justify-center space-y-6">
+                  {/* Track info section */}
+                  <div className="space-y-3">
+                    <p className="text-orange-400/80 text-sm font-semibold uppercase tracking-widest">
+                      Now Playing
+                    </p>
+                    <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+                      {track.name}
+                    </h2>
+                    <p className="text-slate-300 text-xl">
+                      {track.artist}
+                    </p>
+                    <p className="text-slate-400 text-sm">
+                      {track.album}
+                    </p>
+                  </div>
+
+                  {/* Album art display */}
+                  {track.imageUrl && (
+                    <div className="flex justify-start">
+                      <div className="relative group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
+                        <img
+                          src={track.imageUrl}
+                          alt={track.name}
+                          className="relative w-40 h-40 rounded-xl shadow-2xl object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Play button */}
+                  <div className="flex items-center gap-4 pt-4">
+                    <button
+                      onClick={handlePlayToggle}
+                      className="group relative"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse" />
+                      <div className="relative px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center gap-3 font-semibold text-white hover:gap-4 transition-all duration-200 shadow-lg">
+                        {playing ? (
+                          <>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                              <rect x="6" y="4" width="4" height="16" />
+                              <rect x="14" y="4" width="4" height="16" />
+                            </svg>
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                            <span>Play</span>
+                          </>
+                        )}
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* SoundCloud player */}
+                  <div className="pt-4 border-t border-white/10">
+                    <div className="w-full">
+                      <iframe
+                        ref={iframeRef}
+                        src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff6b35&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
+                        width="100%"
+                        height="120"
+                        frameBorder="no"
+                        allow="autoplay"
+                        style={{
+                          borderRadius: "12px"
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-3xl p-12 shadow-2xl flex flex-col items-center justify-center min-h-96">
-              <div className="w-12 h-12 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin mb-4" />
+            <div className="backdrop-blur-xl bg-white/5 border border-white/15 rounded-3xl p-12 shadow-2xl flex flex-col items-center justify-center min-h-96">
+              <div className="w-12 h-12 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin mb-4" />
               <p className="text-slate-400 text-lg font-light">Loading your music...</p>
             </div>
           )}
         </div>
-
-        {/* Footer note */}
-        <div className="mt-16 text-center text-slate-500 text-sm">
-          <p>🎵 Crafted with care • Powered by SoundCloud</p>
-        </div>
       </div>
 
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          33% { transform: translateY(-30px) translateX(10px); }
-          66% { transform: translateY(20px) translateX(-10px); }
+        @keyframes flame1 {
+          0%, 100% { 
+            transform: translateY(0) scaleY(1);
+            filter: brightness(1);
+          }
+          25% { 
+            transform: translateY(-20px) scaleY(1.1);
+            filter: brightness(1.2);
+          }
+          50% { 
+            transform: translateY(-10px) scaleY(0.95);
+            filter: brightness(0.95);
+          }
+          75% { 
+            transform: translateY(-25px) scaleY(1.05);
+            filter: brightness(1.15);
+          }
         }
 
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
-          50% { transform: translateY(-50px) translateX(20px); opacity: 0.6; }
+        @keyframes flame2 {
+          0%, 100% { 
+            transform: translateY(0) scaleY(1) scaleX(1);
+            filter: brightness(0.9);
+          }
+          20% { 
+            transform: translateY(-15px) scaleY(1.15) scaleX(0.95);
+            filter: brightness(1.1);
+          }
+          40% { 
+            transform: translateY(-5px) scaleY(0.9) scaleX(1.05);
+            filter: brightness(1.05);
+          }
+          60% { 
+            transform: translateY(-30px) scaleY(1.2) scaleX(0.9);
+            filter: brightness(1.2);
+          }
+          80% { 
+            transform: translateY(-10px) scaleY(1) scaleX(1);
+            filter: brightness(0.95);
+          }
+        }
+
+        @keyframes flame3 {
+          0%, 100% { 
+            transform: translateY(0) scaleY(1) scaleX(1);
+            filter: brightness(1);
+          }
+          30% { 
+            transform: translateY(-25px) scaleY(1.1) scaleX(0.95);
+            filter: brightness(1.15);
+          }
+          50% { 
+            transform: translateY(-5px) scaleY(0.95) scaleX(1.1);
+            filter: brightness(0.9);
+          }
+          70% { 
+            transform: translateY(-20px) scaleY(1.15) scaleX(1);
+            filter: brightness(1.1);
+          }
+        }
+
+        @keyframes ember {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-200px) translateX(var(--tx, 20px));
+            opacity: 0;
+          }
         }
       `}</style>
     </div>
