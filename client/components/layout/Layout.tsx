@@ -29,23 +29,22 @@ export default function Layout({ children }: PropsWithChildren) {
         }}
       />
 
-      <motion.header
-        className="fixed z-30 left-1/2"
+      <header
+        className="fixed z-30 transition-all duration-500"
         style={{
-          top: headerTop,
-          width: headerWidth,
-          borderRadius: headerBorderRadius,
-          x: headerX,
+          top: isScrolled ? "1rem" : "0",
+          left: isScrolled ? "50%" : "0",
+          right: isScrolled ? "auto" : "0",
+          transform: isScrolled ? "translateX(-50%)" : "none",
+          width: isScrolled ? "auto" : "100%",
+          borderRadius: isScrolled ? "9999px" : "0",
           background: "rgba(255, 255, 255, 0.05)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-          borderLeft: "1px solid rgba(255, 255, 255, 0.1)",
-          borderRight: "1px solid rgba(255, 255, 255, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
         }}
       >
-        <div className="container h-16 flex items-center justify-between">
+        <div className={`${isScrolled ? "px-6" : "container"} h-16 flex items-center justify-between`}>
           <a href="/" className="inline-flex items-center gap-2 group">
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
@@ -78,7 +77,7 @@ export default function Layout({ children }: PropsWithChildren) {
             </a>
           </nav>
         </div>
-      </motion.header>
+      </header>
 
       <main className="flex-1 pt-16">{children}</main>
 
