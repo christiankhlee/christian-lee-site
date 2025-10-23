@@ -31,10 +31,11 @@ export default function Layout({ children }: PropsWithChildren) {
 
       <header className={`fixed z-30 transition-all duration-300 ${
         isScrolled
-          ? "top-4 left-4 right-4 rounded-full"
+          ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
           : "top-0 inset-x-0 rounded-none"
       }`}
       style={{
+        width: isScrolled ? "auto" : "100%",
         background: isScrolled
           ? "rgba(255, 255, 255, 0.1)"
           : "rgba(255, 255, 255, 0.05)",
@@ -42,7 +43,7 @@ export default function Layout({ children }: PropsWithChildren) {
         WebkitBackdropFilter: "blur(20px)",
         border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.3 : 0.1})`,
       }}>
-        <div className={`${isScrolled ? "px-6" : "container"} h-16 flex items-center justify-between`}>
+        <div className={`${isScrolled ? "px-4 gap-8" : "container gap-6"} h-16 flex items-center justify-between`}>
           <a href="/" className="inline-flex items-center gap-2 group">
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
