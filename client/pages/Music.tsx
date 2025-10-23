@@ -39,15 +39,6 @@ export default function Music() {
     searchTrack();
   }, []);
 
-  useEffect(() => {
-    // Load Spotify embed script
-    if (!document.querySelector('script[src*="spotify"]')) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = "https://open.spotify.com/embed/oembed";
-      document.body.appendChild(script);
-    }
-  }, []);
 
   useEffect(() => {
     // When track loads, ensure iframe is in DOM and visible
