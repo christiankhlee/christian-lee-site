@@ -62,8 +62,6 @@ export default function Music() {
     setPlaying(!playing);
   };
 
-  const trackId = track?.uri.split(":").pop();
-
   return (
     <div
       className="min-h-screen relative overflow-hidden"
