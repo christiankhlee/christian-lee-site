@@ -15,7 +15,7 @@ export default function Music() {
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
   const embedContainerRef = useRef<HTMLDivElement>(null);
-  const trackId = track?.uri.split(":").pop();
+  const soundcloudUrl = "https://soundcloud.com/sombrsongs/undressed";
 
   useEffect(() => {
     // Search for "Undressed" by Sombr
