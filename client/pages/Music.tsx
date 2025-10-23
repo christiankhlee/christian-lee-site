@@ -42,16 +42,25 @@ export default function Music() {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
       try {
-        const response = await fetch(
-          `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`
-        );
+        const url = `/api/spotify-search?q=${encodeURIComponent("Undressed Sombr")}`;
+        console.log("Fetching from:", url);
+
+        const response = await fetch(url);
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
+        console.log("Search results:", data);
 
         if (data.tracks && data.tracks.length > 0) {
           setTrack(data.tracks[0]);
         }
       } catch (error) {
         console.error("Failed to search track:", error);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
