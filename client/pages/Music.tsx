@@ -140,72 +140,9 @@ export default function Music() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-black">
-      {/* Fireplace background */}
-      <div className="absolute inset-0">
-        {/* Base warm gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-amber-950 via-orange-900 to-red-950" />
-        
-        {/* Fireplace glow base */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-2/3 bg-gradient-to-t from-orange-700 via-red-800 to-transparent opacity-60" />
-
-        {/* Animated flame #1 */}
-        <div className="absolute bottom-0 left-1/4 w-64 h-96 opacity-40"
-          style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(255,100,0,0.8) 0%, rgba(255,150,0,0.4) 25%, transparent 70%)",
-            animation: "flame1 4s ease-in-out infinite"
-          }}
-        />
-
-        {/* Animated flame #2 */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-80 opacity-35"
-          style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(255,60,0,0.7) 0%, rgba(255,120,0,0.3) 30%, transparent 75%)",
-            animation: "flame2 5s ease-in-out infinite 0.5s"
-          }}
-        />
-
-        {/* Animated flame #3 */}
-        <div className="absolute bottom-0 right-1/4 w-72 h-80 opacity-35"
-          style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(255,150,0,0.6) 0%, rgba(255,100,0,0.25) 35%, transparent 70%)",
-            animation: "flame3 4.5s ease-in-out infinite 1s"
-          }}
-        />
-
-        {/* Floating embers - small particles */}
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full bottom-1/3 left-1/3 opacity-60"
-          style={{
-            animation: "ember 3s ease-out infinite"
-          }}
-        />
-        <div className="absolute w-1.5 h-1.5 bg-orange-300 rounded-full bottom-1/4 left-2/3 opacity-50"
-          style={{
-            animation: "ember 3.5s ease-out infinite 0.7s"
-          }}
-        />
-        <div className="absolute w-1 h-1 bg-yellow-400 rounded-full bottom-2/5 right-1/4 opacity-70"
-          style={{
-            animation: "ember 2.8s ease-out infinite 1.4s"
-          }}
-        />
-        <div className="absolute w-1.5 h-1.5 bg-orange-400 rounded-full bottom-1/3 left-1/2 opacity-55"
-          style={{
-            animation: "ember 3.2s ease-out infinite 2.1s"
-          }}
-        />
-
-        {/* Warm light rays */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl" />
-          <div className="absolute top-0 right-1/4 w-80 h-80 bg-orange-500/8 rounded-full blur-3xl" />
-        </div>
-
-        {/* Soft vignette overlay */}
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/40" style={{
-          background: "radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)"
-        }} />
-      </div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated blob background */}
+      <AnimatedBlob />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
