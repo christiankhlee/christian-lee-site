@@ -10,11 +10,18 @@ interface Track {
   imageUrl: string | null;
 }
 
+declare global {
+  interface Window {
+    SC: any;
+  }
+}
+
 export default function Music() {
   const [playing, setPlaying] = useState(false);
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
   const embedContainerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const soundcloudUrl = "https://soundcloud.com/sombrsongs/undressed";
 
   useEffect(() => {
