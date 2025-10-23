@@ -27,7 +27,8 @@ export default function Music() {
         loop
         playsInline
         style={{
-          zIndex: 0
+          zIndex: 0,
+          bottom: "10px"
         }}
       >
         <source
