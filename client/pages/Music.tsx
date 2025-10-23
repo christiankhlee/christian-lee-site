@@ -237,7 +237,7 @@ export default function Music() {
                     <div className="w-full">
                       <iframe
                         ref={iframeRef}
-                        src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff6b35&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
+                        src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff6b35&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
                         width="100%"
                         height="120"
                         frameBorder="no"
