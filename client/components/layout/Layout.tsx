@@ -29,8 +29,20 @@ export default function Layout({ children }: PropsWithChildren) {
         }}
       />
 
-      <header className="fixed top-0 inset-x-0 z-30 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container h-16 flex items-center justify-between">
+      <header className={`fixed z-30 transition-all duration-300 ${
+        isScrolled
+          ? "top-4 left-4 right-4 rounded-full"
+          : "top-0 inset-x-0 rounded-none"
+      }`}
+      style={{
+        background: isScrolled
+          ? "rgba(255, 255, 255, 0.1)"
+          : "rgba(255, 255, 255, 0.05)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.3 : 0.1})`,
+      }}>
+        <div className={`${isScrolled ? "px-6" : "container"} h-16 flex items-center justify-between`}>
           <a href="/" className="inline-flex items-center gap-2 group">
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
