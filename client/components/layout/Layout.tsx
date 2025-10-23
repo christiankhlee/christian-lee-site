@@ -27,22 +27,23 @@ export default function Layout({ children }: PropsWithChildren) {
         }}
       />
 
-      <header className="fixed z-30 transition-all duration-300 top-0 left-0 right-0"
-      style={{
-        top: isScrolled ? "1rem" : "0",
-        left: isScrolled ? "50%" : "0",
-        right: isScrolled ? "auto" : "0",
-        transform: isScrolled ? "translateX(-50%)" : "translateX(0)",
-        width: isScrolled ? "auto" : "100%",
-        borderRadius: isScrolled ? "9999px" : "0",
-        background: isScrolled
-          ? "rgba(255, 255, 255, 0.1)"
-          : "rgba(255, 255, 255, 0.05)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.3 : 0.1})`,
-      }}>
-        <div className={`${isScrolled ? "px-4 gap-8" : "container gap-6"} h-16 flex items-center justify-between`}>
+      <motion.header
+        className="fixed z-30 left-1/2"
+        style={{
+          top: headerTop,
+          width: headerWidth,
+          borderRadius: headerBorderRadius,
+          x: headerX,
+          background: "rgba(255, 255, 255, 0.05)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+          borderLeft: "1px solid rgba(255, 255, 255, 0.1)",
+          borderRight: "1px solid rgba(255, 255, 255, 0.1)",
+        }}
+      >
+        <div className="container h-16 flex items-center justify-between">
           <a href="/" className="inline-flex items-center gap-2 group">
             <span className="relative grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-secondary text-white font-bold">
               CL
@@ -75,7 +76,7 @@ export default function Layout({ children }: PropsWithChildren) {
             </a>
           </nav>
         </div>
-      </header>
+      </motion.header>
 
       <main className="flex-1 pt-16">{children}</main>
 
