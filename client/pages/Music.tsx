@@ -52,13 +52,26 @@ export default function Music() {
           </p>
 
           {/* Caption/Blurb */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20 mb-8">
             <p className="text-lg text-white/80 leading-relaxed">
               A captivating track that blends emotive vocals with ambient production.
               This song captures the essence of vulnerability and raw emotion, inviting
               listeners into an intimate musical experience.
             </p>
           </div>
+
+          {/* Play/Pause Button */}
+          <button
+            onClick={handlePlayToggle}
+            className="bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-6 border border-white/30 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+            aria-label={playing ? "Pause" : "Play"}
+          >
+            {playing ? (
+              <Pause size={40} className="text-white" />
+            ) : (
+              <Play size={40} className="text-white fill-white" />
+            )}
+          </button>
         </div>
       </div>
 
