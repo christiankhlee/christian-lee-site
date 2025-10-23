@@ -1,8 +1,17 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function Layout({ children }: PropsWithChildren) {
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress, scrollY } = useScroll();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = scrollY.onChange((latest) => {
+      setIsScrolled(latest > 50);
+    });
+    return () => unsubscribe();
+  }, [scrollY]);
+
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
     damping: 30,
