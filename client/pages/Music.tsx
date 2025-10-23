@@ -32,7 +32,7 @@ export default function Music() {
         }}
       >
         <source
-          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F5a2d9ff3a1014694b54339ea69f23ed9?alt=media&token=5fb550cb-5a11-42bf-b615-e3a49f26733a&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fc5f3ae6aa2f04d9a96e9259331154e6f?alt=media&token=ce051154-591f-40b1-b9e9-dcfe123f1b33&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
           type="video/mp4"
         />
         Your browser does not support the video tag.
