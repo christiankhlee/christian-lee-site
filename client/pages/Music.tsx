@@ -91,8 +91,8 @@ export default function Music() {
   };
 
   return (
-    <div 
-      className="min-h-screen w-full relative overflow-hidden"
+    <div
+      className="min-h-screen w-full relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-orange-600"
       style={{
         backgroundImage: "url('https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F5a2d9ff3a1014694b54339ea69f23ed9?alt=media&token=5fb550cb-5a11-42bf-b615-e3a49f26733a&apiKey=9a64d775673a4d3c908c6d11727a9c4b')",
         backgroundSize: "cover",
