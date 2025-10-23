@@ -164,18 +164,20 @@ export default function Music() {
               </div>
             )}
 
-            {/* Hidden SoundCloud widget for audio control */}
-            <iframe
-              ref={iframeRef}
-              src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
-              width="0"
-              height="0"
-              frameBorder="no"
-              allow="autoplay"
-              style={{
-                display: "none"
-              }}
-            />
+            {/* SoundCloud widget for audio control */}
+            <div className="mt-6 w-full max-w-xs mx-auto">
+              <iframe
+                ref={iframeRef}
+                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
+                width="100%"
+                height="120"
+                frameBorder="no"
+                allow="autoplay"
+                style={{
+                  borderRadius: "12px"
+                }}
+              />
+            </div>
           </div>
         )}
 
