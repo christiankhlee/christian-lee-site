@@ -40,15 +40,6 @@ export default function Music() {
   }, []);
 
 
-  useEffect(() => {
-    // When track loads, ensure iframe is in DOM and visible
-    if (track && trackId && embedContainerRef.current) {
-      // Force DOM update by triggering reflow
-      embedContainerRef.current.offsetHeight;
-      console.log("Track loaded:", track.name, trackId);
-    }
-  }, [track, trackId]);
-
   const handlePlayToggle = () => {
     setPlaying(!playing);
   };
