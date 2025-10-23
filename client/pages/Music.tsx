@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import VinylPlayer from "@/components/music/VinylPlayer";
+import AnimatedBlob from "@/components/music/AnimatedBlob";
 
 interface Track {
   id: string;
