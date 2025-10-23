@@ -80,8 +80,8 @@ export default function Music() {
           onPlay={handlePlayToggle}
         />
 
-        {/* Spotify Embed */}
-        {!loading && track && trackId && (
+        {/* SoundCloud Embed */}
+        {!loading && track && (
           <div
             ref={embedContainerRef}
             className="mt-12 w-full max-w-2xl px-4 flex flex-col items-center"
@@ -92,12 +92,11 @@ export default function Music() {
             </div>
 
             <iframe
-              src={`https://open.spotify.com/embed/track/${trackId}`}
+              src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true`}
               width="100%"
-              height="352"
-              frameBorder="0"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              height="166"
+              frameBorder="no"
+              allow="autoplay"
               style={{
                 borderRadius: "12px",
                 display: "block"
