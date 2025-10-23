@@ -25,6 +25,20 @@ export default function Music() {
   const soundcloudUrl = "https://soundcloud.com/sombrsongs/undressed";
 
   useEffect(() => {
+    // Load SoundCloud Widget API
+    const script = document.createElement("script");
+    script.src = "https://w.soundcloud.com/player/api.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     // Search for "Undressed" by Sombr
     const searchTrack = async () => {
       try {
@@ -45,6 +59,40 @@ export default function Music() {
 
     searchTrack();
   }, []);
+
+  useEffect(() => {
+    // Setup SoundCloud widget listener
+    if (iframeRef.current && window.SC) {
+      const widget = window.SC.Widget(iframeRef.current);
+
+      widget.bind(window.SC.Widget.Events.READY, () => {
+        widget.bind(window.SC.Widget.Events.PLAY, () => {
+          setPlaying(true);
+        });
+
+        widget.bind(window.SC.Widget.Events.PAUSE, () => {
+          setPlaying(false);
+        });
+
+        widget.bind(window.SC.Widget.Events.FINISH, () => {
+          setPlaying(false);
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    // Sync turntable with player state
+    if (iframeRef.current && window.SC) {
+      const widget = window.SC.Widget(iframeRef.current);
+
+      if (playing) {
+        widget.play();
+      } else {
+        widget.pause();
+      }
+    }
+  }, [playing]);
 
 
   const handlePlayToggle = () => {
