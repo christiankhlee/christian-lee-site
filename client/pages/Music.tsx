@@ -36,7 +36,7 @@ export default function Music() {
 
         widget.bind(window.SC.Widget.Events.READY, () => {
           console.log("SoundCloud Widget ready");
-          
+
           const handlePlay = () => {
             console.log("Track playing");
             setPlaying(true);
@@ -64,18 +64,6 @@ export default function Music() {
         console.error("Failed to initialize SoundCloud widget:", error);
       }
     }
-
-    return () => {
-      if (widgetRef.current) {
-        try {
-          widgetRef.current.unbind(window.SC.Widget.Events.PLAY);
-          widgetRef.current.unbind(window.SC.Widget.Events.PAUSE);
-          widgetRef.current.unbind(window.SC.Widget.Events.FINISH);
-        } catch (e) {
-          console.error("Error unbinding widget events:", e);
-        }
-      }
-    };
   }, []);
 
   const handlePlayToggle = () => {
