@@ -115,18 +115,25 @@ export default function Music() {
   }, []);
 
   const handlePlayToggle = () => {
+    console.log("Play toggle clicked, current state:", playing, "widget:", widgetRef.current);
+
     if (widgetRef.current) {
       try {
         if (playing) {
+          console.log("Pausing track");
           widgetRef.current.pause();
+          setPlaying(false);
         } else {
+          console.log("Playing track");
           widgetRef.current.play();
+          setPlaying(true);
         }
       } catch (error) {
         console.error("Error toggling playback:", error);
         setPlaying(!playing);
       }
     } else {
+      console.log("Widget not available, just toggling state");
       setPlaying(!playing);
     }
   };
