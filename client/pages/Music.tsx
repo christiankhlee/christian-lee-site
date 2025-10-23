@@ -140,9 +140,14 @@ export default function Music() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Animated blob background */}
-      <AnimatedBlob />
+    <div
+      className="min-h-screen relative overflow-hidden bg-cover bg-center bg-fixed"
+      style={{
+        backgroundImage: "url('https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F5a2d9ff3a1014694b54339ea69f23ed9?alt=media&token=5fb550cb-5a11-42bf-b615-e3a49f26733a&apiKey=9a64d775673a4d3c908c6d11727a9c4b')"
+      }}
+    >
+      {/* Dark overlay for better text contrast */}
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
