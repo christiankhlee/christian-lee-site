@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Play, Pause } from "lucide-react";
 
 export default function Music() {
   const [playing, setPlaying] = useState(true);
