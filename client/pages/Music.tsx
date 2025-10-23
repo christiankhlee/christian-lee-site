@@ -1,92 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-
-declare global {
-  interface Window {
-    SC: any;
-  }
-}
+import { useState, useRef } from "react";
 
 export default function Music() {
-  const [playing, setPlaying] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const widgetRef = useRef<any>(null);
-  const soundcloudUrl = "https://soundcloud.com/sombrsongs/undressed";
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://w.soundcloud.com/player/api.js";
-    script.async = true;
-    script.onload = () => {
-      console.log("SoundCloud Widget API loaded");
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (iframeRef.current && window.SC) {
-      try {
-        const widget = window.SC.Widget(iframeRef.current);
-        widgetRef.current = widget;
-
-        widget.bind(window.SC.Widget.Events.READY, () => {
-          console.log("SoundCloud Widget ready");
-
-          const handlePlay = () => {
-            console.log("Track playing");
-            setPlaying(true);
-          };
-
-          const handlePause = () => {
-            console.log("Track paused");
-            setPlaying(false);
-          };
-
-          const handleFinish = () => {
-            console.log("Track finished");
-            setPlaying(false);
-          };
-
-          widget.bind(window.SC.Widget.Events.PLAY, handlePlay);
-          widget.bind(window.SC.Widget.Events.PAUSE, handlePause);
-          widget.bind(window.SC.Widget.Events.FINISH, handleFinish);
-
-          widget.bind(window.SC.Widget.Events.ERROR, (error: any) => {
-            console.error("SoundCloud Widget error:", error);
-          });
-        });
-      } catch (error) {
-        console.error("Failed to initialize SoundCloud widget:", error);
-      }
-    }
-  }, []);
+  const [playing, setPlaying] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const handlePlayToggle = () => {
-    console.log("Play toggle clicked, current state:", playing, "widget:", widgetRef.current);
-    
-    if (widgetRef.current) {
-      try {
-        if (playing) {
-          console.log("Pausing track");
-          widgetRef.current.pause();
-          setPlaying(false);
-        } else {
-          console.log("Playing track");
-          widgetRef.current.play();
-          setPlaying(true);
-        }
-      } catch (error) {
-        console.error("Error toggling playback:", error);
-        setPlaying(!playing);
+    if (audioRef.current) {
+      if (playing) {
+        audioRef.current.pause();
+        setPlaying(false);
+      } else {
+        audioRef.current.play();
+        setPlaying(true);
       }
-    } else {
-      console.log("Widget not available, just toggling state");
-      setPlaying(!playing);
     }
   };
 
