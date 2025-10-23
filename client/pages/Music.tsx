@@ -39,17 +39,18 @@ export default function Music() {
       {/* Content wrapper */}
       <div className="relative z-10" />
 
-      {/* Hidden SoundCloud iframe for audio control */}
-      <div className="hidden">
-        <iframe
-          ref={iframeRef}
-          src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff6b35&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false`}
-          width="100%"
-          height="120"
-          frameBorder="no"
-          allow="autoplay"
+      {/* Hidden audio player */}
+      <audio
+        ref={audioRef}
+        autoPlay
+        muted={false}
+        loop
+      >
+        <source
+          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F7023a6d659b64e85be1a264a917a06e8?alt=media&token=473a7609-5445-4020-8d0f-5806a0a6c230&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+          type="audio/mpeg"
         />
-      </div>
+      </audio>
     </div>
   );
 }
