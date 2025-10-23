@@ -36,7 +36,7 @@ export default function Index() {
         )}
         <div className="h-full w-full grid place-items-center px-4">
           <div
-            className="max-w-3xl w-full rounded-2xl border border-white/20 bg-white/10 supports-[backdrop-filter]:bg-white/10 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 md:p-10"
+            className="max-w-3xl w-full p-6 md:p-10"
             style={{
               opacity: "calc(0.95 - var(--progress) * 0.6)",
               transform: "translate3d(0, calc(var(--progress) * -40px), 0)",
