@@ -31,7 +31,7 @@ export default function Layout({ children }: PropsWithChildren) {
 
       <header className={`fixed z-30 transition-all duration-300 ${
         isScrolled
-          ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          ? "top-4 left-1/2 -translate-x-1/2 rounded-full"
           : "top-0 inset-x-0 rounded-none"
       }`}
       style={{
