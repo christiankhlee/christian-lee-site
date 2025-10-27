@@ -19,26 +19,17 @@ export default function Music() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
-      {/* Background video */}
-      <video
+      {/* Background image */}
+      <img
+        src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F32b95836edab4251bce020ce2ddd9e52?alt=media&token=4ab148e4-7084-4b6e-b916-b27c03297987&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+        alt="Music page background"
         className="fixed inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
         style={{
           zIndex: 0,
-          bottom: "10px",
           WebkitFontSmoothing: "antialiased",
           backfaceVisibility: "hidden"
         }}
-      >
-        <source
-          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fc5f3ae6aa2f04d9a96e9259331154e6f?alt=media&token=ce051154-591f-40b1-b9e9-dcfe123f1b33&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+      />
 
       {/* Content wrapper */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
