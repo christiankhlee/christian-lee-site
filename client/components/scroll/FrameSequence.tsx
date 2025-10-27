@@ -174,22 +174,33 @@ export default function FrameSequence({
       window.removeEventListener("resize", setCanvasSize);
       try {
         // Kill all ScrollTrigger instances for this container
-        ScrollTrigger.getAll().forEach(trigger => {
-          if (trigger.trigger === containerRef.current) {
-            // Unpin before killing
+        const triggersToKill = ScrollTrigger.getAll().filter(
+          trigger => trigger.trigger === containerRef.current
+        );
+        triggersToKill.forEach(trigger => {
+          try {
             if (trigger.pin) {
               gsap.set(trigger.pin, { clearProps: "all" });
             }
             trigger.kill(true);
+          } catch (e) {
+            // Continue with next trigger
           }
         });
       } catch (e) {
-        // Ignore errors during cleanup
+        // Ignore errors during ScrollTrigger cleanup
       }
-      // Revert all GSAP animations and contexts
-      ctx.revert();
-      // Force clear the scrollTrigger reference
+
+      try {
+        // Revert all GSAP animations and contexts
+        ctx.revert();
+      } catch (e) {
+        // Ignore errors during context revert
+      }
+
+      // Clear any inline styles added by GSAP
       if (containerRef.current) {
+        gsap.set(containerRef.current, { clearProps: "all" });
         delete (containerRef.current as any).__scrollTrigger;
       }
     };
