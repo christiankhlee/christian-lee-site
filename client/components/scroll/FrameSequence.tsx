@@ -166,11 +166,18 @@ export default function FrameSequence({
     window.addEventListener("resize", setCanvasSize);
     return () => {
       window.removeEventListener("resize", setCanvasSize);
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.trigger === containerRef.current) {
-          trigger.kill();
+      try {
+        const triggers = ScrollTrigger.getAll();
+        for (let i = triggers.length - 1; i >= 0; i--) {
+          const trigger = triggers[i];
+          if (trigger.trigger === containerRef.current) {
+            trigger.disable();
+            trigger.kill(true);
+          }
         }
-      });
+      } catch (e) {
+        // Ignore errors during cleanup
+      }
       ctx.revert();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
