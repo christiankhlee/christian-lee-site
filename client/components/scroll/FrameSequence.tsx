@@ -184,11 +184,11 @@ export default function FrameSequence({
   }, [sources.join("|")]);
 
   return (
-    <section ref={containerRef} className={`relative w-full overflow-hidden ${className}`} style={{ height }}>
+    <div ref={containerRef} className={`relative w-full overflow-hidden ${className}`} style={{ height }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
       <div className="absolute inset-0 z-10">
         {children}
       </div>
-    </section>
+    </div>
   );
 }
