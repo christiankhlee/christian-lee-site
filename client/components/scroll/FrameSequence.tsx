@@ -173,16 +173,19 @@ export default function FrameSequence({
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        // Kill all ScrollTrigger instances for this container
-        const triggersToKill = ScrollTrigger.getAll().filter(
-          trigger => trigger.trigger === containerRef.current
-        );
-        triggersToKill.forEach(trigger => {
+        // Revert context first (this kills timelines and clears internal state)
+        ctx.revert();
+      } catch (e) {
+        // Ignore errors during context revert
+      }
+
+      try {
+        // Then kill all ScrollTrigger instances for this container
+        ScrollTrigger.getAll().forEach(trigger => {
           try {
-            if (trigger.pin) {
-              gsap.set(trigger.pin, { clearProps: "all" });
+            if (trigger.trigger === containerRef.current) {
+              trigger.kill(true);
             }
-            trigger.kill(true);
           } catch (e) {
             // Continue with next trigger
           }
@@ -191,16 +194,13 @@ export default function FrameSequence({
         // Ignore errors during ScrollTrigger cleanup
       }
 
-      try {
-        // Revert all GSAP animations and contexts
-        ctx.revert();
-      } catch (e) {
-        // Ignore errors during context revert
-      }
-
-      // Clear any inline styles added by GSAP
+      // Clear any inline styles and references
       if (containerRef.current) {
-        gsap.set(containerRef.current, { clearProps: "all" });
+        try {
+          gsap.set(containerRef.current, { clearProps: "all" });
+        } catch (e) {
+          // Ignore
+        }
         delete (containerRef.current as any).__scrollTrigger;
       }
     };
