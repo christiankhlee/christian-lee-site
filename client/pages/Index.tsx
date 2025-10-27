@@ -28,6 +28,31 @@ export default function Index() {
 
   return (
     <div ref={containerRef} id="home" className="relative">
+      <section className="min-h-screen flex flex-col items-center justify-center px-4">
+        <div className="max-w-3xl w-full text-center">
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
+            Welcome
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+            Exploring ideas through design, code, and creativity
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="#about"
+              className="px-6 py-3 rounded-md border hover:bg-muted transition"
+            >
+              About me
+            </a>
+            <a
+              href="#thoughts"
+              className="px-6 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+            >
+              Explore
+            </a>
+          </div>
+        </div>
+      </section>
+
       <FrameSequence sources={frames} height="100vh">
         {frames.length === 0 && (
           <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
