@@ -6,9 +6,9 @@ import HomeThoughts from "@/components/thoughts/HomeThoughts";
 import Collage from "@/components/about/Collage";
 
 export default function Index() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: frameRef,
     offset: ["start start", "end end"],
   });
   const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -200]), {
