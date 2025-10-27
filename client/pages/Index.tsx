@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
 import FrameSequence from "@/components/scroll/FrameSequence";
 import { useVideoFrames } from "@/hooks/use-video-frames";
@@ -6,28 +6,13 @@ import HomeThoughts from "@/components/thoughts/HomeThoughts";
 import Collage from "@/components/about/Collage";
 
 export default function Index() {
-  const frameRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: frameRef,
-    offset: ["start start", "end end"],
-  });
-  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -200]), {
-    stiffness: 100,
-    damping: 30,
-  });
-  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [0, 150]), {
-    stiffness: 100,
-    damping: 30,
-  });
-  const opacityHero = useTransform(scrollYProgress, [0, 0.25], [1, 0.2]);
-
   const { frames, progress } = useVideoFrames(
     "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb86f89911b6541dab8288933641cfa21?alt=media&token=ba408b13-79e9-49bc-82da-60fbedc1b47f&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
     { count: 280, targetWidth: 1440, quality: 0.85 },
   );
 
   return (
-    <div ref={containerRef} id="home" className="relative">
+    <div id="home" className="relative">
       <section className="min-h-screen flex flex-col items-center justify-center px-4">
         <div className="max-w-3xl w-full text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
@@ -72,7 +57,7 @@ export default function Index() {
                 Christian Lee
               </span>
               <span className="block font-sans italic font-extrabold opacity-95 text-[50px] leading-[1.05]">
-                A place for what I’m working on and thinking about.
+                A place for what I'm working on and thinking about.
               </span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-white/80 italic">
@@ -95,30 +80,6 @@ export default function Index() {
           </div>
         </div>
       </FrameSequence>
-
-      {/* Decorative gradients */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed -z-10 inset-0"
-        style={{ opacity: 0.6 }}
-      >
-        <motion.div
-          className="absolute top-[-10%] left-[-10%] h-[50vmax] w-[50vmax] rounded-full blur-3xl"
-          style={{
-            y: y1,
-            background:
-              "radial-gradient(50% 50% at 50% 50%, hsl(var(--primary) / 0.25) 0%, transparent 60%)",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-[-10%] right-[-10%] h-[55vmax] w-[55vmax] rounded-full blur-3xl"
-          style={{
-            y: y2,
-            background:
-              "radial-gradient(50% 50% at 50% 50%, hsl(var(--secondary) / 0.25) 0%, transparent 60%)",
-          }}
-        />
-      </motion.div>
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
@@ -162,10 +123,10 @@ export default function Index() {
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold">
-              Let’s build something great
+              Let's build something great
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Have a project in mind or want to say hello? I’m always open to
+              Have a project in mind or want to say hello? I'm always open to
               collaborating.
             </p>
           </div>
