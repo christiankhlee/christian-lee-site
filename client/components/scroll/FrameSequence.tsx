@@ -166,6 +166,11 @@ export default function FrameSequence({
     window.addEventListener("resize", setCanvasSize);
     return () => {
       window.removeEventListener("resize", setCanvasSize);
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger === containerRef.current) {
+          trigger.kill();
+        }
+      });
       ctx.revert();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
