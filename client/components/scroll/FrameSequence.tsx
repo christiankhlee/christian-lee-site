@@ -173,18 +173,25 @@ export default function FrameSequence({
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        const triggers = ScrollTrigger.getAll();
-        for (let i = triggers.length - 1; i >= 0; i--) {
-          const trigger = triggers[i];
+        // Kill all ScrollTrigger instances for this container
+        ScrollTrigger.getAll().forEach(trigger => {
           if (trigger.trigger === containerRef.current) {
-            trigger.disable();
+            // Unpin before killing
+            if (trigger.pin) {
+              gsap.set(trigger.pin, { clearProps: "all" });
+            }
             trigger.kill(true);
           }
-        }
+        });
       } catch (e) {
         // Ignore errors during cleanup
       }
+      // Revert all GSAP animations and contexts
       ctx.revert();
+      // Force clear the scrollTrigger reference
+      if (containerRef.current) {
+        delete (containerRef.current as any).__scrollTrigger;
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sources.join("|")]);
