@@ -123,6 +123,12 @@ export default function FrameSequence({
           scrub: true,
           pin: true,
           anticipatePin: 1,
+          onUpdate: (self) => {
+            // Store reference to trigger for cleanup
+            if (containerRef.current) {
+              (containerRef.current as any).__scrollTrigger = self;
+            }
+          },
         },
         onUpdate: () => {
           frameRef.current = Math.round(state.frame);
