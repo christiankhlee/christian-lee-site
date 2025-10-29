@@ -173,17 +173,14 @@ export default function FrameSequence({
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        // Revert context first (this kills timelines and clears internal state)
-        ctx.revert();
-      } catch (e) {
-        // Ignore errors during context revert
-      }
-
-      try {
-        // Then kill all ScrollTrigger instances for this container
+        // Kill all ScrollTrigger instances for this container FIRST
+        // This unpins and removes the pinning wrapper before context revert
         ScrollTrigger.getAll().forEach(trigger => {
           try {
             if (trigger.trigger === containerRef.current) {
+              // Disable the trigger first to stop listening
+              trigger.disable();
+              // Kill with revert to undo pinning
               trigger.kill(true);
             }
           } catch (e) {
@@ -194,6 +191,13 @@ export default function FrameSequence({
         // Ignore errors during ScrollTrigger cleanup
       }
 
+      try {
+        // Revert context (kills timelines)
+        ctx.revert();
+      } catch (e) {
+        // Ignore errors during context revert
+      }
+
       // Clear any inline styles and references
       if (containerRef.current) {
         try {
@@ -202,6 +206,13 @@ export default function FrameSequence({
           // Ignore
         }
         delete (containerRef.current as any).__scrollTrigger;
+      }
+
+      // Force ScrollTrigger refresh to clear any remaining state
+      try {
+        ScrollTrigger.refresh();
+      } catch (e) {
+        // Ignore
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
