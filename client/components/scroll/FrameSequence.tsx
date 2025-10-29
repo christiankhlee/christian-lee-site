@@ -121,8 +121,13 @@ export default function FrameSequence({
     }
 
     const frameCount = sources.length;
+    const scrollState = { progress: 0 };
+
     const ctx = gsap.context(() => {
-      gsap.to(container, {
+      // Create a dummy object that GSAP animates, without touching the DOM
+      gsap.to(scrollState, {
+        progress: 1,
+        duration: 1,
         scrollTrigger: {
           trigger: container,
           start: "top top",
@@ -130,15 +135,12 @@ export default function FrameSequence({
           scrub: 1,
           markers: false,
           onUpdate: (self) => {
-            const progress = self.getProgress();
-            const targetFrame = progress * (frameCount - 1);
+            scrollState.progress = self.getProgress();
+            const targetFrame = scrollState.progress * (frameCount - 1);
             frameRef.current = targetFrame;
-            container.style.setProperty("--progress", String(progress));
+            container.style.setProperty("--progress", String(scrollState.progress));
             render();
           },
-        },
-        onUpdate: () => {
-          render();
         },
       });
     }, container);
@@ -150,12 +152,13 @@ export default function FrameSequence({
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        ctx.revert();
-        ScrollTrigger.getAll().forEach((trigger) => {
-          if (trigger.trigger === container) {
-            trigger.kill(true);
-          }
+        // Kill ScrollTriggers first
+        const triggers = ScrollTrigger.getAll().filter((trigger) => trigger.trigger === container);
+        triggers.forEach((trigger) => {
+          trigger.kill(true);
         });
+        // Then revert context
+        ctx.revert();
       } catch (e) {
         // Ignore cleanup errors
       }
