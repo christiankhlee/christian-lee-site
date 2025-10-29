@@ -125,6 +125,9 @@ export default function FrameSequence({
     const scrollState = { frame: 0 };
 
     const ctx = gsap.context(() => {
+      // Create animation state object for scrollTrigger
+      const animState = { progress: 0 };
+
       // Single timeline with both animations
       gsap.timeline({
         scrollTrigger: {
@@ -132,15 +135,16 @@ export default function FrameSequence({
           start: "top top",
           end: `+=${frameCount * 12}px`,
           scrub: 1,
-          onUpdate: (self) => {
-            const progress = self.progress;
+          onUpdate(self) {
+            animState.progress = this.progress();
+            const progress = animState.progress;
             scrollState.frame = progress * (frameCount - 1);
             frameRef.current = scrollState.frame;
             container.style.setProperty("--progress", String(progress));
 
-            // Apply zoom out effect
-            const scaleValue = gsap.utils.interpolate(1, 0.85, progress);
-            gsap.set(container, { scale: scaleValue }, 0);
+            // Apply zoom out effect directly via style
+            const scaleValue = 1 - (0.15 * progress);
+            container.style.transform = `scale(${scaleValue})`;
 
             render();
           },
