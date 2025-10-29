@@ -120,8 +120,9 @@ export default function FrameSequence({
           trigger: containerRef.current,
           start: "top top",
           end: `+=${frameCount * 6}`,
-          scrub: true,
-          pin: false,
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
           onUpdate: (self) => {
             // Store reference to trigger for cleanup
             if (containerRef.current) {
