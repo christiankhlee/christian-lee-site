@@ -135,9 +135,8 @@ export default function FrameSequence({
           start: "top top",
           end: `+=${frameCount * 12}px`,
           scrub: 1,
-          onUpdate(self) {
-            animState.progress = this.progress();
-            const progress = animState.progress;
+          onUpdate(trigger) {
+            const progress = trigger.progress;
             scrollState.frame = progress * (frameCount - 1);
             frameRef.current = scrollState.frame;
             container.style.setProperty("--progress", String(progress));
