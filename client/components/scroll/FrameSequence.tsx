@@ -125,9 +125,6 @@ export default function FrameSequence({
     const scrollState = { frame: 0 };
 
     const ctx = gsap.context(() => {
-      // Create animation state object for scrollTrigger
-      const animState = { progress: 0 };
-
       // Single timeline with both animations
       gsap.timeline({
         scrollTrigger: {
