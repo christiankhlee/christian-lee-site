@@ -1,8 +1,4 @@
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function pad(num: number, size = 3) {
   let s = String(num);
@@ -35,7 +31,6 @@ export default function FrameSequence({
   const loadingRef = useRef<Set<number>>(new Set());
   const loadedRef = useRef<Set<number>>(new Set());
   const frameRef = useRef(0);
-  const contextRef = useRef<gsap.Context | null>(null);
 
   const sources = useMemo(() => {
     if (externalSources && externalSources.length) return externalSources;
@@ -50,7 +45,7 @@ export default function FrameSequence({
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
-    
+
     const context = canvas.getContext("2d");
     if (!context) return;
 
@@ -92,12 +87,14 @@ export default function FrameSequence({
     ensureAhead(0, 16);
 
     const render = () => {
-      const clamped = Math.min(Math.max(frameRef.current, 0), sources.length - 1);
+      const clamped = Math.min(Math.max(Math.round(frameRef.current), 0), sources.length - 1);
       const image = imagesRef.current[clamped];
       ensureAhead(clamped);
       if (!image) return;
+
       const { width, height } = canvas.getBoundingClientRect();
       context.clearRect(0, 0, width, height);
+
       const iw = image.naturalWidth;
       const ih = image.naturalHeight;
       const scale = Math.max(width / iw, height / ih);
@@ -121,50 +118,30 @@ export default function FrameSequence({
     }
 
     const frameCount = sources.length;
-    const scrollState = { progress: 0 };
+    const containerHeight = parseInt(String(height).replace(/[^\d]/g, "")) || 100;
+    const scrollRange = frameCount * 8 * (containerHeight / 100); // vh to px
 
-    const ctx = gsap.context(() => {
-      // Create a dummy object that GSAP animates, without touching the DOM
-      gsap.to(scrollState, {
-        progress: 1,
-        duration: 1,
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: `+=${frameCount * 8}px`,
-          scrub: 1,
-          markers: false,
-          onUpdate: (self) => {
-            scrollState.progress = self.getProgress();
-            const targetFrame = scrollState.progress * (frameCount - 1);
-            frameRef.current = targetFrame;
-            container.style.setProperty("--progress", String(scrollState.progress));
-            render();
-          },
-        },
-      });
-    }, container);
+    const handleScroll = () => {
+      const containerRect = container.getBoundingClientRect();
+      const triggerPoint = window.innerHeight; // trigger starts when container hits viewport
+      const relativeScroll = Math.max(0, triggerPoint - containerRect.top);
+      const progress = Math.min(relativeScroll / scrollRange, 1);
+      
+      frameRef.current = progress * (frameCount - 1);
+      container.style.setProperty("--progress", String(progress));
+      render();
+    };
 
-    contextRef.current = ctx;
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("resize", setCanvasSize);
-      try {
-        // Kill ScrollTriggers first
-        const triggers = ScrollTrigger.getAll().filter((trigger) => trigger.trigger === container);
-        triggers.forEach((trigger) => {
-          trigger.kill(true);
-        });
-        // Then revert context
-        ctx.revert();
-      } catch (e) {
-        // Ignore cleanup errors
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sources.join("|")]);
+  }, [sources.join("|"), height]);
 
   return (
     <div
