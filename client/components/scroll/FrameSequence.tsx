@@ -125,40 +125,28 @@ export default function FrameSequence({
     const scrollState = { frame: 0 };
 
     const ctx = gsap.context(() => {
-      // Animate frame progression
-      gsap.to(scrollState, {
-        frame: frameCount - 1,
-        duration: 1,
-        ease: "none",
+      // Single timeline with both animations
+      gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: `+=${frameCount * 8}px`,
-          scrub: 1,
-          onUpdate: (self) => {
-            scrollState.frame = self.getProgress() * (frameCount - 1);
-            frameRef.current = scrollState.frame;
-            container.style.setProperty("--progress", String(self.getProgress()));
-            render();
-          },
-        },
-      });
-
-      // Zoom out effect on scroll
-      gsap.to(container, {
-        scale: 0.85,
-        scrollTrigger: {
-          trigger: container,
-          start: "top center",
           end: `+=${frameCount * 12}px`,
           scrub: 1,
           onUpdate: (self) => {
-            const progress = self.getProgress();
+            const progress = self.progress;
+            scrollState.frame = progress * (frameCount - 1);
+            frameRef.current = scrollState.frame;
+            container.style.setProperty("--progress", String(progress));
+
+            // Apply zoom out effect
             const scaleValue = gsap.utils.interpolate(1, 0.85, progress);
-            gsap.set(container, { scale: scaleValue });
+            gsap.set(container, { scale: scaleValue }, 0);
+
+            render();
           },
         },
-      });
+      })
+      .to(scrollState, { frame: frameCount - 1, ease: "none" }, 0);
     }, container);
 
     setCanvasSize();
@@ -167,15 +155,14 @@ export default function FrameSequence({
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        ScrollTrigger.getAll().forEach((trigger) => {
-          if (trigger.trigger === container) {
-            trigger.kill(true);
-          }
-        });
         ctx.revert();
-        gsap.set(container, { clearProps: "all" });
       } catch (e) {
         // Ignore cleanup errors
+      }
+      try {
+        gsap.set(container, { clearProps: "all" });
+      } catch (e) {
+        // Ignore
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
