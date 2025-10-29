@@ -1,4 +1,8 @@
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function pad(num: number, size = 3) {
   let s = String(num);
@@ -118,27 +122,61 @@ export default function FrameSequence({
     }
 
     const frameCount = sources.length;
-    const containerHeight = parseInt(String(height).replace(/[^\d]/g, "")) || 100;
-    const scrollRange = frameCount * 8 * (containerHeight / 100); // vh to px
+    const scrollState = { frame: 0 };
 
-    const handleScroll = () => {
-      const containerRect = container.getBoundingClientRect();
-      const triggerPoint = window.innerHeight; // trigger starts when container hits viewport
-      const relativeScroll = Math.max(0, triggerPoint - containerRect.top);
-      const progress = Math.min(relativeScroll / scrollRange, 1);
-      
-      frameRef.current = progress * (frameCount - 1);
-      container.style.setProperty("--progress", String(progress));
-      render();
-    };
+    const ctx = gsap.context(() => {
+      // Animate frame progression
+      gsap.to(scrollState, {
+        frame: frameCount - 1,
+        duration: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: `+=${frameCount * 8}px`,
+          scrub: 1,
+          onUpdate: (self) => {
+            scrollState.frame = self.getProgress() * (frameCount - 1);
+            frameRef.current = scrollState.frame;
+            container.style.setProperty("--progress", String(self.getProgress()));
+            render();
+          },
+        },
+      });
+
+      // Zoom out effect on scroll
+      gsap.to(container, {
+        scale: 0.85,
+        scrollTrigger: {
+          trigger: container,
+          start: "top center",
+          end: `+=${frameCount * 12}px`,
+          scrub: 1,
+          onUpdate: (self) => {
+            const progress = self.getProgress();
+            const scaleValue = gsap.utils.interpolate(1, 0.85, progress);
+            gsap.set(container, { scale: scaleValue });
+          },
+        },
+      });
+    }, container);
 
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize);
-    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("resize", setCanvasSize);
-      window.removeEventListener("scroll", handleScroll);
+      try {
+        ScrollTrigger.getAll().forEach((trigger) => {
+          if (trigger.trigger === container) {
+            trigger.kill(true);
+          }
+        });
+        ctx.revert();
+        gsap.set(container, { clearProps: "all" });
+      } catch (e) {
+        // Ignore cleanup errors
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sources.join("|"), height]);
@@ -147,7 +185,7 @@ export default function FrameSequence({
     <div
       ref={containerRef}
       className={`relative w-full overflow-hidden ${className}`}
-      style={{ height }}
+      style={{ height, transformOrigin: "center center" }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
       <div className="absolute inset-0 z-10">{children}</div>
