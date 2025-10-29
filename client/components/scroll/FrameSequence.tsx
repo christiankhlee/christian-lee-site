@@ -21,9 +21,9 @@ export default function FrameSequence({
   children,
 }: {
   sources?: string[];
-  base?: string; // e.g. https://.../3-
+  base?: string;
   start?: number;
-  end?: number; // inclusive when using base
+  end?: number;
   padSize?: number;
   height?: string | number;
   className?: string;
@@ -35,6 +35,7 @@ export default function FrameSequence({
   const loadingRef = useRef<Set<number>>(new Set());
   const loadedRef = useRef<Set<number>>(new Set());
   const frameRef = useRef(0);
+  const contextRef = useRef<gsap.Context | null>(null);
 
   const sources = useMemo(() => {
     if (externalSources && externalSources.length) return externalSources;
@@ -45,9 +46,11 @@ export default function FrameSequence({
   }, [externalSources && externalSources.join("|"), base, start, end, padSize]);
 
   useEffect(() => {
-    if (!sources.length) return; // nothing to render until frames available
+    if (!sources.length) return;
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    
     const context = canvas.getContext("2d");
     if (!context) return;
 
@@ -81,10 +84,12 @@ export default function FrameSequence({
     };
 
     const ensureAhead = (idx: number, ahead = 12) => {
-      for (let i = idx; i <= Math.min(idx + ahead, sources.length - 1); i++) loadIndex(i);
+      for (let i = idx; i <= Math.min(idx + ahead, sources.length - 1); i++) {
+        loadIndex(i);
+      }
     };
 
-    ensureAhead(0, 16); // prime initial frames
+    ensureAhead(0, 16);
 
     const render = () => {
       const clamped = Math.min(Math.max(frameRef.current, 0), sources.length - 1);
@@ -93,7 +98,6 @@ export default function FrameSequence({
       if (!image) return;
       const { width, height } = canvas.getBoundingClientRect();
       context.clearRect(0, 0, width, height);
-      // cover behavior
       const iw = image.naturalWidth;
       const ih = image.naturalHeight;
       const scale = Math.max(width / iw, height / ih);
@@ -104,126 +108,69 @@ export default function FrameSequence({
       context.drawImage(image, dx, dy, dw, dh);
     };
 
+    const prefersReduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      frameRef.current = 0;
+      render();
+      setCanvasSize();
+      window.addEventListener("resize", setCanvasSize);
+      return () => window.removeEventListener("resize", setCanvasSize);
+    }
 
+    const frameCount = sources.length;
     const ctx = gsap.context(() => {
-      const state = { frame: 0, zoom: 1.12 };
-      if (prefersReduced) {
-        frameRef.current = 0;
-        render();
-        return;
-      }
-      const frameCount = sources.length;
-      const tl = gsap.timeline({
+      gsap.to(container, {
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: container,
           start: "top top",
-          end: `+=${frameCount * 6}`,
-          scrub: 0.5,
-          pin: true,
-          pinSpacing: true,
+          end: `+=${frameCount * 8}px`,
+          scrub: 1,
+          markers: false,
           onUpdate: (self) => {
-            // Store reference to trigger for cleanup
-            if (containerRef.current) {
-              (containerRef.current as any).__scrollTrigger = self;
-            }
+            const progress = self.getProgress();
+            const targetFrame = progress * (frameCount - 1);
+            frameRef.current = targetFrame;
+            container.style.setProperty("--progress", String(progress));
+            render();
           },
         },
         onUpdate: () => {
-          frameRef.current = Math.round(state.frame);
-          const progress = frameCount > 1 ? frameRef.current / (frameCount - 1) : 0;
-          const el = containerRef.current as HTMLElement | null;
-          if (el) el.style.setProperty("--progress", String(progress));
           render();
         },
       });
+    }, container);
 
-      tl.to(state, { frame: Math.max(frameCount - 1, 0), ease: "none" }, 0)
-        .to(
-          state,
-          {
-            zoom: 1,
-            ease: "none",
-            onUpdate: () => {
-              const c = canvasRef.current;
-              if (!c) return;
-              const ctx2 = c.getContext("2d");
-              if (!ctx2) return;
-              const img = imagesRef.current[Math.min(Math.round(state.frame), imagesRef.current.length - 1)];
-              if (!img) return;
-              const { width, height } = c.getBoundingClientRect();
-              ctx2.clearRect(0, 0, width, height);
-              const iw = img.naturalWidth;
-              const ih = img.naturalHeight;
-              const scale = Math.max(width / iw, height / ih) * state.zoom;
-              const dw = iw * scale;
-              const dh = ih * scale;
-              const dx = (width - dw) / 2;
-              const dy = (height - dh) / 2;
-              ctx2.drawImage(img, dx, dy, dw, dh);
-            },
-          },
-          0
-        );
-    }, containerRef);
-
+    contextRef.current = ctx;
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize);
+
     return () => {
       window.removeEventListener("resize", setCanvasSize);
       try {
-        // Kill all ScrollTrigger instances for this container FIRST
-        // This unpins and removes the pinning wrapper before context revert
-        ScrollTrigger.getAll().forEach(trigger => {
-          try {
-            if (trigger.trigger === containerRef.current) {
-              // Disable the trigger first to stop listening
-              trigger.disable();
-              // Kill with revert to undo pinning
-              trigger.kill(true);
-            }
-          } catch (e) {
-            // Continue with next trigger
+        ctx.revert();
+        ScrollTrigger.getAll().forEach((trigger) => {
+          if (trigger.trigger === container) {
+            trigger.kill(true);
           }
         });
       } catch (e) {
-        // Ignore errors during ScrollTrigger cleanup
-      }
-
-      try {
-        // Revert context (kills timelines)
-        ctx.revert();
-      } catch (e) {
-        // Ignore errors during context revert
-      }
-
-      // Clear any inline styles and references
-      if (containerRef.current) {
-        try {
-          gsap.set(containerRef.current, { clearProps: "all" });
-        } catch (e) {
-          // Ignore
-        }
-        delete (containerRef.current as any).__scrollTrigger;
-      }
-
-      // Force ScrollTrigger refresh to clear any remaining state
-      try {
-        ScrollTrigger.refresh();
-      } catch (e) {
-        // Ignore
+        // Ignore cleanup errors
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sources.join("|")]);
 
   return (
-    <div ref={containerRef} className={`relative w-full overflow-hidden ${className}`} style={{ height }}>
+    <div
+      ref={containerRef}
+      className={`relative w-full overflow-hidden ${className}`}
+      style={{ height }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
-      <div className="absolute inset-0 z-10">
-        {children}
-      </div>
+      <div className="absolute inset-0 z-10">{children}</div>
     </div>
   );
 }
