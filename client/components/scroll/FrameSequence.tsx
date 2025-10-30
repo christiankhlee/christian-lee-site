@@ -189,13 +189,13 @@ export default function FrameSequence({
             end: "bottom bottom",
             scrub: 1,
             invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              if (onScrollTriggerCreate) {
-                onScrollTriggerCreate(self);
-              }
-            },
           },
         });
+
+        // Call callback with the ScrollTrigger instance
+        if (onScrollTriggerCreate && tl.scrollTrigger) {
+          onScrollTriggerCreate(tl.scrollTrigger);
+        }
 
         tl.to(frameRef.current, {
           frame: Math.max(0, frames.length - 1),
