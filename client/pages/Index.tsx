@@ -40,34 +40,34 @@ export default function Index() {
           videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
           frameCount={120}
         />
+      </div>
 
-        {/* Welcome Text Overlay */}
-        <div
-          ref={textOverlayRef}
-          className="absolute inset-0 flex flex-col items-center justify-center px-4 pointer-events-none"
-          style={{ top: 0, zIndex: 10 }}
-        >
-          <div className="max-w-3xl w-full text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6 text-white drop-shadow-lg">
-              Welcome
-            </h1>
-            <p className="text-xl md:text-2xl text-white drop-shadow-lg mb-8">
-              Exploring ideas through design, code, and creativity
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
-              <a
-                href="#about"
-                className="px-6 py-3 rounded-md border border-white text-white hover:bg-white hover:text-black transition"
-              >
-                About me
-              </a>
-              <a
-                href="#thoughts"
-                className="px-6 py-3 rounded-md bg-white text-black hover:opacity-90 transition"
-              >
-                Explore
-              </a>
-            </div>
+      {/* Welcome Text Overlay */}
+      <div
+        ref={textOverlayRef}
+        className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center px-4 pointer-events-none z-20"
+        style={{ pointerEvents: "auto" }}
+      >
+        <div className="max-w-3xl w-full text-center">
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6 text-white drop-shadow-lg">
+            Welcome
+          </h1>
+          <p className="text-xl md:text-2xl text-white drop-shadow-lg mb-8">
+            Exploring ideas through design, code, and creativity
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
+            <a
+              href="#about"
+              className="px-6 py-3 rounded-md border border-white text-white hover:bg-white hover:text-black transition"
+            >
+              About me
+            </a>
+            <a
+              href="#thoughts"
+              className="px-6 py-3 rounded-md bg-white text-black hover:opacity-90 transition"
+            >
+              Explore
+            </a>
           </div>
         </div>
       </div>
