@@ -31,43 +31,7 @@ export default function Index() {
         </div>
       </section>
 
-      <FrameSequence height="100vh">
-        <div className="h-full w-full grid place-items-center px-4">
-          <div
-            className="max-w-3xl w-full p-6 md:p-10"
-            style={{
-              opacity: "calc(0.95 - var(--progress) * 0.6)",
-              transform: "translate3d(0, calc(var(--progress) * -40px), 0)",
-            }}
-          >
-            <h1 className="hero-serif mt-4 text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-[-0.03em] text-shadow-soft">
-              <span className="italic font-sans text-[#F5F7FA] inline-block mr-7">
-                Christian Lee
-              </span>
-              <span className="block font-sans italic font-extrabold opacity-95 text-[50px] leading-[1.05]">
-                A place for what I'm working on and thinking about.
-              </span>
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-white/80 italic">
-              Projects, notes, and ideas in progress.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#about"
-                className="px-5 py-3 rounded-md border hover:bg-muted transition"
-              >
-                About me
-              </a>
-              <a
-                href="#thoughts"
-                className="px-5 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
-              >
-                Thoughts
-              </a>
-            </div>
-          </div>
-        </div>
-      </FrameSequence>
+      <FrameSequence />
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
