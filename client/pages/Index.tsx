@@ -32,11 +32,6 @@ export default function Index() {
       </section>
 
       <FrameSequence height="100vh">
-        {frames.length === 0 && (
-          <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
-            Preparing frames… {Math.round(progress * 100)}%
-          </div>
-        )}
         <div className="h-full w-full grid place-items-center px-4">
           <div
             className="max-w-3xl w-full p-6 md:p-10"
