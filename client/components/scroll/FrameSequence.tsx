@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface FrameSequenceProps {
   videoUrl: string;
   frameCount?: number;
+  onScrollTriggerCreate?: (trigger: ScrollTrigger.ScrollTrigger) => void;
 }
 
 export default function FrameSequence({
