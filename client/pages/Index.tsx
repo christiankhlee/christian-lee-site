@@ -13,28 +13,23 @@ export default function Index() {
   useEffect(() => {
     if (!textOverlayRef.current) return;
 
-    const handleScrollTriggerCreate = (scrollTrigger: ScrollTrigger.ScrollTrigger) => {
-      // Animate text opacity based on scroll progress
-      gsap.to(textOverlayRef.current, {
-        opacity: 0,
-        scrollTrigger: {
-          trigger: textOverlayRef.current?.parentElement,
-          start: "top top",
-          end: "center center",
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-    };
+    // Set initial opacity to 1
+    gsap.set(textOverlayRef.current, { opacity: 1 });
 
-    // Store reference for cleanup
-    const currentOverlay = textOverlayRef.current;
+    // Animate text opacity based on scroll progress
+    gsap.to(textOverlayRef.current, {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: textOverlayRef.current?.parentElement,
+        start: "top top",
+        end: "bottom 30%",
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+    });
 
     return () => {
-      // Cleanup animations
-      if (currentOverlay) {
-        gsap.killTweensOf(currentOverlay);
-      }
+      gsap.killTweensOf(textOverlayRef.current);
     };
   }, []);
 
