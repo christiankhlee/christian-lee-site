@@ -9,9 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Index() {
   const textOverlayRef = useRef<HTMLDivElement>(null);
+  const homeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!textOverlayRef.current) return;
+    if (!textOverlayRef.current || !homeRef.current) return;
 
     // Set initial opacity to 1
     gsap.set(textOverlayRef.current, { opacity: 1 });
@@ -20,9 +21,9 @@ export default function Index() {
     gsap.to(textOverlayRef.current, {
       opacity: 0,
       scrollTrigger: {
-        trigger: textOverlayRef.current?.parentElement,
+        trigger: homeRef.current,
         start: "top top",
-        end: "bottom 30%",
+        end: "bottom top",
         scrub: 1,
         invalidateOnRefresh: true,
       },
@@ -30,6 +31,11 @@ export default function Index() {
 
     return () => {
       gsap.killTweensOf(textOverlayRef.current);
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.vars.trigger === homeRef.current) {
+          trigger.kill();
+        }
+      });
     };
   }, []);
 
