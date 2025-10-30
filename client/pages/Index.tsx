@@ -53,10 +53,10 @@ export default function Index() {
           style={{ top: 0, zIndex: 10 }}
         >
           <div className="max-w-3xl w-full text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6 text-white drop-shadow-lg">
               Welcome
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+            <p className="text-xl md:text-2xl text-white drop-shadow-lg mb-8">
               Exploring ideas through design, code, and creativity
             </p>
             <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
