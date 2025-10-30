@@ -189,6 +189,11 @@ export default function FrameSequence({
             end: "bottom bottom",
             scrub: 1,
             invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (onScrollTriggerCreate) {
+                onScrollTriggerCreate(self);
+              }
+            },
           },
         });
 
