@@ -70,6 +70,10 @@ export default function FrameSequence({
           video.onseeked = () => {
             // Draw video frame to extraction canvas
             const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            const displayWidth = Math.round(rect.width * dpr);
+            const displayHeight = Math.round(rect.height * dpr);
+
             extractCtx.clearRect(0, 0, rect.width, rect.height);
 
             const videoAspect = video.videoWidth / video.videoHeight;
@@ -90,8 +94,8 @@ export default function FrameSequence({
 
             extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
 
-            // Store frame data
-            const imageData = extractCtx.getImageData(0, 0, rect.width, rect.height);
+            // Store frame data at the actual pixel dimensions
+            const imageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
             frames.push(imageData);
 
             extracted++;
