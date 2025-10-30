@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -11,20 +11,12 @@ function pad(num: number, size = 3) {
 }
 
 export default function FrameSequence({
-  sources: externalSources,
-  base,
-  start = 1,
-  end,
-  padSize = 3,
+  sources,
   height = "100vh",
   className = "",
   children,
 }: {
   sources?: string[];
-  base?: string;
-  start?: number;
-  end?: number;
-  padSize?: number;
   height?: string | number;
   className?: string;
   children?: ReactNode;
@@ -35,17 +27,18 @@ export default function FrameSequence({
   const loadingRef = useRef<Set<number>>(new Set());
   const loadedRef = useRef<Set<number>>(new Set());
   const frameRef = useRef(0);
+  const animatingRef = useRef(false);
 
-  const sources = useMemo(() => {
-    if (externalSources && externalSources.length) return externalSources;
-    if (!base || !end) return [] as string[];
-    const srcs: string[] = [];
-    for (let i = start; i <= end; i++) srcs.push(`${base}${pad(i, padSize)}.jpg`);
-    return srcs;
-  }, [externalSources && externalSources.join("|"), base, start, end, padSize]);
+  const frameCount = sources?.length || 280;
+  const baseUrl = "https://www.adaline.ai/sequence/16x9_281/high/graded_4K_100_gm_85_1440_3-";
+
+  // Generate frame URLs if sources not provided
+  const frames = sources || 
+    Array.from({ length: frameCount }, (_, i) => 
+      `${baseUrl}${pad(i + 1, 3)}.jpg`
+    );
 
   useEffect(() => {
-    if (!sources.length) return;
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -62,12 +55,12 @@ export default function FrameSequence({
       render();
     };
 
-    imagesRef.current = new Array(sources.length).fill(null);
+    imagesRef.current = new Array(frames.length).fill(null);
     loadedRef.current = new Set();
     loadingRef.current = new Set();
 
     const loadIndex = (idx: number) => {
-      if (idx < 0 || idx >= sources.length) return;
+      if (idx < 0 || idx >= frames.length) return;
       if (loadedRef.current.has(idx) || loadingRef.current.has(idx)) return;
       loadingRef.current.add(idx);
       const img = new Image();
@@ -79,11 +72,14 @@ export default function FrameSequence({
         if (loadedRef.current.size === 1) setCanvasSize();
         render();
       };
-      img.src = sources[idx];
+      img.onerror = () => {
+        loadingRef.current.delete(idx);
+      };
+      img.src = frames[idx];
     };
 
     const ensureAhead = (idx: number, ahead = 12) => {
-      for (let i = idx; i <= Math.min(idx + ahead, sources.length - 1); i++) {
+      for (let i = idx; i <= Math.min(idx + ahead, frames.length - 1); i++) {
         loadIndex(i);
       }
     };
@@ -91,7 +87,7 @@ export default function FrameSequence({
     ensureAhead(0, 16);
 
     const render = () => {
-      const clamped = Math.min(Math.max(Math.round(frameRef.current), 0), sources.length - 1);
+      const clamped = Math.min(Math.max(Math.round(frameRef.current), 0), frames.length - 1);
       const image = imagesRef.current[clamped];
       ensureAhead(clamped);
       if (!image) return;
@@ -121,32 +117,33 @@ export default function FrameSequence({
       return () => window.removeEventListener("resize", setCanvasSize);
     }
 
-    const frameCount = sources.length;
-    const scrollState = { frame: 0 };
-
     const ctx = gsap.context(() => {
-      // Single timeline with both animations
-      gsap.timeline({
+      // Timeline for frame sequence animation
+      const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: `+=${frameCount * 12}px`,
+          end: `+=${frameCount * 8}px`,
           scrub: 1,
           onUpdate(trigger) {
             const progress = trigger.progress;
-            scrollState.frame = progress * (frameCount - 1);
-            frameRef.current = scrollState.frame;
+            frameRef.current = progress * (frames.length - 1);
             container.style.setProperty("--progress", String(progress));
 
-            // Apply zoom out effect directly via style
-            const scaleValue = 1 - (0.15 * progress);
+            // Zoom out effect: scale from 1 to 0.85
+            const scaleValue = gsap.utils.interpolate(1, 0.85, progress);
             container.style.transform = `scale(${scaleValue})`;
 
             render();
           },
+          onComplete() {
+            animatingRef.current = false;
+          },
         },
-      })
-      .to(scrollState, { frame: frameCount - 1, ease: "none" }, 0);
+      });
+
+      // Animate through frames
+      timeline.to(frameRef, { current: frames.length - 1, ease: "none" }, 0);
     }, container);
 
     setCanvasSize();
@@ -165,8 +162,7 @@ export default function FrameSequence({
         // Ignore
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sources.join("|"), height]);
+  }, [frames, frameCount]);
 
   return (
     <div
