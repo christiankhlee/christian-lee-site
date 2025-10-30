@@ -32,7 +32,7 @@ export default function Index() {
       </section>
 
       <FrameSequence
-        videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fce5eb34491ca4386a46c5589c08835fb?alt=media&token=3db8a3c9-4918-455b-a29e-67f625cb36ea&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+        videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
         frameCount={120}
       />
 
