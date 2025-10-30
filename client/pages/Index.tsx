@@ -6,11 +6,6 @@ import HomeThoughts from "@/components/thoughts/HomeThoughts";
 import Collage from "@/components/about/Collage";
 
 export default function Index() {
-  const { frames, progress } = useVideoFrames(
-    "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fb86f89911b6541dab8288933641cfa21?alt=media&token=ba408b13-79e9-49bc-82da-60fbedc1b47f&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
-    { count: 280, targetWidth: 1440, quality: 0.85 },
-  );
-
   return (
     <div id="home" className="relative">
       <section className="min-h-screen flex flex-col items-center justify-center px-4">
@@ -38,7 +33,7 @@ export default function Index() {
         </div>
       </section>
 
-      <FrameSequence sources={frames} height="100vh">
+      <FrameSequence height="100vh">
         {frames.length === 0 && (
           <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
             Preparing frames… {Math.round(progress * 100)}%
