@@ -45,8 +45,7 @@ export default function Index() {
       {/* Welcome Text Overlay */}
       <div
         ref={textOverlayRef}
-        className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center px-4 pointer-events-none z-20"
-        style={{ pointerEvents: "auto" }}
+        className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center px-4 z-20"
       >
         <div className="max-w-3xl w-full text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6 text-white drop-shadow-lg">
