@@ -94,9 +94,40 @@ export default function FrameSequence({
 
             extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
 
-            // Store frame data at the actual pixel dimensions
-            const imageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
-            frames.push(imageData);
+            // Get full frame data and detect black bottom pixels
+            const fullImageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
+            const data = fullImageData.data;
+
+            // Find where the black pixels start from the bottom
+            let blackRowsFromBottom = 0;
+            const pixelsPerRow = displayWidth * 4;
+
+            for (let row = displayHeight - 1; row >= 0; row--) {
+              let isBlackRow = true;
+              for (let i = 0; i < displayWidth; i++) {
+                const pixelIndex = row * pixelsPerRow + i * 4;
+                const r = data[pixelIndex];
+                const g = data[pixelIndex + 1];
+                const b = data[pixelIndex + 2];
+                // Check if pixel is mostly black (threshold: < 20)
+                if (r > 20 || g > 20 || b > 20) {
+                  isBlackRow = false;
+                  break;
+                }
+              }
+              if (isBlackRow) {
+                blackRowsFromBottom++;
+              } else {
+                break;
+              }
+            }
+
+            // Crop out the black rows
+            const croppedHeight = Math.max(1, displayHeight - blackRowsFromBottom);
+            const croppedImageData = extractCtx.createImageData(displayWidth, croppedHeight);
+            croppedImageData.data.set(data.slice(0, displayWidth * croppedHeight * 4));
+
+            frames.push(croppedImageData);
 
             extracted++;
             if (extracted < frameCount) {
