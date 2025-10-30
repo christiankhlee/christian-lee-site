@@ -62,13 +62,13 @@ export default function Index() {
             <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
               <a
                 href="#about"
-                className="px-6 py-3 rounded-md border hover:bg-muted transition"
+                className="px-6 py-3 rounded-md border border-white text-white hover:bg-white hover:text-black transition"
               >
                 About me
               </a>
               <a
                 href="#thoughts"
-                className="px-6 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+                className="px-6 py-3 rounded-md bg-white text-black hover:opacity-90 transition"
               >
                 Explore
               </a>
