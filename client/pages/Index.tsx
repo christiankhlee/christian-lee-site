@@ -1,40 +1,81 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FrameSequence from "@/components/scroll/FrameSequence";
 import HomeThoughts from "@/components/thoughts/HomeThoughts";
 import Collage from "@/components/about/Collage";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Index() {
+  const textOverlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!textOverlayRef.current) return;
+
+    const handleScrollTriggerCreate = (scrollTrigger: ScrollTrigger.ScrollTrigger) => {
+      // Animate text opacity based on scroll progress
+      gsap.to(textOverlayRef.current, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: textOverlayRef.current?.parentElement,
+          start: "top top",
+          end: "center center",
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    };
+
+    // Store reference for cleanup
+    const currentOverlay = textOverlayRef.current;
+
+    return () => {
+      // Cleanup animations
+      if (currentOverlay) {
+        gsap.killTweensOf(currentOverlay);
+      }
+    };
+  }, []);
+
   return (
     <div id="home" className="relative">
-      <section className="min-h-screen flex flex-col items-center justify-center px-4">
-        <div className="max-w-3xl w-full text-center">
-          <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
-            Welcome
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-            Exploring ideas through design, code, and creativity
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="#about"
-              className="px-6 py-3 rounded-md border hover:bg-muted transition"
-            >
-              About me
-            </a>
-            <a
-              href="#thoughts"
-              className="px-6 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
-            >
-              Explore
-            </a>
+      <div className="relative">
+        <FrameSequence
+          videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+          frameCount={120}
+        />
+
+        {/* Welcome Text Overlay */}
+        <div
+          ref={textOverlayRef}
+          className="absolute inset-0 flex flex-col items-center justify-center px-4 pointer-events-none"
+          style={{ top: 0, zIndex: 10 }}
+        >
+          <div className="max-w-3xl w-full text-center">
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
+              Welcome
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+              Exploring ideas through design, code, and creativity
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
+              <a
+                href="#about"
+                className="px-6 py-3 rounded-md border hover:bg-muted transition"
+              >
+                About me
+              </a>
+              <a
+                href="#thoughts"
+                className="px-6 py-3 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+              >
+                Explore
+              </a>
+            </div>
           </div>
         </div>
-      </section>
-
-      <FrameSequence
-        videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
-        frameCount={120}
-      />
+      </div>
 
       {/* About */}
       <section id="about" className="relative py-24 md:py-32">
