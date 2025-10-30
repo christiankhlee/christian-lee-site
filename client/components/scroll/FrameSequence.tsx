@@ -4,19 +4,21 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const baseUrl = "https://www.adaline.ai/sequence/16x9_281/high/graded_4K_100_gm_85_1440_3-";
-
-function pad(num: number, size = 3) {
-  let s = String(num);
-  while (s.length < size) s = "0" + s;
-  return s;
+interface FrameSequenceProps {
+  videoUrl: string;
+  frameCount?: number;
 }
 
-export default function FrameSequence() {
+export default function FrameSequence({
+  videoUrl = "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fce5eb34491ca4386a46c5589c08835fb?alt=media&token=3db8a3c9-4918-455b-a29e-67f625cb36ea&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
+  frameCount = 120,
+}: FrameSequenceProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const frameRef = useRef({ frame: 0 });
-  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const framesRef = useRef<ImageData[]>([]);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -26,32 +28,94 @@ export default function FrameSequence() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Generate frame URLs (1-280)
-    const imageUrls = Array.from({ length: 280 }, (_, i) =>
-      `${baseUrl}${pad(i + 1, 3)}.jpg`
-    );
+    // Create hidden video element to extract frames
+    const video = document.createElement("video");
+    video.crossOrigin = "anonymous";
+    video.style.display = "none";
+    document.body.appendChild(video);
+    videoRef.current = video;
 
-    // Preload all images
-    const loadImages = async () => {
-      const images = await Promise.all(
-        imageUrls.map(
-          (url) =>
-            new Promise<HTMLImageElement | null>((resolve) => {
-              const img = new Image();
-              img.crossOrigin = "anonymous";
-              img.onload = () => resolve(img);
-              img.onerror = () => resolve(null);
-              img.src = url;
-            })
-        )
-      );
-      return images.filter(Boolean) as HTMLImageElement[];
+    // Extract frames from video
+    const extractFrames = async () => {
+      return new Promise<ImageData[]>((resolve, reject) => {
+        video.onloadedmetadata = () => {
+          const duration = video.duration;
+          const frames: ImageData[] = [];
+          let extracted = 0;
+
+          // Set up temporary canvas for extraction
+          const extractCanvas = document.createElement("canvas");
+          const extractCtx = extractCanvas.getContext("2d");
+          if (!extractCtx) {
+            reject(new Error("Failed to get 2D context"));
+            return;
+          }
+
+          const rect = canvas.getBoundingClientRect();
+          const dpr = window.devicePixelRatio || 1;
+          extractCanvas.width = Math.round(rect.width * dpr);
+          extractCanvas.height = Math.round(rect.height * dpr);
+          extractCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          const extractFrame = () => {
+            if (extracted >= frameCount) {
+              resolve(frames);
+              return;
+            }
+
+            const time = (extracted / frameCount) * duration;
+            video.currentTime = time;
+          };
+
+          video.onseeked = () => {
+            // Draw video frame to extraction canvas
+            const rect = canvas.getBoundingClientRect();
+            extractCtx.clearRect(0, 0, rect.width, rect.height);
+
+            const videoAspect = video.videoWidth / video.videoHeight;
+            const canvasAspect = rect.width / rect.height;
+
+            let drawWidth = rect.width;
+            let drawHeight = rect.height;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            if (videoAspect > canvasAspect) {
+              drawWidth = rect.height * videoAspect;
+              offsetX = (rect.width - drawWidth) / 2;
+            } else {
+              drawHeight = rect.width / videoAspect;
+              offsetY = (rect.height - drawHeight) / 2;
+            }
+
+            extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
+
+            // Store frame data
+            const imageData = extractCtx.getImageData(0, 0, rect.width, rect.height);
+            frames.push(imageData);
+
+            extracted++;
+            if (extracted < frameCount) {
+              extractFrame();
+            } else {
+              resolve(frames);
+            }
+          };
+
+          extractFrame();
+        };
+
+        video.onerror = () => {
+          reject(new Error("Failed to load video"));
+        };
+
+        video.src = videoUrl;
+      });
     };
 
-    // Draw frame to canvas with device pixel ratio
+    // Draw frame to canvas
     const drawFrame = (i: number) => {
-      const img = imagesRef.current[i];
-      if (!img) return;
+      if (!framesRef.current[i]) return;
 
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
@@ -60,87 +124,77 @@ export default function FrameSequence() {
       canvas.height = Math.round(rect.height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      ctx.clearRect(0, 0, rect.width, rect.height);
-
-      // Draw image to fill canvas while preserving aspect ratio
-      const imgAspect = img.naturalWidth / img.naturalHeight;
-      const canvasAspect = rect.width / rect.height;
-
-      let drawWidth = rect.width;
-      let drawHeight = rect.height;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (imgAspect > canvasAspect) {
-        // Image is wider, fit to height
-        drawWidth = rect.height * imgAspect;
-        offsetX = (rect.width - drawWidth) / 2;
-      } else {
-        // Image is taller, fit to width
-        drawHeight = rect.width / imgAspect;
-        offsetY = (rect.height - drawHeight) / 2;
-      }
-
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+      ctx.putImageData(framesRef.current[i], 0, 0);
     };
 
     // Initialize animation
     (async () => {
-      imagesRef.current = await loadImages();
+      loadingRef.current = true;
 
-      if (imagesRef.current.length === 0) {
-        console.error("No images loaded");
-        return;
-      }
+      try {
+        const frames = await extractFrames();
+        framesRef.current = frames;
+        loadingRef.current = false;
 
-      // Draw first frame
-      drawFrame(0);
+        if (frames.length === 0) {
+          console.error("No frames extracted from video");
+          return;
+        }
 
-      // Create GSAP timeline tied to scroll
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+        // Draw first frame
+        drawFrame(0);
 
-      tl.to(frameRef.current, {
-        frame: Math.max(0, imagesRef.current.length - 1),
-        ease: "none",
-        onUpdate: () => {
+        // Create GSAP timeline tied to scroll
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(frameRef.current, {
+          frame: Math.max(0, frames.length - 1),
+          ease: "none",
+          onUpdate: () => {
+            const i = Math.round(frameRef.current.frame);
+            if (i >= 0 && i < frames.length) {
+              drawFrame(i);
+            }
+          },
+        });
+
+        // Handle resize
+        const handleResize = () => {
           const i = Math.round(frameRef.current.frame);
-          if (i >= 0 && i < imagesRef.current.length) {
-            drawFrame(i);
-          }
-        },
-      });
+          drawFrame(i);
+          ScrollTrigger.refresh();
+        };
 
-      // Handle resize
-      const handleResize = () => {
-        const i = Math.round(frameRef.current.frame);
-        drawFrame(i);
-        ScrollTrigger.refresh();
-      };
+        window.addEventListener("resize", handleResize);
 
-      window.addEventListener("resize", handleResize);
-
-      return () => {
-        window.removeEventListener("resize", handleResize);
-        tl.kill();
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      };
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          tl.kill();
+          ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        };
+      } catch (error) {
+        console.error("Frame extraction failed:", error);
+      }
     })();
-  }, []);
+
+    return () => {
+      if (videoRef.current?.parentNode) {
+        videoRef.current.parentNode.removeChild(videoRef.current);
+      }
+    };
+  }, [videoUrl, frameCount]);
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">
-      <canvas
-        ref={canvasRef}
-        className="sticky top-0 w-full h-screen bg-black block"
-      />
+      <canvas ref={canvasRef} className="sticky top-0 w-full h-screen bg-black block" />
     </div>
   );
 }
