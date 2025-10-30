@@ -40,7 +40,7 @@ export default function Index() {
   }, []);
 
   return (
-    <div id="home" className="relative">
+    <div id="home" ref={homeRef} className="relative">
       <div className="relative">
         <FrameSequence
           videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
