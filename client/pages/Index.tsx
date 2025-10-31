@@ -46,7 +46,7 @@ export default function Index() {
       <div className="relative">
         <FrameSequence
           videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ff336bae09f8a43599dfb14b58dd7a992?alt=media&token=20691e2c-4a61-4cbb-b0f4-45f50a0d4957&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
-          frameCount={180}
+          frameCount={90}
           onLoadingProgress={(progress) => {
             setLoadingProgress(progress);
             if (progress >= 100) {
