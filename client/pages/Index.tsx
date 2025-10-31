@@ -43,8 +43,8 @@ export default function Index() {
     <div id="home" ref={homeRef} className="relative">
       <div className="relative">
         <FrameSequence
-          videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fe7cdd66a333b4617920f0ec14dc19c0c?alt=media&token=b21127a3-9fc3-4788-aef9-f510364e91f1&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
-          frameCount={120}
+          videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ff336bae09f8a43599dfb14b58dd7a992?alt=media&token=20691e2c-4a61-4cbb-b0f4-45f50a0d4957&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+          frameCount={180}
         />
       </div>
 
