@@ -24,11 +24,17 @@ export default function Music() {
     <div className="min-h-screen w-full relative overflow-hidden">
       {/* Background video */}
       <video
+        ref={videoRef}
         className="fixed inset-0 w-full h-full object-cover"
-        autoPlay
         muted
         loop
         playsInline
+        onPause={() => {
+          if (audioRef.current) {
+            audioRef.current.pause();
+            setPlaying(false);
+          }
+        }}
         style={{
           zIndex: 0,
           WebkitFontSmoothing: "antialiased",
@@ -36,7 +42,7 @@ export default function Music() {
         }}
       >
         <source
-          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F32b95836edab4251bce020ce2ddd9e52?alt=media&token=4ab148e4-7084-4b6e-b916-b27c03297987&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
+          src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fc6f97183f3084f84a5566dc80d539b87?alt=media&token=0b3472ce-5a70-4ed7-8bdd-c4d34b121a29&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
           type="video/mp4"
         />
         Your browser does not support the video tag.
