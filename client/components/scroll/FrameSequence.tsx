@@ -98,41 +98,9 @@ export default function FrameSequence({
 
             extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
 
-            // Get full frame data and detect black bottom pixels
-            const fullImageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
-            const data = fullImageData.data;
-
-            // Find where the black pixels start from the bottom (optimized with sampling)
-            let blackRowsFromBottom = 0;
-            const pixelsPerRow = displayWidth * 4;
-            const sampleInterval = Math.max(1, Math.floor(displayWidth / 50)); // Sample 50 pixels per row max
-
-            for (let row = displayHeight - 1; row >= 0; row--) {
-              let isBlackRow = true;
-              for (let i = 0; i < displayWidth; i += sampleInterval) {
-                const pixelIndex = row * pixelsPerRow + i * 4;
-                const r = data[pixelIndex];
-                const g = data[pixelIndex + 1];
-                const b = data[pixelIndex + 2];
-                // Check if pixel is mostly black (threshold: < 20)
-                if (r > 20 || g > 20 || b > 20) {
-                  isBlackRow = false;
-                  break;
-                }
-              }
-              if (isBlackRow) {
-                blackRowsFromBottom++;
-              } else {
-                break;
-              }
-            }
-
-            // Crop out the black rows
-            const croppedHeight = Math.max(1, displayHeight - blackRowsFromBottom);
-            const croppedImageData = extractCtx.createImageData(displayWidth, croppedHeight);
-            croppedImageData.data.set(data.slice(0, displayWidth * croppedHeight * 4));
-
-            frames.push(croppedImageData);
+            // Get frame data directly without black pixel detection
+            const imageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
+            frames.push(imageData);
 
             extracted++;
             // Report progress
