@@ -87,7 +87,7 @@ export function useSpotifyPlayer() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ uris: [trackUri] }),
-        },
+        }
       );
     } catch (err) {
       console.error("Play error:", err);

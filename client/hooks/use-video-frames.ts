@@ -6,14 +6,7 @@ export type UseVideoFramesOptions = {
   quality?: number; // jpeg quality 0-1
 };
 
-export function useVideoFrames(
-  src: string,
-  {
-    count = 180,
-    targetWidth = 1440,
-    quality = 0.85,
-  }: UseVideoFramesOptions = {},
-) {
+export function useVideoFrames(src: string, { count = 180, targetWidth = 1440, quality = 0.85 }: UseVideoFramesOptions = {}) {
   const [frames, setFrames] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -44,9 +37,7 @@ export function useVideoFrames(
 
       const dur = video.duration || 0;
       setDuration(dur);
-      const times = new Array(count)
-        .fill(0)
-        .map((_, i) => (dur * i) / Math.max(count - 1, 1));
+      const times = new Array(count).fill(0).map((_, i) => (dur * i) / Math.max(count - 1, 1));
 
       const vw = video.videoWidth || 1920;
       const vh = video.videoHeight || 1080;
@@ -60,19 +51,15 @@ export function useVideoFrames(
         await new Promise<void>((resolve) => {
           const onSeeked = () => {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  const url = URL.createObjectURL(blob);
-                  urlsRef.current.push(url);
-                  setFrames((prev) => [...prev, url]);
-                }
-                setProgress((i + 1) / times.length);
-                resolve();
-              },
-              "image/jpeg",
-              quality,
-            );
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const url = URL.createObjectURL(blob);
+                urlsRef.current.push(url);
+                setFrames((prev) => [...prev, url]);
+              }
+              setProgress((i + 1) / times.length);
+              resolve();
+            }, "image/jpeg", quality);
             video.removeEventListener("seeked", onSeeked);
           };
           video.addEventListener("seeked", onSeeked, { once: true });
@@ -93,8 +80,5 @@ export function useVideoFrames(
     };
   }, [src, count, targetWidth, quality]);
 
-  return useMemo(
-    () => ({ frames, progress, duration }),
-    [frames, progress, duration],
-  );
+  return useMemo(() => ({ frames, progress, duration }), [frames, progress, duration]);
 }

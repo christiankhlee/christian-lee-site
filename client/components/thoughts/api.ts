@@ -13,9 +13,7 @@ export async function fetchBuilderPosts(limit = 10): Promise<Post[]> {
       id: it.id || it.variationId || crypto.randomUUID(),
       title: it.data?.title || it.name || "Untitled",
       content: it.data?.body || "",
-      date: new Date(
-        it.firstPublished || it.createdDate || Date.now(),
-      ).toISOString(),
+      date: new Date(it.firstPublished || it.createdDate || Date.now()).toISOString(),
     }));
   } catch {
     return [];

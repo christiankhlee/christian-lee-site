@@ -56,7 +56,7 @@ export async function handleSpotifySearch(req: Request, res: Response) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      },
+      }
     );
 
     if (!response.ok) {
@@ -64,7 +64,7 @@ export async function handleSpotifySearch(req: Request, res: Response) {
     }
 
     const data = await response.json();
-
+    
     // Extract relevant track data
     const tracks = data.tracks.items.map((track: any) => ({
       id: track.id,

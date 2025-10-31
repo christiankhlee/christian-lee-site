@@ -27,13 +27,7 @@ export default function AnimatedBlob() {
           </filter>
 
           {/* Gradient definitions */}
-          <linearGradient
-            id="blobGradient1"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
+          <linearGradient id="blobGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#3b82f6" />
             <stop offset="25%" stopColor="#6366f1" />
             <stop offset="50%" stopColor="#a855f7" />
@@ -41,13 +35,7 @@ export default function AnimatedBlob() {
             <stop offset="100%" stopColor="#f97316" />
           </linearGradient>
 
-          <linearGradient
-            id="blobGradient2"
-            x1="100%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
+          <linearGradient id="blobGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#fbbf24" />
             <stop offset="25%" stopColor="#f97316" />
             <stop offset="50%" stopColor="#ec4899" />
@@ -56,22 +44,8 @@ export default function AnimatedBlob() {
           </linearGradient>
 
           {/* Pattern for line texture */}
-          <pattern
-            id="linePattern"
-            x="0"
-            y="0"
-            width="4"
-            height="4"
-            patternUnits="userSpaceOnUse"
-          >
-            <line
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="4"
-              stroke="rgba(0,0,0,0.08)"
-              strokeWidth="1"
-            />
+          <pattern id="linePattern" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="4" stroke="rgba(0,0,0,0.08)" strokeWidth="1" />
           </pattern>
         </defs>
 
@@ -83,7 +57,7 @@ export default function AnimatedBlob() {
             fill="url(#blobGradient1)"
             style={{
               animation: "blobMorph1 15s ease-in-out infinite",
-              opacity: 0.95,
+              opacity: 0.95
             }}
           />
 
@@ -94,7 +68,7 @@ export default function AnimatedBlob() {
             style={{
               animation: "blobMorph2 18s ease-in-out infinite 2s",
               opacity: 0.7,
-              mixBlendMode: "screen",
+              mixBlendMode: "screen"
             }}
           />
 
@@ -105,15 +79,12 @@ export default function AnimatedBlob() {
             fill="url(#linePattern)"
             style={{
               mixBlendMode: "multiply",
-              opacity: 0.15,
+              opacity: 0.15
             }}
           />
 
           {/* Animated vertical lines for more dynamic texture */}
-          <g
-            style={{ animation: "lineFlow 20s linear infinite" }}
-            opacity="0.2"
-          >
+          <g style={{ animation: "lineFlow 20s linear infinite" }} opacity="0.2">
             {Array.from({ length: 60 }).map((_, i) => (
               <line
                 key={i}

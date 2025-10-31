@@ -1,9 +1,4 @@
-export type MoodboardImage = {
-  id?: number;
-  name: string;
-  createdAt: number;
-  blob: Blob;
-};
+export type MoodboardImage = { id?: number; name: string; createdAt: number; blob: Blob };
 
 const DB_NAME = "moodboardDB";
 const STORE = "images";

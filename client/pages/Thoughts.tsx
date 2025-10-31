@@ -17,34 +17,19 @@ export default function Thoughts() {
   return (
     <div className="container py-16">
       <header className="max-w-3xl">
-        <p className="uppercase tracking-widest text-xs text-muted-foreground">
-          Journal
-        </p>
+        <p className="uppercase tracking-widest text-xs text-muted-foreground">Journal</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold">Thoughts</h1>
-        <p className="mt-3 text-muted-foreground">
-          A small journal of short-form posts.
-        </p>
+        <p className="mt-3 text-muted-foreground">A small journal of short-form posts.</p>
       </header>
 
       <section className="mt-10">
         <div>
           <ul className="space-y-6">
             {sorted.map((post, idx) => (
-              <motion.li
-                key={post.id}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.03 }}
-                className="rounded-xl border p-6 bg-card"
-              >
+              <motion.li key={post.id} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.03 }} className="rounded-xl border p-6 bg-card">
                 <h3 className="text-xl font-semibold">{post.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {new Date(post.date).toLocaleString()}
-                </p>
-                <p className="mt-4 leading-relaxed whitespace-pre-wrap">
-                  {post.content}
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{new Date(post.date).toLocaleString()}</p>
+                <p className="mt-4 leading-relaxed whitespace-pre-wrap">{post.content}</p>
               </motion.li>
             ))}
           </ul>

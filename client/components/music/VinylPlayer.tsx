@@ -6,15 +6,11 @@ interface VinylPlayerProps {
   onPlay?: () => void;
 }
 
-export default function VinylPlayer({
-  spinning = false,
-  armDown = false,
-  onPlay,
-}: VinylPlayerProps) {
+export default function VinylPlayer({ spinning = false, armDown = false, onPlay }: VinylPlayerProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <div 
       className="relative w-96 h-96 flex items-center justify-center"
       onClick={onPlay}
       onMouseEnter={() => setIsHovered(true)}
@@ -25,7 +21,7 @@ export default function VinylPlayer({
       <div className="absolute inset-0 rounded-full bg-gradient-to-b from-amber-100 to-amber-200 shadow-2xl border-8 border-amber-300">
         {/* Platter rim detail */}
         <div className="absolute inset-0 rounded-full border-4 border-amber-400/40 shadow-inner" />
-
+        
         {/* Center spindle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-gray-600 rounded-full shadow-lg" />
       </div>
@@ -42,71 +38,30 @@ export default function VinylPlayer({
             radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2) 0%, transparent 30%),
             radial-gradient(circle, #0a0a0a 0%, #1a1a1a 100%)
           `,
-          boxShadow:
-            "0 20px 50px rgba(0,0,0,0.8), inset 0 -10px 30px rgba(0,0,0,0.5), inset 0 10px 30px rgba(255,255,255,0.1)",
+          boxShadow: "0 20px 50px rgba(0,0,0,0.8), inset 0 -10px 30px rgba(0,0,0,0.5), inset 0 10px 30px rgba(255,255,255,0.1)"
         }}
       >
         {/* Vinyl grooves */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          style={{ filter: "drop-shadow(0 0 2px rgba(255,255,255,0.05))" }}
-        >
+        <svg className="absolute inset-0 w-full h-full" style={{ filter: "drop-shadow(0 0 2px rgba(255,255,255,0.05))" }}>
           <defs>
-            <pattern
-              id="grooves"
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              patternUnits="objectBoundingBox"
-            >
-              <circle
-                cx="50%"
-                cy="50%"
-                r="15%"
-                fill="none"
-                stroke="rgba(100,100,100,0.3)"
-                strokeWidth="0.5%"
-              />
-              <circle
-                cx="50%"
-                cy="50%"
-                r="25%"
-                fill="none"
-                stroke="rgba(80,80,80,0.2)"
-                strokeWidth="0.5%"
-              />
-              <circle
-                cx="50%"
-                cy="50%"
-                r="35%"
-                fill="none"
-                stroke="rgba(60,60,60,0.15)"
-                strokeWidth="0.5%"
-              />
-              <circle
-                cx="50%"
-                cy="50%"
-                r="45%"
-                fill="none"
-                stroke="rgba(40,40,40,0.1)"
-                strokeWidth="0.5%"
-              />
+            <pattern id="grooves" x="0" y="0" width="100%" height="100%" patternUnits="objectBoundingBox">
+              <circle cx="50%" cy="50%" r="15%" fill="none" stroke="rgba(100,100,100,0.3)" strokeWidth="0.5%"/>
+              <circle cx="50%" cy="50%" r="25%" fill="none" stroke="rgba(80,80,80,0.2)" strokeWidth="0.5%"/>
+              <circle cx="50%" cy="50%" r="35%" fill="none" stroke="rgba(60,60,60,0.15)" strokeWidth="0.5%"/>
+              <circle cx="50%" cy="50%" r="45%" fill="none" stroke="rgba(40,40,40,0.1)" strokeWidth="0.5%"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grooves)" rx="50%" />
         </svg>
 
         {/* Center label */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full overflow-hidden shadow-lg border-4 border-amber-500"
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full overflow-hidden shadow-lg border-4 border-amber-500"
           style={{
             background: `
               radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2) 0%, transparent 50%),
               linear-gradient(135deg, #f59e0b 0%, #d97706 100%)
             `,
-            boxShadow:
-              "0 10px 30px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.2)",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.2)"
           }}
         >
           {/* Label details */}
@@ -134,11 +89,11 @@ export default function VinylPlayer({
         className="absolute right-2 top-4 z-10 transition-transform duration-1000 ease-out"
         style={{
           transform: armDown ? "rotate(50deg)" : "rotate(-40deg)",
-          transformOrigin: "28px 28px",
+          transformOrigin: "28px 28px"
         }}
       >
         {/* Arm shaft with gradient */}
-        <div
+        <div 
           className="w-1.5 h-40 rounded-full shadow-lg"
           style={{
             background: `
@@ -151,16 +106,14 @@ export default function VinylPlayer({
                 rgb(240,240,240) 0%, 
                 rgb(200,200,200) 50%, 
                 rgb(100,100,100) 100%)`,
-            boxShadow: "2px 0 10px rgba(0,0,0,0.3)",
+            boxShadow: "2px 0 10px rgba(0,0,0,0.3)"
           }}
         />
 
         {/* Headshell */}
-        <div
-          className="absolute top-40 -left-2.5 w-6 h-5 bg-gradient-to-b from-white to-gray-300 rounded-sm shadow-md border-2 border-gray-400"
+        <div className="absolute top-40 -left-2.5 w-6 h-5 bg-gradient-to-b from-white to-gray-300 rounded-sm shadow-md border-2 border-gray-400" 
           style={{
-            boxShadow:
-              "0 4px 12px rgba(0,0,0,0.4), inset 0 1px 3px rgba(255,255,255,0.6)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.4), inset 0 1px 3px rgba(255,255,255,0.6)"
           }}
         />
 
@@ -170,22 +123,18 @@ export default function VinylPlayer({
 
       {/* Glow effect when spinning */}
       {spinning && (
-        <div
-          className="absolute inset-0 rounded-full animate-pulse"
+        <div className="absolute inset-0 rounded-full animate-pulse"
           style={{
-            boxShadow:
-              "0 0 60px rgba(251, 191, 36, 0.4), inset 0 0 60px rgba(251, 191, 36, 0.1)",
+            boxShadow: "0 0 60px rgba(251, 191, 36, 0.4), inset 0 0 60px rgba(251, 191, 36, 0.1)"
           }}
         />
       )}
 
       {/* Hover shine effect */}
       {isHovered && (
-        <div
-          className="absolute inset-0 rounded-full opacity-30 pointer-events-none"
+        <div className="absolute inset-0 rounded-full opacity-30 pointer-events-none"
           style={{
-            background:
-              "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, transparent 60%)",
+            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, transparent 60%)"
           }}
         />
       )}

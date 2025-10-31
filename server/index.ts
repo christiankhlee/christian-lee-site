@@ -20,7 +20,7 @@ export function createServer() {
   app.use((req, res, next) => {
     res.setHeader(
       "Permissions-Policy",
-      "autoplay=*, encrypted-media=*, fullscreen=*, clipboard-write=*",
+      "autoplay=*, encrypted-media=*, fullscreen=*, clipboard-write=*"
     );
     next();
   });

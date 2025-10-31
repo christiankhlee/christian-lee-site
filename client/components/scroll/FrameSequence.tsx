@@ -9,18 +9,13 @@ interface FrameSequenceProps {
   frameCount?: number;
   onScrollTriggerCreate?: (trigger: ScrollTrigger.ScrollTrigger) => void;
   onLoadingProgress?: (progress: number) => void;
-  onInitialFramesReady?: () => void;
 }
-
-// Load 25% of frames initially for quick interactivity
-const INITIAL_BATCH_PERCENTAGE = 0.25;
 
 export default function FrameSequence({
   videoUrl = "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fce5eb34491ca4386a46c5589c08835fb?alt=media&token=3db8a3c9-4918-455b-a29e-67f625cb36ea&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
   frameCount = 180,
   onScrollTriggerCreate,
   onLoadingProgress,
-  onInitialFramesReady,
 }: FrameSequenceProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -44,11 +39,7 @@ export default function FrameSequence({
     document.body.appendChild(video);
     videoRef.current = video;
 
-    // Calculate initial batch size (25% of total frames)
-    const initialBatchSize = Math.ceil(frameCount * INITIAL_BATCH_PERCENTAGE);
-    let initialBatchReady = false;
-
-    // Extract frames from video in two phases
+    // Extract frames from video
     const extractFrames = async () => {
       return new Promise<ImageData[]>((resolve, reject) => {
         video.onloadedmetadata = () => {
@@ -123,21 +114,11 @@ export default function FrameSequence({
             frames.push(imageData);
 
             extracted++;
-
             // Report progress
             if (onLoadingProgress) {
               const progress = Math.min((extracted / frameCount) * 100, 100);
               onLoadingProgress(progress);
             }
-
-            // Call onInitialFramesReady after initial batch
-            if (extracted === initialBatchSize && !initialBatchReady) {
-              initialBatchReady = true;
-              if (onInitialFramesReady) {
-                onInitialFramesReady();
-              }
-            }
-
             if (extracted < frameCount) {
               // Defer extraction with requestAnimationFrame to keep UI responsive
               requestAnimationFrame(() => extractFrame());
@@ -172,88 +153,63 @@ export default function FrameSequence({
     };
 
     // Initialize animation
-    let timelineRef: gsap.core.Timeline | null = null;
-    let resizeHandlerAdded = false;
-
-    const setupAnimation = () => {
-      if (timelineRef || framesRef.current.length === 0) return;
-
-      // Draw first frame
-      drawFrame(0);
-
-      // Create GSAP timeline tied to scroll
-      timelineRef = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Call callback with the ScrollTrigger instance
-      if (onScrollTriggerCreate && timelineRef.scrollTrigger) {
-        onScrollTriggerCreate(timelineRef.scrollTrigger);
-      }
-
-      timelineRef.to(frameRef.current, {
-        frame: Math.max(0, frameCount - 1),
-        ease: "none",
-        onUpdate: () => {
-          const i = Math.round(frameRef.current.frame);
-          // Use the closest available frame if the exact frame isn't loaded yet
-          if (i >= 0 && i < framesRef.current.length) {
-            drawFrame(i);
-          } else if (framesRef.current.length > 0) {
-            // Use last available frame if we're trying to access beyond what's loaded
-            drawFrame(Math.min(i, framesRef.current.length - 1));
-          }
-        },
-      });
-
-      // Handle resize
-      if (!resizeHandlerAdded) {
-        const handleResize = () => {
-          const i = Math.round(frameRef.current.frame);
-          const frameIndex = Math.min(i, framesRef.current.length - 1);
-          if (frameIndex >= 0) {
-            drawFrame(frameIndex);
-          }
-          ScrollTrigger.refresh();
-        };
-
-        window.addEventListener("resize", handleResize);
-        resizeHandlerAdded = true;
-      }
-    };
-
     (async () => {
       loadingRef.current = true;
 
       try {
-        // Start frame extraction (will call onInitialFramesReady after initial batch)
-        const extractionPromise = extractFrames();
-
-        // Wait for initial batch to be ready
-        await new Promise<void>((resolve) => {
-          const checkInitialBatch = setInterval(() => {
-            if (framesRef.current.length >= initialBatchSize) {
-              clearInterval(checkInitialBatch);
-              resolve();
-            }
-          }, 50);
-        });
-
-        // Set up animation with initial frames
-        setupAnimation();
+        const frames = await extractFrames();
+        framesRef.current = frames;
         loadingRef.current = false;
 
-        // Continue loading remaining frames in background
-        await extractionPromise;
+        if (frames.length === 0) {
+          console.error("No frames extracted from video");
+          return;
+        }
 
-        // All frames loaded - animation will automatically use them
-        console.log("All frames loaded:", framesRef.current.length);
+        // Draw first frame
+        drawFrame(0);
+
+        // Create GSAP timeline tied to scroll
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Call callback with the ScrollTrigger instance
+        if (onScrollTriggerCreate && tl.scrollTrigger) {
+          onScrollTriggerCreate(tl.scrollTrigger);
+        }
+
+        tl.to(frameRef.current, {
+          frame: Math.max(0, frames.length - 1),
+          ease: "none",
+          onUpdate: () => {
+            const i = Math.round(frameRef.current.frame);
+            if (i >= 0 && i < frames.length) {
+              drawFrame(i);
+            }
+          },
+        });
+
+        // Handle resize
+        const handleResize = () => {
+          const i = Math.round(frameRef.current.frame);
+          drawFrame(i);
+          ScrollTrigger.refresh();
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          tl.kill();
+          ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        };
       } catch (error) {
         console.error("Frame extraction failed:", error);
       }
@@ -263,22 +219,8 @@ export default function FrameSequence({
       if (videoRef.current?.parentNode) {
         videoRef.current.parentNode.removeChild(videoRef.current);
       }
-      if (timelineRef) {
-        timelineRef.kill();
-      }
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === container) {
-          trigger.kill();
-        }
-      });
     };
-  }, [
-    videoUrl,
-    frameCount,
-    onScrollTriggerCreate,
-    onLoadingProgress,
-    onInitialFramesReady,
-  ]);
+  }, [videoUrl, frameCount]);
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">

@@ -7,12 +7,7 @@ export type VinylProps = {
   onSelect: () => void;
 };
 
-export default function VinylRecord({
-  url,
-  active,
-  lifting = false,
-  onSelect,
-}: VinylProps) {
+export default function VinylRecord({ url, active, lifting = false, onSelect }: VinylProps) {
   const [thumb, setThumb] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
@@ -21,9 +16,7 @@ export default function VinylRecord({
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(
-          `/api/spotify-oembed?url=${encodeURIComponent(url)}`,
-        );
+        const res = await fetch(`/api/spotify-oembed?url=${encodeURIComponent(url)}`);
         if (!res.ok) throw new Error("oembed failed");
         const data = await res.json();
         if (!cancelled) {
@@ -39,41 +32,30 @@ export default function VinylRecord({
         }
       }
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [url]);
 
-  const discStyle = useMemo(
-    () => ({
-      background: [
+  const discStyle = useMemo(() => ({
+    background:
+      [
         "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.16) 0, rgba(0,0,0,0.22) 22%, rgba(8,13,20,0.92) 64%, #0a0d12 100%)",
         "conic-gradient(from 200deg at 60% 40%, rgba(255,255,255,0.12) 0 6%, transparent 6% 100%)",
-        "radial-gradient(closest-side, rgba(120,170,220,0.15), rgba(0,0,0,0) 60%)",
+        "radial-gradient(closest-side, rgba(120,170,220,0.15), rgba(0,0,0,0) 60%)"
       ].join(","),
-    }),
-    [],
-  );
+  }), []);
 
-  const ringStyle = useMemo(
-    () => ({
-      background: [
+  const ringStyle = useMemo(() => ({
+    background:
+      [
         "repeating-radial-gradient(circle, rgba(255,255,255,0.08) 0 1px, transparent 1px 3px)",
-        "radial-gradient(circle, rgba(120,180,255,0.06), rgba(255,180,120,0.04) 40%, transparent 70%)",
+        "radial-gradient(circle, rgba(120,180,255,0.06), rgba(255,180,120,0.04) 40%, transparent 70%)"
       ].join(","),
-    }),
-    [],
-  );
+  }), []);
 
   const spinClass = active && !lifting ? "spin-fast" : "spin-slow";
 
   return (
-    <div
-      className="group"
-      onClick={onSelect}
-      role="button"
-      aria-label={`Play ${title}`}
-    >
+    <div className="group" onClick={onSelect} role="button" aria-label={`Play ${title}`}>
       {/* A fixed-size wrapper ensures the arm positions relative to the disc, not the grid column */}
       <div className="relative mx-auto h-64 w-64">
         {/* pulsing visualization */}
@@ -85,18 +67,11 @@ export default function VinylRecord({
           className={`relative h-full w-full rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.25)] ${spinClass} group-hover:spin-medium ${active ? "ring-2 ring-cyan-300/70" : "ring-0"}`}
           style={discStyle as any}
         >
-          <div
-            className="absolute inset-0 rounded-full"
-            style={ringStyle as any}
-          />
+          <div className="absolute inset-0 rounded-full" style={ringStyle as any} />
           {/* center label with album art */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-24 rounded-full overflow-hidden ring-2 ring-white/70 shadow-md">
             {thumb ? (
-              <img
-                src={thumb}
-                alt={title}
-                className="h-full w-full object-cover"
-              />
+              <img src={thumb} alt={title} className="h-full w-full object-cover" />
             ) : (
               <div className="h-full w-full bg-gradient-to-br from-slate-200 to-slate-300" />
             )}
@@ -117,8 +92,7 @@ export default function VinylRecord({
                 top: "-6px",
                 transformOrigin: "26px 26px",
                 transform: `rotate(${angle}deg)`,
-                transition:
-                  "transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                transition: "transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1)"
               }}
               aria-hidden
             >
@@ -132,6 +106,8 @@ export default function VinylRecord({
           );
         })()}
       </div>
+
+
     </div>
   );
 }

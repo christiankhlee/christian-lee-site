@@ -9,23 +9,22 @@ export async function handleNotionPosts(_req: Request, res: Response) {
   try {
     const queryBody = {
       filter: {
-        and: [{ property: "Published", checkbox: { equals: true } }],
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+        ],
       },
       sorts: [{ property: "Date", direction: "descending" }],
       page_size: 20,
     } as any;
-    const queryRes = await fetch(
-      `https://api.notion.com/v1/databases/${databaseId}/query`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Notion-Version": "2022-06-28",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(queryBody),
+    const queryRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(queryBody),
+    });
     if (!queryRes.ok) {
       const txt = await queryRes.text();
       return res.status(200).json({ results: [], error: txt });
