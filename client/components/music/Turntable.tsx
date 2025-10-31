@@ -6,11 +6,15 @@ interface TurntableProps {
   onPlay?: () => void;
 }
 
-export default function Turntable({ spinning = false, armDown = false, onPlay }: TurntableProps) {
+export default function Turntable({
+  spinning = false,
+  armDown = false,
+  onPlay,
+}: TurntableProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div 
+    <div
       className="relative w-96 h-96 flex items-center justify-center perspective cursor-pointer"
       onClick={onPlay}
       onMouseEnter={() => setIsHovered(true)}
@@ -24,7 +28,7 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
           style={{
             animationDuration: spinning ? "3s" : "0s",
             animationTimingFunction: "linear",
-            animationIterationCount: "infinite"
+            animationIterationCount: "infinite",
           }}
         >
           {/* Vinyl grooves effect */}
@@ -37,7 +41,7 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
                   width: `${100 - i * 7}%`,
                   height: `${100 - i * 7}%`,
                   top: `${i * 3.5}%`,
-                  left: `${i * 3.5}%`
+                  left: `${i * 3.5}%`,
                 }}
               />
             ))}
@@ -59,7 +63,7 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
         className="absolute right-0 top-6 z-10 transition-transform duration-1000 ease-out"
         style={{
           transform: armDown ? "rotate(55deg)" : "rotate(-35deg)",
-          transformOrigin: "0 12px"
+          transformOrigin: "0 12px",
         }}
       >
         {/* Arm base */}
@@ -73,13 +77,19 @@ export default function Turntable({ spinning = false, armDown = false, onPlay }:
       </div>
 
       {/* Hover effect */}
-      <div className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isHovered ? "opacity-20" : "opacity-0"} bg-black`} />
+      <div
+        className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isHovered ? "opacity-20" : "opacity-0"} bg-black`}
+      />
 
       {/* Glow effect when spinning */}
       {spinning && (
-        <div className="absolute inset-0 rounded-full animate-pulse shadow-lg" style={{
-          boxShadow: "0 0 40px rgba(251, 191, 36, 0.3), inset 0 0 40px rgba(251, 191, 36, 0.1)"
-        }} />
+        <div
+          className="absolute inset-0 rounded-full animate-pulse shadow-lg"
+          style={{
+            boxShadow:
+              "0 0 40px rgba(251, 191, 36, 0.3), inset 0 0 40px rgba(251, 191, 36, 0.1)",
+          }}
+        />
       )}
     </div>
   );

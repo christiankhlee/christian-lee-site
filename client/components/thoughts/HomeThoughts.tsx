@@ -20,8 +20,14 @@ export default function HomeThoughts() {
       {recent.map((post) => (
         <li key={post.id} className="rounded-xl border p-6 bg-card">
           <h3 className="text-lg font-semibold">{post.title}</h3>
-          <p className="mt-1 text-xs text-muted-foreground">{new Date(post.date).toLocaleDateString()}</p>
-          <p className="mt-3 text-sm text-muted-foreground">{post.content.length > 220 ? post.content.slice(0, 220) + "…" : post.content}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {new Date(post.date).toLocaleDateString()}
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {post.content.length > 220
+              ? post.content.slice(0, 220) + "…"
+              : post.content}
+          </p>
         </li>
       ))}
     </ul>
