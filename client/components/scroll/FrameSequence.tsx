@@ -13,8 +13,9 @@ interface FrameSequenceProps {
 
 export default function FrameSequence({
   videoUrl = "https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Fce5eb34491ca4386a46c5589c08835fb?alt=media&token=3db8a3c9-4918-455b-a29e-67f625cb36ea&apiKey=9a64d775673a4d3c908c6d11727a9c4b",
-  frameCount = 120,
+  frameCount = 180,
   onScrollTriggerCreate,
+  onLoadingProgress,
 }: FrameSequenceProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
