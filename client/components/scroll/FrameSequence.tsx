@@ -8,6 +8,7 @@ interface FrameSequenceProps {
   videoUrl: string;
   frameCount?: number;
   onScrollTriggerCreate?: (trigger: ScrollTrigger.ScrollTrigger) => void;
+  onLoadingProgress?: (progress: number) => void;
 }
 
 export default function FrameSequence({
