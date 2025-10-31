@@ -96,10 +96,21 @@ export default function FrameSequence({
               offsetY = (rect.height - drawHeight) / 2;
             }
 
-            extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
+            extractCtx.drawImage(
+              video,
+              offsetX,
+              offsetY,
+              drawWidth,
+              drawHeight,
+            );
 
             // Get frame data directly without black pixel detection
-            const imageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
+            const imageData = extractCtx.getImageData(
+              0,
+              0,
+              displayWidth,
+              displayHeight,
+            );
             frames.push(imageData);
 
             extracted++;
@@ -213,7 +224,10 @@ export default function FrameSequence({
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">
-      <canvas ref={canvasRef} className="sticky top-0 w-full h-screen bg-black block" />
+      <canvas
+        ref={canvasRef}
+        className="sticky top-0 w-full h-screen bg-black block"
+      />
     </div>
   );
 }

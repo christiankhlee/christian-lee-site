@@ -60,14 +60,18 @@ export default function Index() {
       {isLoading && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sky-100 transition-opacity duration-300">
           <div className="max-w-xs w-full px-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Loading</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
+              Loading
+            </h2>
             <div className="w-full bg-sky-200 rounded-full h-3 overflow-hidden">
               <div
                 className="bg-sky-500 h-full rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${loadingProgress}%` }}
               />
             </div>
-            <p className="text-center text-slate-700 mt-4 text-sm font-medium">{Math.round(loadingProgress)}%</p>
+            <p className="text-center text-slate-700 mt-4 text-sm font-medium">
+              {Math.round(loadingProgress)}%
+            </p>
           </div>
         </div>
       )}
