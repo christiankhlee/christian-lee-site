@@ -89,9 +89,14 @@ export default function Music() {
       {/* Hidden audio player */}
       <audio
         ref={audioRef}
-        autoPlay
         muted={false}
         loop
+        onPause={() => {
+          if (videoRef.current) {
+            videoRef.current.pause();
+            setPlaying(false);
+          }
+        }}
       >
         <source
           src="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2F7023a6d659b64e85be1a264a917a06e8?alt=media&token=473a7609-5445-4020-8d0f-5806a0a6c230&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
