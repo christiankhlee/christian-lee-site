@@ -47,8 +47,30 @@ export default function Index() {
         <FrameSequence
           videoUrl="https://cdn.builder.io/o/assets%2F9a64d775673a4d3c908c6d11727a9c4b%2Ff336bae09f8a43599dfb14b58dd7a992?alt=media&token=20691e2c-4a61-4cbb-b0f4-45f50a0d4957&apiKey=9a64d775673a4d3c908c6d11727a9c4b"
           frameCount={180}
+          onLoadingProgress={(progress) => {
+            setLoadingProgress(progress);
+            if (progress >= 100) {
+              setTimeout(() => setIsLoading(false), 300);
+            }
+          }}
         />
       </div>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sky-100 transition-opacity duration-300">
+          <div className="max-w-xs w-full px-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Loading</h2>
+            <div className="w-full bg-sky-200 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-sky-500 h-full rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+            <p className="text-center text-slate-700 mt-4 text-sm font-medium">{Math.round(loadingProgress)}%</p>
+          </div>
+        </div>
+      )}
 
       {/* Welcome Text Overlay */}
       <div
