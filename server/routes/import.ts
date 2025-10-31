@@ -17,11 +17,13 @@ export async function handleImportBuilder(_req: Request, res: Response) {
     process.env.VITE_BUILDER_PUBLIC_API_KEY;
 
   if (!notionToken || !databaseId || !builderKey) {
-    return res.status(200).json({
-      imported: 0,
-      error:
-        "Missing NOTION_TOKEN / NOTION_DATABASE_ID / BUILDER_PUBLIC_API_KEY",
-    });
+    return res
+      .status(200)
+      .json({
+        imported: 0,
+        error:
+          "Missing NOTION_TOKEN / NOTION_DATABASE_ID / BUILDER_PUBLIC_API_KEY",
+      });
   }
 
   try {
