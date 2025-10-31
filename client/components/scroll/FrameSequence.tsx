@@ -141,7 +141,8 @@ export default function FrameSequence({
               onLoadingProgress(progress);
             }
             if (extracted < frameCount) {
-              extractFrame();
+              // Defer extraction with requestAnimationFrame to keep UI responsive
+              requestAnimationFrame(() => extractFrame());
             } else {
               resolve(frames);
             }
