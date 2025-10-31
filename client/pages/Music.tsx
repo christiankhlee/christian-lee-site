@@ -2,16 +2,19 @@ import { useState, useRef } from "react";
 import { Play, Pause } from "lucide-react";
 
 export default function Music() {
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlayToggle = () => {
-    if (audioRef.current) {
+    if (audioRef.current && videoRef.current) {
       if (playing) {
         audioRef.current.pause();
+        videoRef.current.pause();
         setPlaying(false);
       } else {
         audioRef.current.play();
+        videoRef.current.play();
         setPlaying(true);
       }
     }
