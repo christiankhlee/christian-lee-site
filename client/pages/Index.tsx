@@ -23,7 +23,7 @@ export default function Index() {
       scrollTrigger: {
         trigger: homeRef.current,
         start: "top top",
-        end: "bottom top",
+        end: "30% top",
         scrub: 1,
         invalidateOnRefresh: true,
       },
