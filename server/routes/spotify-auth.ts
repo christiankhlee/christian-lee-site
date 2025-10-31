@@ -3,7 +3,8 @@ import type { Request, Response } from "express";
 export async function handleSpotifyToken(req: Request, res: Response) {
   const { code } = req.body;
   const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const redirectUri = process.env.SPOTIFY_REDIRECT_URI || "http://localhost:3000/callback";
+  const redirectUri =
+    process.env.SPOTIFY_REDIRECT_URI || "http://localhost:3000/callback";
 
   if (!code || !clientId) {
     return res.status(400).json({ error: "Missing code or client ID" });

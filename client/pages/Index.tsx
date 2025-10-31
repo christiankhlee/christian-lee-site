@@ -49,9 +49,10 @@ export default function Index() {
           frameCount={60}
           onLoadingProgress={(progress) => {
             setLoadingProgress(progress);
-            if (progress >= 100) {
-              setTimeout(() => setIsLoading(false), 300);
-            }
+          }}
+          onInitialFramesReady={() => {
+            // Hide loading overlay once initial frames are ready
+            setTimeout(() => setIsLoading(false), 300);
           }}
         />
       </div>
@@ -61,7 +62,7 @@ export default function Index() {
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sky-100 transition-opacity duration-300">
           <div className="max-w-xs w-full px-6">
             <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
-              Loading
+              Loading Experience
             </h2>
             <div className="w-full bg-sky-200 rounded-full h-3 overflow-hidden">
               <div

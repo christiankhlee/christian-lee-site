@@ -159,19 +159,34 @@
 }
 
 @keyframes vinyl-rotate {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @layer utilities {
-  .spin-slow { animation: vinyl-rotate 12s linear infinite; }
-  .spin-medium { animation: vinyl-rotate 6s linear infinite; }
-  .spin-fast { animation: vinyl-rotate 2.8s linear infinite; }
+  .spin-slow {
+    animation: vinyl-rotate 12s linear infinite;
+  }
+  .spin-medium {
+    animation: vinyl-rotate 6s linear infinite;
+  }
+  .spin-fast {
+    animation: vinyl-rotate 2.8s linear infinite;
+  }
 
   @keyframes wave {
-    0%, 100% { height: 4px; }
-    50% { height: 28px; }
+    0%,
+    100% {
+      height: 4px;
+    }
+    50% {
+      height: 28px;
+    }
   }
-  .animate-wave { animation: wave 1.2s ease-in-out infinite; }
+  .animate-wave {
+    animation: wave 1.2s ease-in-out infinite;
+  }
 }
 
 @keyframes gradient-shift {

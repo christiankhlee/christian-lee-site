@@ -38,7 +38,7 @@ export default function Music() {
         style={{
           zIndex: 0,
           WebkitFontSmoothing: "antialiased",
-          backfaceVisibility: "hidden"
+          backfaceVisibility: "hidden",
         }}
       >
         <source
@@ -65,9 +65,10 @@ export default function Music() {
           {/* Caption/Blurb */}
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20 mb-8">
             <p className="text-lg text-white/80 leading-relaxed">
-              A captivating track that blends emotive vocals with ambient production.
-              This song captures the essence of vulnerability and raw emotion, inviting
-              listeners into an intimate musical experience.
+              A captivating track that blends emotive vocals with ambient
+              production. This song captures the essence of vulnerability and
+              raw emotion, inviting listeners into an intimate musical
+              experience.
             </p>
           </div>
 

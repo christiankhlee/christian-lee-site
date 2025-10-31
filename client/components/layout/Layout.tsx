@@ -44,9 +44,10 @@ export default function Layout({ children }: PropsWithChildren) {
           border: "1px solid rgba(255, 255, 255, 0.1)",
         }}
       >
-        <div className={`${isScrolled ? "px-6" : "container"} h-16 flex items-center justify-between`}>
-          <a href="/" className="inline-flex items-center gap-2 group">
-          </a>
+        <div
+          className={`${isScrolled ? "px-6" : "container"} h-16 flex items-center justify-between`}
+        >
+          <a href="/" className="inline-flex items-center gap-2 group"></a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="/#about" className="hover:text-primary transition-colors">
               About
