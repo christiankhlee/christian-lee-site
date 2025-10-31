@@ -148,7 +148,7 @@ export default function FrameSequence({
             }
           };
 
-          extractFrame();
+          requestAnimationFrame(() => extractFrame());
         };
 
         video.onerror = () => {
