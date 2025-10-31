@@ -102,13 +102,14 @@ export default function FrameSequence({
             const fullImageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
             const data = fullImageData.data;
 
-            // Find where the black pixels start from the bottom
+            // Find where the black pixels start from the bottom (optimized with sampling)
             let blackRowsFromBottom = 0;
             const pixelsPerRow = displayWidth * 4;
+            const sampleInterval = Math.max(1, Math.floor(displayWidth / 50)); // Sample 50 pixels per row max
 
             for (let row = displayHeight - 1; row >= 0; row--) {
               let isBlackRow = true;
-              for (let i = 0; i < displayWidth; i++) {
+              for (let i = 0; i < displayWidth; i += sampleInterval) {
                 const pixelIndex = row * pixelsPerRow + i * 4;
                 const r = data[pixelIndex];
                 const g = data[pixelIndex + 1];
