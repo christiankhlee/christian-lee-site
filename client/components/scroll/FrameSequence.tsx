@@ -50,9 +50,10 @@ export default function FrameSequence({
 
     // Extract frames from video in two phases
     const extractFrames = async () => {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<ImageData[]>((resolve, reject) => {
         video.onloadedmetadata = () => {
           const duration = video.duration;
+          const frames: ImageData[] = [];
           let extracted = 0;
 
           // Set up temporary canvas for extraction
@@ -119,8 +120,7 @@ export default function FrameSequence({
               displayWidth,
               displayHeight,
             );
-            // Push directly to framesRef so it's available immediately
-            framesRef.current.push(imageData);
+            frames.push(imageData);
 
             extracted++;
 
@@ -133,9 +133,6 @@ export default function FrameSequence({
             // Call onInitialFramesReady after initial batch
             if (extracted === initialBatchSize && !initialBatchReady) {
               initialBatchReady = true;
-              // Set up animation with initial batch
-              setupAnimation();
-              // Notify parent that initial frames are ready
               if (onInitialFramesReady) {
                 onInitialFramesReady();
               }
@@ -145,7 +142,7 @@ export default function FrameSequence({
               // Defer extraction with requestAnimationFrame to keep UI responsive
               requestAnimationFrame(() => extractFrame());
             } else {
-              resolve();
+              resolve(frames);
             }
           };
 
@@ -235,18 +232,30 @@ export default function FrameSequence({
       loadingRef.current = true;
 
       try {
-        // Start frame extraction
-        // setupAnimation() will be called after initial batch is ready
-        // onInitialFramesReady() callback notifies Index.tsx to hide loading overlay
-        await extractFrames();
+        // Start frame extraction (will call onInitialFramesReady after initial batch)
+        const extractionPromise = extractFrames();
 
+        // Wait for initial batch to be ready
+        await new Promise<void>((resolve) => {
+          const checkInitialBatch = setInterval(() => {
+            if (framesRef.current.length >= initialBatchSize) {
+              clearInterval(checkInitialBatch);
+              resolve();
+            }
+          }, 50);
+        });
+
+        // Set up animation with initial frames
+        setupAnimation();
         loadingRef.current = false;
 
-        // All frames loaded
+        // Continue loading remaining frames in background
+        await extractionPromise;
+
+        // All frames loaded - animation will automatically use them
         console.log("All frames loaded:", framesRef.current.length);
       } catch (error) {
         console.error("Frame extraction failed:", error);
-        loadingRef.current = false;
       }
     })();
 
