@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FrameSequence from "@/components/scroll/FrameSequence";
@@ -8,6 +8,8 @@ import Collage from "@/components/about/Collage";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Index() {
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const textOverlayRef = useRef<HTMLDivElement>(null);
   const homeRef = useRef<HTMLDivElement>(null);
 
