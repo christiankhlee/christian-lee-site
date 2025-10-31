@@ -134,6 +134,11 @@ export default function FrameSequence({
             frames.push(croppedImageData);
 
             extracted++;
+            // Report progress
+            if (onLoadingProgress) {
+              const progress = Math.min((extracted / frameCount) * 100, 100);
+              onLoadingProgress(progress);
+            }
             if (extracted < frameCount) {
               extractFrame();
             } else {
