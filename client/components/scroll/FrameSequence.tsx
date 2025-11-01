@@ -96,10 +96,21 @@ export default function FrameSequence({
               offsetY = (rect.height - drawHeight) / 2;
             }
 
-            extractCtx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
+            extractCtx.drawImage(
+              video,
+              offsetX,
+              offsetY,
+              drawWidth,
+              drawHeight,
+            );
 
             // Get full frame data and detect black bottom pixels
-            const fullImageData = extractCtx.getImageData(0, 0, displayWidth, displayHeight);
+            const fullImageData = extractCtx.getImageData(
+              0,
+              0,
+              displayWidth,
+              displayHeight,
+            );
             const data = fullImageData.data;
 
             // Find where the black pixels start from the bottom (optimized with sampling)
@@ -128,9 +139,17 @@ export default function FrameSequence({
             }
 
             // Crop out the black rows
-            const croppedHeight = Math.max(1, displayHeight - blackRowsFromBottom);
-            const croppedImageData = extractCtx.createImageData(displayWidth, croppedHeight);
-            croppedImageData.data.set(data.slice(0, displayWidth * croppedHeight * 4));
+            const croppedHeight = Math.max(
+              1,
+              displayHeight - blackRowsFromBottom,
+            );
+            const croppedImageData = extractCtx.createImageData(
+              displayWidth,
+              croppedHeight,
+            );
+            croppedImageData.data.set(
+              data.slice(0, displayWidth * croppedHeight * 4),
+            );
 
             frames.push(croppedImageData);
 
@@ -245,7 +264,10 @@ export default function FrameSequence({
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">
-      <canvas ref={canvasRef} className="sticky top-0 w-full h-screen bg-black block" />
+      <canvas
+        ref={canvasRef}
+        className="sticky top-0 w-full h-screen bg-black block"
+      />
     </div>
   );
 }
